@@ -1,4 +1,4 @@
-variable "name" {
+variable "stage" {
   default = "root"
 }
 
@@ -25,7 +25,7 @@ variable "strip" {
 variable "working_dir" {}
 
 locals {
-  image_name  = "${var.name}.${var.domain}"
+  image_name  = "${var.stage}.${var.domain}"
   working_dir = "${var.working_dir}/${local.image_name}"
 
   vars = "${merge(map("image_name", local.image_name), var.vars)}"

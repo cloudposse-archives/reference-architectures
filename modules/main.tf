@@ -11,7 +11,7 @@ module "root_account" {
 
 module "testing_account" {
   source      = "subaccount"
-  name        = "testing"
+  stage       = "testing"
   domain      = "test.co"
   templates   = ["Dockerfile.subaccount", ".gitignore", ".dockerignore", "Makefile", "conf/Makefile"]
   working_dir = "${local.working_dir}"

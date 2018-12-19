@@ -1,36 +1,37 @@
-FROM cloudposse/terraform-root-modules:0.5.7 as terraform-root-modules
+#
+# Dockerfile generated from https://github.com/cloudposse/reference-architectures
+#
 
-FROM cloudposse/geodesic:dev
+FROM cloudposse/terraform-root-modules:0.7.0 as terraform-root-modules
 
-ENV DOCKER_IMAGE="cloudposse/testing.cloudposse.co"
+FROM cloudposse/geodesic:0.46.0
+
+ENV DOCKER_IMAGE="cloudposse/${image_name}"
 ENV DOCKER_TAG="latest"
 
+# General
+ENV NAMESPACE="${namespace}"
+ENV STAGE="${stage}"
+
 # Geodesic banner
-ENV BANNER="testing"
+ENV BANNER="${stage}"
 
 # AWS Region
 ENV AWS_REGION="us-west-2"
-
-# Terraform vars
-ENV TF_VAR_region="$${AWS_REGION}"
-ENV TF_VAR_account_id="126450723953"
-ENV TF_VAR_namespace="cpco"
-ENV TF_VAR_stage="testing"
-ENV TF_VAR_domain_name="testing.cloudposse.co"
-ENV TF_VAR_zone_name="testing.cloudposse.co"
-ENV TF_VAR_zone_id="Z3SO0TKDDQ0RGG"
+ENV AWS_ACCOUNT_ID="${aws_account_id}"
+ENV AWS_ROOT_ACCOUNT_ID="${aws_root_account_id}"
 
 # chamber KMS config
-ENV CHAMBER_KMS_KEY_ALIAS="alias/$${TF_VAR_namespace}-$${TF_VAR_stage}-chamber"
+ENV CHAMBER_KMS_KEY_ALIAS="alias/$${NAMESPACE}-$${STAGE}-chamber"
 
 # Terraform State Bucket
 ENV TF_BUCKET_REGION="$${AWS_REGION}"
-ENV TF_BUCKET="$${TF_VAR_namespace}-$${TF_VAR_stage}-terraform-state"
-ENV TF_DYNAMODB_TABLE="$${TF_VAR_namespace}-$${TF_VAR_stage}-terraform-state-lock"
+ENV TF_BUCKET="$${NAMESPACE}-$${STAGE}-terraform-state"
+ENV TF_DYNAMODB_TABLE="$${NAMESPACE}-$${STAGE}-terraform-state-lock"
 
 # Default AWS Profile name
-ENV AWS_DEFAULT_PROFILE="$${TF_VAR_namespace}-$${TF_VAR_stage}-admin"
-ENV AWS_MFA_PROFILE="$${TF_VAR_namespace}-root-admin"
+ENV AWS_DEFAULT_PROFILE="$${NAMESPACE}-$${STAGE}-admin"
+ENV AWS_MFA_PROFILE="$${NAMESPACE}-root-admin"
 
 # Copy root modules
 COPY --from=terraform-root-modules /aws/tfstate-backend/ /conf/tfstate-backend/
