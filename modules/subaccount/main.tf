@@ -20,13 +20,12 @@ variable "strip" {
   default = "/\\.(subaccount)$/"
 }
 
-variable "working_dir" {
-}
+variable "working_dir" {}
 
 locals {
   image_name  = "${var.name}.${var.domain}"
   working_dir = "${var.working_dir}/${local.image_name}"
-  vars = "${merge(map("image_name", local.image_name), var.vars)}"
+  vars        = "${merge(map("image_name", local.image_name), var.vars)}"
 }
 
 module "dir-init" {
