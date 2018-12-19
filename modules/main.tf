@@ -9,10 +9,10 @@ module "root_account" {
   working_dir = "${local.working_dir}"
 }
 
-#module "testing_account" {
-#  source    = "subaccount"
-#  name      = "testing"
-#  domain    = "test.co"
-#  templates = ["Dockerfile.subaccount", ".gitignore", ".dockerignore", "Makefile", "conf/Makefile"]
-#  working_dir = "${local.working_dir}"
-#}
+module "testing_account" {
+  source    = "subaccount"
+  name      = "testing"
+  domain    = "test.co"
+  templates = ["Dockerfile.subaccount", ".gitignore", ".dockerignore", "Makefile", "conf/Makefile"]
+  working_dir = "${local.working_dir}"
+}

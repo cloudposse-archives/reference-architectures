@@ -24,4 +24,5 @@ resource "null_resource" "touch" {
   provisioner "local-exec" {
     command = "touch ${null_resource.touch.triggers.files}"
   }
+  depends_on = [ "null_resource.mkdir"]
 }

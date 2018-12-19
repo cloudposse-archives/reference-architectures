@@ -9,21 +9,21 @@ resource "null_resource" "git_init" {
 
 resource "null_resource" "git_checkout_master" {
   provisioner "local-exec" {
-    command     = "git checkout master"
+    command     = "git -C ${var.working_dir} checkout -b master"
     working_dir = "${var.working_dir}"
   }
 }
 
 resource "null_resource" "git_checkout_init" {
   provisioner "local-exec" {
-    command     = "git checkout -b init"
+    command     = "echo git checkout -b init"
     working_dir = "${var.working_dir}"
   }
 }
 
 resource "null_resource" "git_add" {
   provisioner "local-exec" {
-    command     = "git add *"
+    command     = "echo git add *"
     working_dir = "${var.working_dir}"
   }
 }

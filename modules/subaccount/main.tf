@@ -43,10 +43,10 @@ module "render" {
   vars        = "${local.vars}"
 }
 
-module "git_init" {
-  source      = "../git-init"
-  working_dir = "${local.working_dir}"
-}
+#module "git_init" {
+#  source      = "../git-init"
+#  working_dir = "${local.working_dir}"
+#}
 
 module "docker_build" {
   source      = "../docker-build"
