@@ -1,3 +1,9 @@
+variable "aws_account_id" {}
+
+variable "aws_root_account_id" {}
+
+variable "namespace" {}
+
 variable "stage" {}
 
 variable "domain" {}
@@ -25,7 +31,14 @@ variable "working_dir" {}
 locals {
   image_name  = "${var.stage}.${var.domain}"
   working_dir = "${var.working_dir}/${local.image_name}"
-  vars        = "${merge(map("image_name", local.image_name), var.vars)}"
+  context = {
+    image_name = "${local.image_name}"
+    namespace = "${var.namespace}"
+    stage = "${var.stage}"
+    aws_account_id = "${var.aws_account_id}"
+    aws_root_account_id = "${var.aws_root_account_id}"
+  }
+  vars        = "${merge(local.context, var.vars)}"
 }
 
 module "dir-init" {

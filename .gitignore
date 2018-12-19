@@ -2,3 +2,5 @@
 build-harness
 repos/
 .terraform
+terraform.tfstate
+terraform.tfstate.backup
