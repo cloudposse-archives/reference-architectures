@@ -1,0 +1,54 @@
+FROM cloudposse/terraform-root-modules:0.5.7 as terraform-root-modules
+
+FROM cloudposse/geodesic:dev
+
+ENV DOCKER_IMAGE="cloudposse/testing.cloudposse.co"
+ENV DOCKER_TAG="latest"
+
+# Geodesic banner
+ENV BANNER="testing"
+
+# AWS Region
+ENV AWS_REGION="us-west-2"
+
+# Terraform vars
+ENV TF_VAR_region="$${AWS_REGION}"
+ENV TF_VAR_account_id="126450723953"
+ENV TF_VAR_namespace="cpco"
+ENV TF_VAR_stage="testing"
+ENV TF_VAR_domain_name="testing.cloudposse.co"
+ENV TF_VAR_zone_name="testing.cloudposse.co"
+ENV TF_VAR_zone_id="Z3SO0TKDDQ0RGG"
+
+# chamber KMS config
+ENV CHAMBER_KMS_KEY_ALIAS="alias/$${TF_VAR_namespace}-$${TF_VAR_stage}-chamber"
+
+# Terraform State Bucket
+ENV TF_BUCKET_REGION="$${AWS_REGION}"
+ENV TF_BUCKET="$${TF_VAR_namespace}-$${TF_VAR_stage}-terraform-state"
+ENV TF_DYNAMODB_TABLE="$${TF_VAR_namespace}-$${TF_VAR_stage}-terraform-state-lock"
+
+# Default AWS Profile name
+ENV AWS_DEFAULT_PROFILE="$${TF_VAR_namespace}-$${TF_VAR_stage}-admin"
+ENV AWS_MFA_PROFILE="$${TF_VAR_namespace}-root-admin"
+
+# Copy root modules
+COPY --from=terraform-root-modules /aws/tfstate-backend/ /conf/tfstate-backend/
+COPY --from=terraform-root-modules /aws/account-dns/ /conf/account-dns/
+COPY --from=terraform-root-modules /aws/chamber/ /conf/chamber/
+
+# Place configuration in 'conf/' directory
+COPY conf/ /conf/
+
+# Install configuration dependencies
+RUN make -C /conf install
+
+# Filesystem entry for tfstate
+RUN s3 fstab '$${TF_BUCKET}' '/' '/secrets/tf'
+
+COPY rootfs/ /
+
+# Generate kops manifest
+RUN build-kops-manifest
+
+WORKDIR /conf/
