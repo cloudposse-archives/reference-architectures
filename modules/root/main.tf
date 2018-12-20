@@ -36,7 +36,7 @@ variable "repos_dir" {}
 variable "templates_dir" {}
 variable "docker_registry" {}
 
-module "root_account" {
+module "account" {
   source         = "../../modules/account/"
   dirs           = "${var.dirs}"
   aws_account_id = "${var.aws_account_id}"
@@ -55,4 +55,8 @@ module "root_account" {
   repos_dir           = "${var.repos_dir}"
   templates_dir       = "${var.templates_dir}"
   docker_registry     = "${var.docker_registry}"
+}
+
+output "docker_image" {
+  value = "${module.account.docker_image}"
 }

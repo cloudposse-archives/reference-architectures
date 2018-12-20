@@ -77,7 +77,12 @@ module "render" {
 module "docker_build" {
   source          = "../../modules/docker-build"
   working_dir     = "${local.repo_dir}"
+  short_name      = "${var.stage}"
   image_name      = "${local.image_name}"
   image_tag       = "${var.image_tag}"
   docker_registry = "${var.docker_registry}"
+}
+
+output "docker_image" {
+  value = "${var.docker_registry}/${local.image_name}:${var.image_tag}"
 }

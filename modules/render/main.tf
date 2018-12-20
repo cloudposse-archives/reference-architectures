@@ -26,3 +26,16 @@ resource "local_file" "data" {
   content  = "${element(data.template_file.data.*.rendered, count.index)}"
   filename = "${var.output_dir}/${replace(element(var.templates, count.index), var.strip, "")}"
 }
+
+# https://github.com/terraform-providers/terraform-provider-local/issues/19
+resource "null_resource" "chmod" {
+  triggers {
+    files = "${join(" ", local_file.data.*.filename)}"
+  }
+
+  provisioner "local-exec" {
+    command = "chmod 644 ${null_resource.chmod.triggers.files}"
+  }
+}
+
+
