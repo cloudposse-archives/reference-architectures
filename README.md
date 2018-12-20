@@ -61,8 +61,8 @@ To get started, run:
 make init/root
 ```
 
-
-Here's the pseudo code of what that roughly looks like (but automated):
+<details>
+  <summary>Here's the pseudo code of what that roughly looks like (but automated). </summary>
 
 ```
 | mkdir repo
@@ -78,6 +78,7 @@ Here's the pseudo code of what that roughly looks like (but automated):
 ```
 
 We need to know each account's `AWS_ACCOUNT_ID` for Step 2.
+</details>
 
 ### 2. Provision Subaccounts
 
@@ -89,7 +90,9 @@ To get started, run:
 make init/child
 ```
 
-Here's the pseudo code of what that roughly looks like (but automated):
+<details>
+
+<summary>Here's the pseudo code of what that roughly looks like (but automated):</summary>
 
 ```
 for account in ${ACCOUNTS}; do
@@ -107,6 +110,7 @@ for account in ${ACCOUNTS}; do
   cd ..
 done
 ```
+</details>
 
 ### 3. Delegate DNS
 
@@ -119,13 +123,15 @@ make finalize/root
 ```
 
 
-Here's the pseudo code of what that roughly looks like (but automated):
+<details>
+<summary>Here's the pseudo code of what that roughly looks like (but automated).</summary>
 ```
 # Docker run the image
 # assume role
 # init tfstate
 # init accounts
 ```
+</details>
 
 ---
 
