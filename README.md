@@ -61,6 +61,8 @@ To get started, run:
 make init/root
 ```
 
+__NOTE:__ We need to know each account's `AWS_ACCOUNT_ID` for Step 2.
+
 <details>
   <summary>Here's the pseudo code of what that roughly looks like (but automated). </summary>
 
@@ -77,7 +79,6 @@ make init/root
 |   aws-vault exec ${AWS_PROFILE} -- /scripts/init-accounts
 ```
 
-We need to know each account's `AWS_ACCOUNT_ID` for Step 2.
 </details>
 
 ### 2. Provision Subaccounts
@@ -92,7 +93,7 @@ make init/child
 
 <details>
 
-<summary>Here's the pseudo code of what that roughly looks like (but automated):</summary>
+<summary>Here's the pseudo code of what that roughly looks like (but automated).</summary>
 
 ```
 for account in ${ACCOUNTS}; do
@@ -125,6 +126,7 @@ make finalize/root
 
 <details>
 <summary>Here's the pseudo code of what that roughly looks like (but automated).</summary>
+
 ```
 # Docker run the image
 # assume role
