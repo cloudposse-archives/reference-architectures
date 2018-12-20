@@ -24,12 +24,15 @@ resource "null_resource" "docker_tag" {
     command     = "docker tag ${var.image_name} ${var.docker_registry}/${var.image_name}:${var.image_tag}"
     working_dir = "${var.working_dir}"
   }
+  depends_on = ["null_resource.docker_build"]
 }
 
 resource "null_resource" "docker_tag_short_name" {
   count = "${signum(length(var.short_name))}"
+
   provisioner "local-exec" {
     command     = "docker tag ${var.image_name} ${var.short_name}"
     working_dir = "${var.working_dir}"
   }
+  depends_on = ["null_resource.docker_build"]
 }

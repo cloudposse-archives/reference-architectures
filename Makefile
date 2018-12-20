@@ -12,8 +12,13 @@ export DEFAULT_HELP_TARGET = help/short
 # The command we'll use to start the container 
 export DOCKER_RUN = docker run -it -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -v $(CURDIR)/artifacts:/artifacts -v $(CURDIR)/scripts:/scripts
 
-export CONFIGS ?= configs/
+# The directory containing configs
+export CONFIGS ?= configs
 
 ## Clean up 
 clean::
 	rm -rf repos accounts .terraform terraform.tfstate*
+
+fmt:
+	find $(CONFIGS) -type f -name '*.tfvars' -exec terraform fmt {} \;
+	terraform fmt modules

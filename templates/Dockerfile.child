@@ -2,9 +2,9 @@
 # Dockerfile generated from https://github.com/cloudposse/reference-architectures
 #
 
-FROM cloudposse/terraform-root-modules:0.7.0 as terraform-root-modules
+FROM ${terraform_root_modules_image} as terraform-root-modules
 
-FROM cloudposse/geodesic:0.46.0
+FROM ${geodesic_base_image}
 
 ENV DOCKER_IMAGE="${docker_registry}/${image_name}"
 ENV DOCKER_TAG="${image_tag}"
@@ -34,9 +34,7 @@ ENV AWS_DEFAULT_PROFILE="$${NAMESPACE}-$${STAGE}-admin"
 ENV AWS_MFA_PROFILE="$${NAMESPACE}-root-admin"
 
 # Copy root modules
-COPY --from=terraform-root-modules /aws/tfstate-backend/ /conf/tfstate-backend/
-COPY --from=terraform-root-modules /aws/account-dns/ /conf/account-dns/
-COPY --from=terraform-root-modules /aws/chamber/ /conf/chamber/
+${terraform_root_modules}
 
 # Place configuration in 'conf/' directory
 COPY conf/ /conf/

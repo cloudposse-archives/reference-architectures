@@ -149,7 +149,9 @@ make root//finalize
 
 At this point, you have everything you need to start terraforming your way to success.
 
-1. Commit your changes. Open Pull Requests.
+All of your account configurations are currently in `repos/`
+
+1. Commit the changes in `repos/`. Open Pull Requests.
 
 2. Ensure that the nameservers for the service discovery domain (e.g. `ourcompany.co`) have been configured with your domain registrar (e.g. GoDaddy)
 

@@ -37,5 +37,3 @@ resource "null_resource" "chmod" {
     command = "chmod 644 ${null_resource.chmod.triggers.files}"
   }
 }
-
-

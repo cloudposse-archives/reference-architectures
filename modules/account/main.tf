@@ -1,54 +1,27 @@
-variable "aws_account_id" {}
+data "null_data_source" "terraform_root_modules" {
+  count = "${length(var.terraform_root_modules)}"
 
-variable "aws_root_account_id" {}
-
-variable "aws_region" {}
-
-variable "namespace" {}
-
-variable "stage" {}
-
-variable "domain" {}
-
-variable "image_tag" {
-  default = "latest"
+  inputs = {
+    copy_from = "COPY --from=terraform-root-modules /${element(var.terraform_root_modules, count.index)}/ /conf/${basename(element(var.terraform_root_modules, count.index))}/"
+  }
 }
-
-variable "templates" {
-  type = "list"
-}
-
-variable "dirs" {
-  type    = "list"
-  default = ["", "conf", "rootfs"]
-}
-
-variable "vars" {
-  type    = "map"
-  default = {}
-}
-
-variable "strip" {
-  default = ""
-}
-
-variable "repos_dir" {}
-variable "templates_dir" {}
-variable "docker_registry" {}
 
 locals {
   image_name = "${var.stage}.${var.domain}"
   repo_dir   = "${var.repos_dir}/${local.image_name}"
 
   context = {
-    aws_account_id      = "${var.aws_account_id}"
-    aws_root_account_id = "${var.aws_root_account_id}"
-    aws_region          = "${var.aws_region}"
-    docker_registry     = "${var.docker_registry}"
-    image_name          = "${local.image_name}"
-    image_tag           = "${var.image_tag}"
-    namespace           = "${var.namespace}"
-    stage               = "${var.stage}"
+    aws_account_id               = "${var.aws_account_id}"
+    aws_root_account_id          = "${var.aws_root_account_id}"
+    aws_region                   = "${var.aws_region}"
+    docker_registry              = "${var.docker_registry}"
+    image_name                   = "${local.image_name}"
+    image_tag                    = "${var.image_tag}"
+    namespace                    = "${var.namespace}"
+    stage                        = "${var.stage}"
+    geodesic_base_image          = "${var.geodesic_base_image}"
+    terraform_root_modules_image = "${var.terraform_root_modules_image}"
+    terraform_root_modules       = "${join("\n", data.null_data_source.terraform_root_modules.*.outputs.copy_from)}"
   }
 
   vars = "${merge(local.context, var.vars)}"
@@ -81,8 +54,4 @@ module "docker_build" {
   image_name      = "${local.image_name}"
   image_tag       = "${var.image_tag}"
   docker_registry = "${var.docker_registry}"
-}
-
-output "docker_image" {
-  value = "${var.docker_registry}/${local.image_name}:${var.image_tag}"
 }

@@ -1,6 +1,6 @@
 # This is a terraform configuration file
 
-stage = "testing"
+stage = "staging"
 
 # List of templates to install
 templates = ["Dockerfile.child", ".gitignore", ".dockerignore", "Makefile", "conf/Makefile"]

@@ -1,63 +1,32 @@
-variable "aws_root_account_id" {}
+locals {
+  context = {
+    accounts_enabled = "${jsonencode(var.accounts_enabled)}"
+  }
 
-variable "aws_region" {}
-
-variable "namespace" {}
-
-variable "stage" {
-  default = "root"
+  vars = "${merge(var.vars, local.context)}"
 }
-
-variable "domain" {}
-
-variable "image_tag" {
-  default = "latest"
-}
-
-variable "templates" {
-  type = "list"
-}
-
-variable "dirs" {
-  type    = "list"
-  default = ["", "conf", "rootfs"]
-}
-
-variable "vars" {
-  type    = "map"
-  default = {}
-}
-
-variable "strip" {
-  default = "/\\.(root)$/"
-}
-
-variable "repos_dir" {}
-variable "templates_dir" {}
-variable "docker_registry" {}
 
 module "account" {
-  source         = "../../modules/account/"
-  dirs           = "${var.dirs}"
+  source = "../../modules/account/"
+  dirs   = "${var.dirs}"
 
   # For the "root" account these should always match
-  aws_account_id = "${var.aws_root_account_id}"
+  aws_account_id      = "${var.aws_root_account_id}"
   aws_root_account_id = "${var.aws_root_account_id}"
 
-  aws_region          = "${var.aws_region}"
-  namespace           = "${var.namespace}"
-  stage               = "${var.stage}"
-  domain              = "${var.domain}"
-  image_tag           = "${var.image_tag}"
-  templates           = "${var.templates}"
-  dirs                = "${var.dirs}"
-  vars                = "${var.vars}"
-  strip               = "${var.strip}"
-  repos_dir           = "${var.repos_dir}"
-  templates_dir       = "${var.templates_dir}"
-  docker_registry     = "${var.docker_registry}"
-}
-
-output "docker_image" {
-  value = "${module.account.docker_image}"
+  aws_region                   = "${var.aws_region}"
+  namespace                    = "${var.namespace}"
+  stage                        = "${var.stage}"
+  domain                       = "${var.domain}"
+  image_tag                    = "${var.image_tag}"
+  templates                    = "${var.templates}"
+  dirs                         = "${var.dirs}"
+  vars                         = "${local.vars}"
+  strip                        = "${var.strip}"
+  repos_dir                    = "${var.repos_dir}"
+  templates_dir                = "${var.templates_dir}"
+  docker_registry              = "${var.docker_registry}"
+  geodesic_base_image          = "${var.geodesic_base_image}"
+  terraform_root_modules_image = "${var.terraform_root_modules_image}"
+  terraform_root_modules       = "${var.terraform_root_modules}"
 }

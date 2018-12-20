@@ -1,46 +1,7 @@
-variable "aws_account_id" {}
-
-variable "aws_root_account_id" {}
-
-variable "aws_region" {}
-
-variable "namespace" {}
-
-variable "stage" {
-}
-
-variable "domain" {}
-
-variable "image_tag" {
-  default = "latest"
-}
-
-variable "templates" {
-  type = "list"
-}
-
-variable "dirs" {
-  type    = "list"
-  default = ["", "conf", "rootfs"]
-}
-
-variable "vars" {
-  type    = "map"
-  default = {}
-}
-
-variable "strip" {
-  default = "/\\.(child)$/"
-}
-
-variable "repos_dir" {}
-variable "templates_dir" {}
-variable "docker_registry" {}
-
 module "account" {
   source              = "../../modules/account"
   dirs                = "${var.dirs}"
-  aws_account_id      = "${var.aws_account_id}"
+  aws_account_id      = "${var.aws_account_id[var.stage]}"
   aws_root_account_id = "${var.aws_root_account_id}"
   aws_region          = "${var.aws_region}"
   namespace           = "${var.namespace}"
@@ -54,8 +15,7 @@ module "account" {
   repos_dir           = "${var.repos_dir}"
   templates_dir       = "${var.templates_dir}"
   docker_registry     = "${var.docker_registry}"
-}
-
-output "docker_image" {
-  value = "${module.account.docker_image}"
+  geodesic_base_image = "${var.geodesic_base_image}"
+  terraform_root_modules_image = "${var.terraform_root_modules_image}"
+  terraform_root_modules = "${var.terraform_root_modules}"
 }

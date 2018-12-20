@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source lib.sh
+source /scripts/lib.sh
 
 echo "Configuring root account"
 

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source lib.sh
+source /scripts/lib.sh
+
 if [ `pwd` != "/conf/accounts" ]; then
 	echo "This script should be run from /conf/accounts"
 	exit 1
