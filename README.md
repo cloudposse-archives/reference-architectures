@@ -51,7 +51,7 @@ Before we get started, make sure you have the following
 - [ ] Clone this repo on your workstation
 - [ ] Create a *temporary* pair of [Access Keys](https://console.aws.amazon.com/iam/home#/security_credential). These should be deleted afterwards.
 - [ ] Export your AWS "root" account credentials as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` (this is *temporary* for bootstrapping)
-- [ ] DNS Zone which will be used for AWS service discovery (E.g. `ourcompany.co`)
+- [ ] An available domain we can use for DNS-base service discovery (E.g. `ourcompany.co`). This domain must not be in use else where.
 
 ### 1. Provision Root Account
 
