@@ -1,0 +1,20 @@
+## Initialize the "root" AWS account
+root/init:
+	$(DOCKER_RUN) cloudposse/geodesic:0.46.0 -c /scripts/get-root-account-id.sh
+	terraform init -from-module=modules/root accounts/root
+	terraform apply -var-file=artifacts/aws.tfvars -var-file=$(CONFIGS)/root.tfvars -auto-approve accounts/root
+	terraform output docker_image > artifacts/root-docker-image
+
+## Provision resources in the "root" account
+root/provision:
+	$(DOCKER_RUN) root -l -c /scripts/init-root.sh
+
+## Finalize the configuration of the AWS "root" account (depends on init/child)
+root/finalize:
+	@echo "Not implemented"
+
+## Provision "root" account
+root: root/init root/provision
+	@exit 0
+
+

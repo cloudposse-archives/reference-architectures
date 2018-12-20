@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source lib.sh
+
 export AWS_ROOT_ACCOUNT_ID=$(aws sts get-caller-identity --output text --query 'Account')
 
 if [[ -z "${AWS_ROOT_ACCOUNT_ID}" ]]; then

@@ -1,0 +1,33 @@
+STAGES ?= dev staging prod data corp audit 
+
+# Define a macro for a child init & provisioner
+define child =
+
+## Validate the child configuration exists
+$(1)/validate:
+	@[ -f $(CONFIGS)/$(1) ] || (echo "$(CONFIGS)/$(1).tfvars does not exist"; exit 1)
+
+## Initialize the "child" AWS account
+$(1)/init:
+	terraform init -from-module=modules/child accounts/$(1)
+	terraform apply -var-file=artifacts/aws.tfvars artifacts/accounts.tfvars -var-file=$(CONFIGS)/$(1).tfvars -auto-approve accounts/$(1)
+
+## Provision resources in the "child" account
+$(1)/provision:
+	$(DOCKER_RUN) IMAGE -c /scripts/init-child.sh
+
+## Initialize all the child AWS subaccounts (depends on init/root)
+#$(1): $(1)/init $(1)/provision
+	@exit 0
+endef
+
+# Render the macro for each stage
+$(foreach stage, $(STAGES), $(eval $(call child,$(stage))))
+
+## Provision all child acounts
+children: children/validate $(STAGES)
+	@exit 0
+
+## Validate configurations exist for all child accounts
+children/validate: $(addsuffix /validate,$(STAGES))
+	@exit 0

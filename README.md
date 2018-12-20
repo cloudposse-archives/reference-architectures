@@ -64,7 +64,7 @@ Update the configuration for this account by editing the `configs/root.tfvar` fi
 Then to get started, run:
 
 ```
-make init/root
+make root
 ```
 
 __NOTE:__ We need to know each account's `AWS_ACCOUNT_ID` for Step 2.
@@ -96,7 +96,7 @@ Update the configuration for all the child accounts by editing the `configs/root
 To get started, run: 
 
 ```
-make init/child
+make children
 ```
 
 <details>
@@ -128,7 +128,7 @@ Now that each subaccount has been provisioned, we can delegate each DNS zone to 
 To finish up, run:
 
 ```
-make finalize/root
+make root//finalize
 ```
 
 
