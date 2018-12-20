@@ -49,6 +49,7 @@ The root account owns the top-level DNS zone and then delegates NS authority to 
 Before we get started, make sure you have the following
 
 - [ ] Clone this repo on your workstation
+- [ ] Create a *temporary* pair of [Access Keys](https://console.aws.amazon.com/iam/home#/security_credential). These should be deleted afterwards.
 - [ ] Export your AWS "root" account credentials as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` (this is *temporary* for bootstrapping)
 - [ ] DNS Zone which will be used for AWS service discovery (E.g. `ourcompany.co`)
 
@@ -148,13 +149,15 @@ make finalize/root
 
 At this point, you have everything you need to start terraforming your way to success.
 
-1. Commit your changes. Open Pull Requests. 
+1. Commit your changes. Open Pull Requests.
 
 2. Ensure that the nameservers for the service discovery domain (e.g. `ourcompany.co`) have been configured with your domain registrar (e.g. GoDaddy)
 
-3. Consider adding some other capabilities from our service catalog.
+3. Delete your root account credentials. They are no longer need and should not be used. Instead use IAM users.
 
-4. Create your own [`terraform-root-modules`](https://github.com/cloudposse/terraform-root-modules) service catalog for your organization
+4. Consider adding some other capabilities from our service catalog.
+
+5. Create your own [`terraform-root-modules`](https://github.com/cloudposse/terraform-root-modules) service catalog for your organization
 
 __NOTE:__ *This* repo can be deleted once you're all done and pushed your changes to GitHub. The rest of your development will happen inside your infrastructure repos.
 

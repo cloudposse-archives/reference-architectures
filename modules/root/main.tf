@@ -1,4 +1,4 @@
-variable "aws_account_id" {}
+variable "aws_root_account_id" {}
 
 variable "aws_region" {}
 
@@ -39,10 +39,11 @@ variable "docker_registry" {}
 module "account" {
   source         = "../../modules/account/"
   dirs           = "${var.dirs}"
-  aws_account_id = "${var.aws_account_id}"
 
   # For the "root" account these should always match
-  aws_root_account_id = "${var.aws_account_id}"
+  aws_account_id = "${var.aws_root_account_id}"
+  aws_root_account_id = "${var.aws_root_account_id}"
+
   aws_region          = "${var.aws_region}"
   namespace           = "${var.namespace}"
   stage               = "${var.stage}"

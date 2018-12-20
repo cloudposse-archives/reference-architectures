@@ -11,17 +11,19 @@ export DEFAULT_HELP_TARGET = help/short
 # The command we'll use to start the container 
 export DOCKER_RUN = docker run -it -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -v $(shell pwd)/artifacts:/artifacts -v $(shell pwd)/scripts:/scripts
 
+
 ## Initialize the "root" AWS account
 init/root:
+	$(DOCKER_RUN) cloudposse/geodesic:0.46.0 -c /scripts/get-root-account-id.sh
 	terraform init -from-module=modules/root accounts/root
-	terraform apply -var-file=configs/root.tfvars -auto-approve accounts/root
+	terraform apply -var-file=artifacts/aws.tfvars -var-file=configs/root.tfvars -auto-approve accounts/root
 	terraform output docker_image > artifacts/root-docker-image
 	$(DOCKER_RUN) root -l -c /scripts/init-root.sh
 
 ## Initialize the "testing" AWS account
 init/testing:
 	terraform init -from-module=modules/child accounts/testing
-	terraform apply -var-file=configs/testing.tfvars -auto-approve accounts/testing
+	terraform apply -var-file=artifacts/aws.tfvars -var-file=configs/testing.tfvars -auto-approve accounts/testing
 	$(DOCKER_RUN) IMAGE -c /scripts/init-testing.sh
 
 ## Initialize all the child AWS subaccounts (depends on init/root)

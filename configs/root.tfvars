@@ -6,9 +6,6 @@ domain = "test.co"
 # The global namespace that should be shared by all accounts
 namespace = "test"
 
-# The "root" account id
-aws_account_id = ""
-
 # The default region for this account
 aws_region = "us-west-2"
 
