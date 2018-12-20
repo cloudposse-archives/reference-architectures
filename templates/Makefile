@@ -1,11 +1,11 @@
-export CLUSTER ?= testing.cloudposse.co
-export DOCKER_ORG ?= cloudposse
-export DOCKER_IMAGE ?= $(DOCKER_ORG)/$(CLUSTER)
+export DOCKER_ORG ?= ${docker_registry}
+export DOCKER_IMAGE ?= $(DOCKER_ORG)/${image_name}
 export DOCKER_TAG ?= latest
 export DOCKER_IMAGE_NAME ?= $(DOCKER_IMAGE):$(DOCKER_TAG)
 export DOCKER_BUILD_FLAGS =
 export README_DEPS ?= docs/targets.md docs/terraform.md
 export INSTALL_PATH ?= /usr/local/bin
+export SCRIPT ?= $(notdir $(DOCKER_IMAGE))
 
 -include $(shell curl -sSL -o .build-harness "https://git.io/build-harness"; echo .build-harness)
 
@@ -31,4 +31,4 @@ install:
 
 ## Start the geodesic shell by calling wrapper script
 run:
-	$(CLUSTER)
+	$(SCRIPT)

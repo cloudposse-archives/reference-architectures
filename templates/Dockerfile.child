@@ -6,8 +6,8 @@ FROM cloudposse/terraform-root-modules:0.7.0 as terraform-root-modules
 
 FROM cloudposse/geodesic:0.46.0
 
-ENV DOCKER_IMAGE="cloudposse/${image_name}"
-ENV DOCKER_TAG="latest"
+ENV DOCKER_IMAGE="${docker_registry}/${image_name}"
+ENV DOCKER_TAG="${image_tag}"
 
 # General
 ENV NAMESPACE="${namespace}"
@@ -17,7 +17,7 @@ ENV STAGE="${stage}"
 ENV BANNER="${stage}"
 
 # AWS Region
-ENV AWS_REGION="us-west-2"
+ENV AWS_REGION="${aws_region}"
 ENV AWS_ACCOUNT_ID="${aws_account_id}"
 ENV AWS_ROOT_ACCOUNT_ID="${aws_root_account_id}"
 

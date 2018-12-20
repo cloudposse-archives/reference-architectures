@@ -1,11 +1,12 @@
 variable "aws_account_id" {}
 
+variable "aws_root_account_id" {}
+
 variable "aws_region" {}
 
 variable "namespace" {}
 
 variable "stage" {
-  default = "root"
 }
 
 variable "domain" {}
@@ -29,20 +30,18 @@ variable "vars" {
 }
 
 variable "strip" {
-  default = "/\\.(root)$/"
+  default = "/\\.(child)$/"
 }
 
 variable "repos_dir" {}
 variable "templates_dir" {}
 variable "docker_registry" {}
 
-module "root_account" {
-  source         = "../../modules/account/"
-  dirs           = "${var.dirs}"
-  aws_account_id = "${var.aws_account_id}"
-
-  # For the "root" account these should always match
-  aws_root_account_id = "${var.aws_account_id}"
+module "child_account" {
+  source              = "../../modules/account"
+  dirs                = "${var.dirs}"
+  aws_account_id      = "${var.aws_account_id}"
+  aws_root_account_id = "${var.aws_root_account_id}"
   aws_region          = "${var.aws_region}"
   namespace           = "${var.namespace}"
   stage               = "${var.stage}"
