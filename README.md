@@ -14,10 +14,31 @@ This process involves using terraform to generate the code (`Dockerfile`, `Makef
 
 This is a "bootstrap" process. You do it once and then you throw *this* repo away.
 
+## Architecture
+
+Our "reference architecture" is an opinionated approach to architecting accounts for AWS. 
+
+This process provisions (7) accounts which have different designations. 
+
+Here is what it includes.
+
+| Account | Description                                                                       |
+|---------|-----------------------------------------------------------------------------------|
+| root    | The "root" (parent) account which creates all child accounts                      |
+| prod    | The "production" account where you run your most mission critical applications    |
+| staging | The "staging" account where you run all of your QA/UAT/Testing                    |
+| dev     | The "dev" sandbox account where you let your developers have fun and break things |
+| audit   | The "audit" account is where all logs end up.                                     |
+| corp    | The "corp" account is where you run platform services for the company             |
+| data    | The "data" account is where the quants live =)                                    |
+
+Each account has its own [terraform state backend](https://github.com/cloudposse/terraform-aws-tfstate-backend), along with a [dedicated DNS zone](https://www.terraform.io/docs/providers/aws/r/route53_zone.html) for service discovery.
+
+The root account owns the top-level DNS zone and then delegates NS authority to each child account.
 
 ### Assumptions
 
-1. We are starting with a clean AWS environment and a new "root" (top-level) AWS account. 
+1. We are starting with a clean AWS environment and a new "root" (top-level) AWS account. This means you need the "root" credentials, since a fresh AWS account doesn't even have any AWS roles that can be assumed.
 2. You have administrator access to this account
 
 ### Checklist
