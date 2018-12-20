@@ -1,6 +1,6 @@
 # reference-architectures
 
-Get up and running quickly with one of our reference architecture using our cold start process.
+Get up and running quickly with one of our reference architecture using our cold start process. 
 
 This is still under active development and subject to change. 
 
@@ -9,6 +9,11 @@ This is still under active development and subject to change.
 You can provision the basic referrence architecutre in 3 "easy" steps. =)
 
 All steps leverage our [`terraform-root-modules`](https://github.com/cloudposse/terraform-root-modules/) to get started.
+
+This process involves using terraform to generate the code (`Dockerfile`, `Makefile`, `terraform.tfvar`, etc) you will use to manage your infrastructure. 
+
+This is a "bootstrap" process. You do it once and then you throw *this* repo away.
+
 
 ### Assumptions
 
@@ -32,7 +37,7 @@ This account is provisioned slightly different from the other subccounts.
 To get started, run:
 
 ```
-make init-root-account
+make init/root
 ```
 
 
@@ -60,7 +65,7 @@ Subaccounts are created by the root account, but are ultimately provisioned usin
 To get started, run: 
 
 ```
-make init-subaccounts
+make init/child
 ```
 
 Here's the pseudo code of what that roughly looks like (but automated):
@@ -89,7 +94,7 @@ Now that each subaccount has been provisioned, we can delegate each DNS zone to 
 To finish up, run:
 
 ```
-make finalize-root-account
+make finalize/root
 ```
 
 
@@ -117,6 +122,4 @@ At this point, you have everything you need to start terraforming your way to su
 
 
 __NOTE:__ *This* `reference-architectures` repo can be deleted once you're all done and pushed your changes to GitHub. The rest of your development will happen inside your infrastructure repos.
-
-
 
