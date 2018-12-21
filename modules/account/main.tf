@@ -26,7 +26,7 @@ locals {
     terraform_root_modules       = "${join("\n", data.null_data_source.terraform_root_modules.*.outputs.copy_from)}"
   }
 
-  vars = "${merge(local.context, var.vars)}"
+  vars = "${merge(var.vars, local.context)}"
 }
 
 module "init_dirs" {
