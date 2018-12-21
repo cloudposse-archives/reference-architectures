@@ -11,5 +11,5 @@ terraform_root_modules = [
   "aws/account-dns",
   "aws/chamber",
   "aws/audit-cloudtrails",
-  "aws/cloudtrails",
+  "aws/cloudtrail",
 ]
