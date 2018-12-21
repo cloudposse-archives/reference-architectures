@@ -1,5 +1,3 @@
-variable "working_dir" {}
-
 resource "null_resource" "git_init" {
   provisioner "local-exec" {
     command     = "git init"

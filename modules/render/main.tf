@@ -1,18 +1,3 @@
-variable "vars" {
-  type = "map"
-}
-
-variable "output_dir" {}
-variable "templates_dir" {}
-
-variable "templates" {
-  type = "list"
-}
-
-variable "strip" {
-  default = ""
-}
-
 data "template_file" "data" {
   count = "${length(var.templates)}"
 

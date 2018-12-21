@@ -1,10 +1,3 @@
-variable "working_dir" {}
-
-variable "dirs" {
-  type    = "list"
-  default = ["", "conf", "rootfs"]
-}
-
 resource "null_resource" "mkdir" {
   triggers {
     dirs = "${join(" ", formatlist("${var.working_dir}/%s", sort(compact(var.dirs))))}"

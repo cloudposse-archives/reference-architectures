@@ -35,7 +35,9 @@ variable "strip" {
 }
 
 variable "repos_dir" {}
+
 variable "templates_dir" {}
+
 variable "docker_registry" {}
 
 variable "geodesic_base_image" {}
