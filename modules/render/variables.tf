@@ -13,3 +13,8 @@ variable "templates" {
 variable "strip" {
   default = ""
 }
+
+variable "depends_on" {
+  type   = "list"
+  default = []
+}

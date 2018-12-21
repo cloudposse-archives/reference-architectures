@@ -5,7 +5,7 @@ source /scripts/lib.sh
 echo "Finalizing root account"
 
 # Finish configuration of root account after children provisioned
-TERRAFORM_ROOT_MODULES="root-dns iam"
+TERRAFORM_ROOT_MODULES="root-dns iam users"
 
 for module in ${TERRAFORM_ROOT_MODULES}; do 
   echo "Processing $module..."

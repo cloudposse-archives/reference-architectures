@@ -24,6 +24,7 @@ resource "local_file" "data" {
 # https://github.com/terraform-providers/terraform-provider-local/issues/19
 resource "null_resource" "chmod" {
   count = "${signum(length(keys(var.users)))}"
+
   triggers {
     files = "${join(" ", local_file.data.*.filename)}"
   }

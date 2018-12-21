@@ -42,6 +42,7 @@ module "render" {
   templates     = "${var.templates}"
   strip         = "${var.strip}"
   vars          = "${local.vars}"
+  depends_on    = ["${module.init_dirs.completed}"]
 }
 
 #module "init_git" {
@@ -56,4 +57,5 @@ module "docker_build" {
   image_name      = "${local.image_name}"
   image_tag       = "${var.image_tag}"
   docker_registry = "${var.docker_registry}"
+  depends_on      = ["${module.render.completed}"]
 }

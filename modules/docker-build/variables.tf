@@ -11,3 +11,8 @@ variable "docker_registry" {}
 variable "dockerfile" {
   default = "Dockerfile"
 }
+
+variable "depends_on" {
+  type   = "list"
+  default = []
+}

@@ -10,7 +10,7 @@ export TF_VAR_templates_dir ?= $(CURDIR)/templates
 export DEFAULT_HELP_TARGET = help/short
 
 # The command we'll use to start the container 
-export DOCKER_RUN = docker run -it -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -v $(CURDIR)/artifacts:/artifacts -v $(CURDIR)/scripts:/scripts 
+export DOCKER_RUN = docker run -it -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e SSH_KEY=false -v $(CURDIR)/artifacts:/artifacts -v $(CURDIR)/scripts:/scripts
 
 # The directory containing configs
 export CONFIGS ?= configs
