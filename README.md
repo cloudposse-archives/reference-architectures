@@ -76,20 +76,13 @@ make root
 __NOTE:__ We need to know each account's `AWS_ACCOUNT_ID` for Step 2.
 
 <details>
-  <summary>Here's the pseudo code of what that roughly looks like (but automated). </summary>
+  <summary>Here's what that roughly looks like (but entirely automated). </summary>
 
-```
-| mkdir repo
-| cd repo
-| git init
-| Render dockerfile from template
-|   (Use multi-stage for tfstate, accounts, root-dns)
-| Build docker image
-| Docker run the image mounting `scripts/` and `artifacts/`
-|   Setup AWS vault
-|   aws-vault exec ${AWS_PROFILE} -- /scripts/init-tfstate
-|   aws-vault exec ${AWS_PROFILE} -- /scripts/init-accounts
-```
+1. Create a new account git repo
+2. Render templates into the repo (including `Dockerfile`)
+3. Build a docker image
+4. Run the docker image and start provisioning resources including the Terraform state backend and child accounts
+5. Write a list of child account IDs so we can use them in the next phase
 
 </details>
 
@@ -107,24 +100,15 @@ make children
 
 <details>
 
-<summary>Here's the pseudo code of what that roughly looks like (but automated).</summary>
+<summary>Here's what that roughly looks like (but entirely automated).</summary>
 
-```
-for account in ${ACCOUNTS}; do
-  mkdir $account
-  cd $account
-  git init
-  # Render dockerfile from template
-  # Use multi-stage for tfstate and account-dns
-  # Build docker image
-  # Docker run the image -v scripts/:/scripts
-  # Setup AWS vault
-  # assume-role
-  # init tfstate
-  # init account-dns
-  cd ..
-done
-```
+For each child account:
+
+1. Create a new account git repo
+2. Render the templates for a `child` account into the repo directory (include `Dockerfile`). Obtain the account ID from the previous phase.
+3. Build a docker image
+4. Run the docker image and start provisioning the child account's Terraform state bucket, DNS zone, cloudtrail logs, 
+
 </details>
 
 ### 3. Delegate DNS
@@ -139,14 +123,12 @@ make root/finalize
 
 
 <details>
-<summary>Here's the pseudo code of what that roughly looks like (but automated).</summary>
+<summary>Here's what that roughly looks like (but entirely automated).</summary>
 
-```
-# Docker run the image
-# assume role
-# init tfstate
-# init accounts
-```
+1. Rerun the docker image from phase (1)
+2. Update DNS so that it delegates DNS zones to the child accounts
+3. Create the IAM groups to permit access to child accounts
+
 </details>
 
 ---
