@@ -14,11 +14,13 @@ __WARNING:__ Terraform cannot remove an AWS account from an organization. Terraf
 
 You can provision the basic referrence architecutre in 3 "easy" steps. =)
 
-All steps leverage our [`terraform-root-modules`](https://github.com/cloudposse/terraform-root-modules/) to get started.
+All accounts will leverage our [`terraform-root-modules`](https://github.com/cloudposse/terraform-root-modules/) to get started.
 
 This process involves using terraform to generate the code (`Dockerfile`, `Makefile`, `terraform.tfvar`, etc) you will use to manage your infrastructure. 
 
 This is a "bootstrap" process. You do it once and then you throw *this* repo away.
+
+When you're done, you'll have one Git repo for each AWS account. The repo contains everything necessary to administer that account. We practice a strict "share nothing" approach, which is why each account get's it's own terraform state backend, repo, and DNS zone. This maximally reduces the blast radius of any human errors in one account affecting any other account. Also, because each account has it's own repo, it's *ideally* suited for larger enterprise or corporate environments where various stackholders will be responsible for running services in their account.
 
 ## Architecture
 
