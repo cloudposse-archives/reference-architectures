@@ -128,7 +128,7 @@ Now that each subaccount has been provisioned, we can delegate each DNS zone to 
 To finish up, run:
 
 ```
-make root//finalize
+make root/finalize
 ```
 
 

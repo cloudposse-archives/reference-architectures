@@ -16,6 +16,9 @@ ENV STAGE="${stage}"
 # Geodesic banner
 ENV BANNER="${image_name}"
 
+# Message of the Day
+ENV MOTD_URL="${motd_url}"
+
 # AWS Region
 ENV AWS_REGION="${aws_region}"
 ENV AWS_DEFAULT_REGION="$${AWS_REGION}"

@@ -7,7 +7,8 @@ templates = ["Dockerfile.child", ".gitignore", ".dockerignore", "Makefile", "con
 
 # List of terraform root modules to enable
 terraform_root_modules = [
-  "aws/tfstate-backend", 
-  "aws/account-dns", 
-  "aws/chamber"
+  "aws/tfstate-backend",
+  "aws/account-dns",
+  "aws/chamber",
+  "aws/cloudtrails",
 ]

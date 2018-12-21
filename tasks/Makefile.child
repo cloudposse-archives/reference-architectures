@@ -7,7 +7,7 @@ define child =
 $(1)/validate:
 	@[ -f "$$(CONFIGS)/$(1).tfvars" ] || (echo "$$(CONFIGS)/$(1).tfvars does not exist"; exit 1)
 
-## Initialize the "child" AWS account
+## Initialize the "$(1)" AWS account
 $(1)/init:
 	terraform init -from-module=modules/child accounts/$(1)
 	terraform apply \
@@ -18,11 +18,15 @@ $(1)/init:
 	  -auto-approve \
 	  accounts/$(1)
 
+## Start a shell in the "$(1)" container (depends on root/init)
+$(1)/shell:
+	$$(DOCKER_RUN) -v $(HOME):/localhost $(1) -l
+
 ## Provision resources in the "child" account
 $(1)/provision:
-	$$(DOCKER_RUN) IMAGE -c /scripts/init-child.sh
+	$$(DOCKER_RUN) $(1) -c /scripts/init-child.sh
 
-## Initialize all the child AWS subaccounts (depends on init/root)
+## Initialize all the $(1) AWS subaccounts (depends on init/root)
 #$(1): $(1)/init $(1)/provision
 	@exit 0
 endef

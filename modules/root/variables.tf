@@ -10,9 +10,13 @@ variable "stage" {
 
 variable "domain" {}
 
+variable "motd_url" {}
+
 variable "image_tag" {
   default = "latest"
 }
+
+variable "account_email" {}
 
 variable "accounts_enabled" {
   type = "list"

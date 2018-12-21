@@ -9,9 +9,13 @@ root/init:
 root/provision:
 	$(DOCKER_RUN) root -l -c /scripts/init-root.sh
 
-## Finalize the configuration of the AWS "root" account (depends on init/child)
+## Finalize the configuration of the AWS "root" account (depends on root/init, root/provision, and children)
 root/finalize:
-	@echo "Not implemented"
+	$(DOCKER_RUN) root -l -c /scripts/finalize-root.sh
+
+## Start a shell in the "root" container (depends on root/init)
+root/shell:
+	$(DOCKER_RUN) -v $(HOME):/localhost root -l
 
 ## Provision "root" account
 root: root/init root/provision

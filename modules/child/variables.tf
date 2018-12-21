@@ -12,6 +12,8 @@ variable "stage" {}
 
 variable "domain" {}
 
+variable "motd_url" {}
+
 variable "image_tag" {
   default = "latest"
 }

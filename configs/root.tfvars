@@ -13,14 +13,34 @@ aws_region = "us-west-2"
 docker_registry = "cloudposse"
 
 # The templates to use for this account
-templates = ["Dockerfile.root", ".gitignore", ".dockerignore", "Makefile", "conf/Makefile", "conf/accounts/terraform.tfvars"]
+templates = [
+  "Dockerfile.root",
+  ".gitignore",
+  ".dockerignore",
+  "Makefile",
+  "conf/Makefile",
+  "conf/accounts/terraform.tfvars",
+  "conf/iam/terraform.tfvars",
+  "conf/root-dns/terraform.tfvars",
+]
+
+# Account email address format (e.g. `ops+%s@example.co`). This is not easily changed later.
+account_email = "ops+%s@test.co"
 
 # List of accounts to enable
-accounts_enabled = ["dev", "staging", "prod", "testing", "data", "corp", "audit"]
+accounts_enabled = [
+  "dev",
+  "staging",
+  "prod",
+  "testing",
+  "data",
+  "corp",
+  "audit",
+]
 
 # Terraform Root Modules Image (don't change this unless you know what you're doing)
 #   https://github.com/cloudposse/terraform-root-modules
-terraform_root_modules_image = "cloudposse/terraform-root-modules:0.7.0"
+terraform_root_modules_image = "cloudposse/terraform-root-modules:0.11.0"
 
 # Geodesic Base Image (don't change this unless you know what you're doing)
 #   https://github.com/cloudposse/geodesic
@@ -28,12 +48,16 @@ geodesic_base_image = "cloudposse/geodesic:0.46.0"
 
 # List of terraform root modules to enable
 terraform_root_modules = [
-  "aws/tfstate-backend", 
-  "aws/root-dns", 
-  "aws/organization", 
-  "aws/accounts", 
-  "aws/account-settings",
+  "aws/tfstate-backend",
+  "aws/root-dns",
   "aws/root-iam",
+  "aws/organization",
+  "aws/accounts",
+  "aws/account-settings",
   "aws/iam",
-  "aws/cloudtrail"
+  "aws/users",
+  "aws/cloudtrail",
 ]
+
+# Message of the Day
+motd_url = "https://geodesic.sh/motd"

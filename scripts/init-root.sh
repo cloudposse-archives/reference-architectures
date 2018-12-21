@@ -4,25 +4,13 @@ source /scripts/lib.sh
 
 echo "Configuring root account"
 
-# We're not using AWS config profiles at this point
-unset AWS_DEFAULT_PROFILE
+# Setup Terraform State Backend (special case)
+#make -C /conf/tfstate-backend init
 
-# Export our environment to TF_VARs
-eval $(tfenv sh -c "export -p")
+# Provision modules which *do not* have dependencies on other accounts (that will be a later phase)
+TERRAFORM_ROOT_MODULES="accounts accounts account-settings root-iam cloudtrail"
 
-# Setup Terraform State Backend
-cd /conf/tfstate-backend
-
-./scripts/init.sh
-
-# Setup AWS Accounts
-cd /conf/accounts
-
-init-terraform
-
-terraform plan
-
-#   Setup AWS vault
-#   aws-vault exec ${AWS_PROFILE} -- /scripts/init-tfstate
-#   aws-vault exec ${AWS_PROFILE} -- /scripts/init-accounts
-
+for module in ${TERRAFORM_ROOT_MODULES}; do 
+  echo "Processing $module..."
+  make -C "/conf/${module}" init plan
+done

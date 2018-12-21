@@ -1,6 +1,11 @@
 locals {
   context = {
+    # Used by `accounts`
     accounts_enabled = "${jsonencode(var.accounts_enabled)}"
+    account_email    = "${var.account_email}"
+
+    # Used by `root-dns`
+    root_domain_name = "${var.stage}.${var.domain}"
   }
 
   vars = "${merge(var.vars, local.context)}"
@@ -18,6 +23,7 @@ module "account" {
   namespace                    = "${var.namespace}"
   stage                        = "${var.stage}"
   domain                       = "${var.domain}"
+  motd_url                     = "${var.motd_url}"
   image_tag                    = "${var.image_tag}"
   templates                    = "${var.templates}"
   dirs                         = "${var.dirs}"
