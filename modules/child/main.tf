@@ -1,7 +1,7 @@
 module "account" {
   source                       = "../../modules/account"
   dirs                         = "${var.dirs}"
-  aws_account_id               = "${var.aws_account_id[var.stage]}"
+  aws_account_id               = "${var.aws_account_ids[var.stage]}"
   aws_root_account_id          = "${var.aws_root_account_id}"
   aws_region                   = "${var.aws_region}"
   namespace                    = "${var.namespace}"
