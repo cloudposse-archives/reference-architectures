@@ -1,6 +1,6 @@
 # reference-architectures
 
-Get up and running quickly with one of our reference architecture using our cold start process. 
+Get up and running quickly with one of our reference architectures using our cold start process. 
 
 This is still under active development and subject to change. 
 
