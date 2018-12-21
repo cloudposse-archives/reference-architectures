@@ -12,5 +12,5 @@ TERRAFORM_ROOT_MODULES="accounts account-settings root-iam cloudtrail"
 
 for module in ${TERRAFORM_ROOT_MODULES}; do 
   echo "Processing $module..."
-  make -C "/conf/${module}" init plan
+  make -C "/conf/${module}" init plan apply
 done

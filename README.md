@@ -1,18 +1,17 @@
 # reference-architectures
 
-Get up and running quickly with one of our reference architectures using our cold start process. 
+Get up and running quickly with one of our reference architectures using our cold start process.
 
-This is still under active development and subject to change. 
+This is still under active development and subject to change.
 
 ## Known Limitations
 
-* AWS does not support programatic deletion of accounts. This means that if you use this project to create the account structure, terraform is not able to completely destroy it.
-
-__WARNING:__ Terraform cannot remove an AWS account from an organization. Terraform will not close the account. The member account must be prepared to be a standalone account beforehand. See the [AWS Organizations documentation](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html) for more information.
+* AWS does not support programmatic deletion of accounts. This means that if you use this project to create the account structure, terraform is not able to completely destroy it.
+* AWS by default only permits one subaccount. This limit can be easily increased for your organization, but can take up to several days.
 
 ## High Level Overview
 
-You can provision the basic referrence architecutre in 3 "easy" steps. =)
+You can provision the basic reference architecture in 3 "easy" steps. =)
 
 All accounts will leverage our [`terraform-root-modules`](https://github.com/cloudposse/terraform-root-modules/) to get started.
 
@@ -20,7 +19,7 @@ This process involves using terraform to generate the code (`Dockerfile`, `Makef
 
 This is a "bootstrap" process. You do it once and then you throw *this* repo away.
 
-When you're done, you'll have one Git repo for each AWS account. The repo contains everything necessary to administer that account. We practice a strict "share nothing" approach, which is why each account get's it's own terraform state backend, repo, and DNS zone. This maximally reduces the blast radius of any human errors in one account affecting any other account. Also, because each account has it's own repo, it's *ideally* suited for larger enterprise or corporate environments where various stackholders will be responsible for running services in their account.
+When you're done, you'll have one Git repo for each AWS account. The repo contains everything necessary to administer that account. We practice a strict "share nothing" approach, which is why each account gets it's own terraform state backend, repo, and DNS zone. This maximally reduces the blast radius of any human errors in one account affecting any other account. Also, because each account has it's own repo, it's *ideally* suited for larger enterprise or corporate environments where various stakeholders will be responsible for running services in their account.
 
 ## Architecture
 
@@ -31,7 +30,7 @@ This process provisions (7) accounts which have different designations.
 Here is what it includes.
 
 | Account | Description                                                                          |
-|---------|--------------------------------------------------------------------------------------|
+| ------- | ------------------------------------------------------------------------------------ |
 | root    | The "root" (parent) account creates all child accounts and is where users login      |
 | prod    | The "production" is account where you run your most mission critical applications    |
 | staging | The "staging" account is where you run all of your QA/UAT/Testing                    |
@@ -56,6 +55,8 @@ The root account owns the top-level DNS zone and then delegates NS authority to 
 
 Before we get started, make sure you have the following
 
+- [ ] Before you can create new AWS accounts under your organization, you must [verify your email address](https://docs.aws.amazon.com/console/organizations/email-verification).
+- [ ] Open a support ticket to [request the limit](https://console.aws.amazon.com/support/v1#/case/create) of AWS accounts be increased for your organization (the default is 1).
 - [ ] Clone this repo on your workstation
 - [ ] Create a *temporary* pair of [Access Keys](https://console.aws.amazon.com/iam/home#/security_credential). These should be deleted afterwards.
 - [ ] Export your AWS "root" account credentials as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` (this is *temporary* for bootstrapping)
@@ -63,9 +64,11 @@ Before we get started, make sure you have the following
 
 ### 1. Provision Root Account
 
-The "root" account is the top-most AWS account from which all other AWS accounts are programatically created.
+The "root" account is the top-most AWS account from which all other AWS accounts are programmatically created.
 
-This account is provisioned slightly different from the other subccounts.
+__WARNING:__ Terraform cannot remove an AWS account from an organization. Terraform will not close the account. The member account must be prepared to be a standalone account beforehand. See the [AWS Organizations documentation](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html) for more information.
+
+This account is provisioned slightly different from the other subaccounts.
 
 Update the configuration for this account by editing the `configs/root.tfvar` file.
 
@@ -94,9 +97,9 @@ Subaccounts are created by the root account, but are ultimately provisioned usin
 
 Update the configuration for all the child accounts by editing the `configs/root.tfvar` file.
 
-To get started, run: 
+To get started, run:
 
-```
+```bash
 make children
 ```
 
@@ -109,7 +112,7 @@ For each child account:
 1. Create a new account git repo
 2. Render the templates for a `child` account into the repo directory (include `Dockerfile`). Obtain the account ID from the previous phase.
 3. Build a docker image
-4. Run the docker image and start provisioning the child account's Terraform state bucket, DNS zone, cloudtrail logs, 
+4. Run the docker image and start provisioning the child account's Terraform state bucket, DNS zone, cloudtrail logs,
 
 </details>
 
@@ -119,10 +122,9 @@ Now that each subaccount has been provisioned, we can delegate each DNS zone to 
 
 To finish up, run:
 
-```
+```bash
 make root/finalize
 ```
-
 
 <details>
 <summary>Here's what that roughly looks like (but entirely automated).</summary>
@@ -143,16 +145,18 @@ All of your account configurations are currently in `repos/`
 
 1. Commit the changes in `repos/`. Open Pull Requests.
 
-2. Ensure that the nameservers for the service discovery domain (e.g. `ourcompany.co`) have been configured with your domain registrar (e.g. GoDaddy)
+2. Ensure that the name servers for the service discovery domain (e.g. `ourcompany.co`) have been configured with your domain registrar (e.g. GoDaddy)
 
 3. Delete your root account credentials. They are no longer need and should not be used. Instead use IAM users.
 
-4. Consider adding some other capabilities from our service catalog.
+4. Request limits for EC2 instances to be raised in each account corresponding to the region you will be operating in.
 
-5. Create your own [`terraform-root-modules`](https://github.com/cloudposse/terraform-root-modules) service catalog for your organization
+5. Consider adding some other capabilities from our service catalog.
+
+6. Create your own [`terraform-root-modules`](https://github.com/cloudposse/terraform-root-modules) service catalog for your organization
 
 __NOTE:__ *This* repo can be deleted once you're all done and pushed your changes to GitHub. The rest of your development will happen inside your infrastructure repos.
 
 ## Getting Help?
 
-Did you get stuck? Find us on [slack](https://sweetops.cloudposse.com) in the `#geodesic` channe channell
+Did you get stuck? Find us on [slack](https://sweetops.cloudposse.com) in the `#geodesic` channel.
