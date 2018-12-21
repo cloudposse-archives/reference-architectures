@@ -8,7 +8,7 @@ echo "Configuring root account"
 #make -C /conf/tfstate-backend init
 
 # Provision modules which *do not* have dependencies on other accounts (that will be a later phase)
-TERRAFORM_ROOT_MODULES="accounts accounts account-settings root-iam cloudtrail"
+TERRAFORM_ROOT_MODULES="accounts account-settings root-iam cloudtrail"
 
 for module in ${TERRAFORM_ROOT_MODULES}; do 
   echo "Processing $module..."
