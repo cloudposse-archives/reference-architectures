@@ -11,5 +11,3 @@ variable "docker_registry" {}
 variable "dockerfile" {
   default = "Dockerfile"
 }
-
-

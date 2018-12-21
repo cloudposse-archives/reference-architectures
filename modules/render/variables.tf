@@ -13,5 +13,3 @@ variable "templates" {
 variable "strip" {
   default = ""
 }
-
-

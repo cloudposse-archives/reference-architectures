@@ -36,6 +36,11 @@ variable "vars" {
   default = {}
 }
 
+variable "users" {
+  type    = "map"
+  default = {}
+}
+
 variable "strip" {
   default = "/\\.(root)$/"
 }

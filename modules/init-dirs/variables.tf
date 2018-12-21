@@ -4,5 +4,3 @@ variable "dirs" {
   type    = "list"
   default = ["", "conf", "rootfs"]
 }
-
-

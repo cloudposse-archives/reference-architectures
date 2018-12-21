@@ -13,7 +13,8 @@ locals {
 
 module "account" {
   source = "../../modules/account/"
-  dirs   = "${var.dirs}"
+
+  dirs = "${var.dirs}"
 
   # For the "root" account these should always match
   aws_account_id      = "${var.aws_root_account_id}"
@@ -35,4 +36,11 @@ module "account" {
   geodesic_base_image          = "${var.geodesic_base_image}"
   terraform_root_modules_image = "${var.terraform_root_modules_image}"
   terraform_root_modules       = "${var.terraform_root_modules}"
+}
+
+module "add_users" {
+  source        = "../../modules/add-users/"
+  users         = "${var.users}"
+  templates_dir = "${var.templates_dir}"
+  output_dir    = "${module.account.repo_dir}/conf/users"
 }
