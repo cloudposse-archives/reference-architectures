@@ -6,7 +6,7 @@ This is still under active development and subject to change.
 
 ## Known Limitations
 
-* AWS does not support programatic deletion of accounts. This means that if you use this project to create the account structure, terraform is not able to completely destroy it. 
+* AWS does not support programatic deletion of accounts. This means that if you use this project to create the account structure, terraform is not able to completely destroy it.
 
 __WARNING:__ Terraform cannot remove an AWS account from an organization. Terraform will not close the account. The member account must be prepared to be a standalone account beforehand. See the [AWS Organizations documentation](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html) for more information.
 
