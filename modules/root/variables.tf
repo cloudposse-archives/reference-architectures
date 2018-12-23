@@ -45,6 +45,8 @@ variable "strip" {
   default = "/\\.(root)$/"
 }
 
+variable "artifacts_dir" {}
+
 variable "repos_dir" {}
 
 variable "templates_dir" {}

@@ -3,6 +3,7 @@ include $(shell curl -sSL -o .build-harness "https://git.io/build-harness"; echo
 include tasks/Makefile.*
 
 # Run time environment passed to terraform
+export TF_VAR_artifacts_dir = ?= $(CURDIR)/artifacts
 export TF_VAR_repos_dir ?= $(CURDIR)/repos
 export TF_VAR_templates_dir ?= $(CURDIR)/templates
 

@@ -2,6 +2,7 @@ data "null_data_source" "terraform_root_modules" {
   count = "${length(var.terraform_root_modules)}"
 
   inputs = {
+    module_name = "${basename(element(var.terraform_root_modules, count.index))}"
     copy_from = "COPY --from=terraform-root-modules /${element(var.terraform_root_modules, count.index)}/ /conf/${basename(element(var.terraform_root_modules, count.index))}/"
   }
 }
@@ -27,6 +28,12 @@ locals {
   }
 
   vars = "${merge(var.vars, local.context)}"
+}
+
+# Write an env file for this stage that we can use from shell scripts
+resource "local_file" "artifacts" {
+  content  = "export TERRAFORM_ROOT_MODULES=\"${join(" ", data.null_data_source.terraform_root_modules.*.outputs.module_name)}\"\n"
+  filename = "${var.artifacts_dir}/${var.stage}.env"
 }
 
 module "init_dirs" {

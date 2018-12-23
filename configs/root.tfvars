@@ -53,6 +53,7 @@ geodesic_base_image = "cloudposse/geodesic:0.46.0"
 
 # List of terraform root modules to enable
 terraform_root_modules = [
+  "aws/bootstrap",
   "aws/tfstate-backend",
   "aws/root-dns",
   "aws/root-iam",

@@ -4,10 +4,25 @@ Get up and running quickly with one of our reference architectures using our col
 
 This is still under active development and subject to change.
 
+## Table of Contents
+
+- [reference-architectures](#reference-architectures)
+- [Table of Contents](#table-of-contents)
+  - [Known Limitations](#known-limitations)
+  - [High Level Overview](#high-level-overview)
+  - [Architecture](#architecture)
+    - [Assumptions](#assumptions)
+    - [Checklist](#checklist)
+    - [1. Provision Root Account](#1-provision-root-account)
+    - [2. Provision Subaccounts](#2-provision-subaccounts)
+    - [3. Delegate DNS](#3-delegate-dns)
+  - [Next Steps](#next-steps)
+  - [Getting Help](#getting-help)
+
 ## Known Limitations
 
-* AWS does not support programmatic deletion of accounts. This means that if you use this project to create the account structure, terraform is not able to completely destroy it.
-* AWS by default only permits one subaccount. This limit can be easily increased for your organization, but can take up to several days.
+- AWS does not support programmatic deletion of accounts. This means that if you use this project to create the account structure, terraform is not able to completely destroy it.
+- AWS by default only permits one subaccount. This limit can be easily increased for your organization, but can take up to several days.
 
 ## High Level Overview
 
@@ -50,7 +65,6 @@ The root account owns the top-level DNS zone and then delegates NS authority to 
 3. You have [docker](https://docs.cloudposse.com/tools/docker/) installed on your workstation
 4. You have [terraform](https://www.terraform.io/downloads.html) installed on your workstation
 
-
 ### Checklist
 
 Before we get started, make sure you have the following
@@ -74,7 +88,7 @@ Update the configuration for this account by editing the `configs/root.tfvar` fi
 
 Then to get started, run:
 
-```
+```bash
 make root
 ```
 
@@ -157,6 +171,6 @@ All of your account configurations are currently in `repos/`
 
 __NOTE:__ *This* repo can be deleted once you're all done and pushed your changes to GitHub. The rest of your development will happen inside your infrastructure repos.
 
-## Getting Help?
+## Getting Help
 
 Did you get stuck? Find us on [slack](https://sweetops.cloudposse.com) in the `#geodesic` channel.

@@ -30,6 +30,7 @@ module "account" {
   dirs                         = "${var.dirs}"
   vars                         = "${local.vars}"
   strip                        = "${var.strip}"
+  artifacts_dir                = "${var.artifacts_dir}"
   repos_dir                    = "${var.repos_dir}"
   templates_dir                = "${var.templates_dir}"
   docker_registry              = "${var.docker_registry}"

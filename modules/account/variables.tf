@@ -34,6 +34,8 @@ variable "strip" {
   default = ""
 }
 
+variable "artifacts_dir" {}
+
 variable "repos_dir" {}
 
 variable "templates_dir" {}
