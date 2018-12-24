@@ -16,3 +16,12 @@ SKIP_MODULES="^(root-dns|iam|cloudtrail)$"
 
 # Provision modules
 apply_modules
+
+# Export account ids (for use with provisioning children)
+cd /conf/accounts
+make init 
+(
+	echo "aws_account_ids = {"
+	terraform output -json | jq -r 'to_entries | .[] | .key + " = \"" + .value.value + "\""' | grep account_id | sed 's/_account_id//'
+	echo "}"
+) | terraform fmt - > /artifacts/accounts.tfvars

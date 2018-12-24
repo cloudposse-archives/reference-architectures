@@ -37,7 +37,7 @@ function apply_modules() {
             echo "Skipping ${module}..."
         else
             echo "Processing $module..."
-            make -C "/conf/${module}" init plan apply
+            make -C "/conf/${module}" init plan 
 			if [ $? -ne 0 ]; then
 				echo "==============================================================================================="
 				echo "The ${module} module errored. Aborting."

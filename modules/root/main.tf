@@ -45,3 +45,9 @@ module "add_users" {
   templates_dir = "${var.templates_dir}"
   output_dir    = "${module.account.repo_dir}/conf/users"
 }
+
+# Write an env file that we can use from other Makefiles
+resource "local_file" "makefile_env" {
+  content  = "ACCOUNTS_ENABLED = ${join(" ", var.accounts_enabled)}\n"
+  filename = "${var.artifacts_dir}/Makefile.env"
+}

@@ -1,6 +1,8 @@
-STAGES ?= dev staging prod data corp audit 
+ACCOUNTS_ENABLED ?= 
 
-# Define a macro for a child init & provisioner
+-include artifacts/Makefile.env
+
+# Define a macro (`child`) for a child init & provisioner
 define child =
 
 ## Validate the child configuration exists
@@ -24,20 +26,22 @@ $(1)/shell:
 
 ## Provision resources in the "child" account
 $(1)/provision:
-	$$(DOCKER_RUN) $(1) -c /scripts/init-child.sh
+	$$(DOCKER_RUN) $(1) -l -c /scripts/init-child.sh
 
 ## Initialize all the $(1) AWS subaccounts (depends on init/root)
-#$(1): $(1)/init $(1)/provision
+$(1): $(1)/init $(1)/provision
 	@exit 0
 endef
 
-# Render the macro for each stage
-$(foreach stage, $(STAGES), $(eval $(call child,$(stage))))
+ifneq ($(ACCOUNTS_ENABLED),)
+# Render the macro for each account
+$(foreach account, $(ACCOUNTS_ENABLED), $(eval $(call child,$(account))))
+endif
 
-## Provision all child acounts
-children: children/validate $(STAGES)
+## Provision all child accounts
+children: children/validate $(ACCOUNTS_ENABLED))
 	@exit 0
 
 ## Validate configurations exist for all child accounts
-children/validate: $(addsuffix /validate,$(STAGES))
+children/validate: $(addsuffix /validate,$(ACCOUNTS_ENABLED)))
 	@exit 0
