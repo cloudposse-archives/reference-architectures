@@ -37,7 +37,21 @@ function apply_modules() {
             echo "Skipping ${module}..."
         else
             echo "Processing $module..."
-            make -C "/conf/${module}" init plan
+            make -C "/conf/${module}" init plan apply
+			if [ $? -ne 0 ]; then
+				echo "==============================================================================================="
+				echo "The ${module} module errored. Aborting."
+				echo "* Please report this error here:"
+				echo "          https://github.com/cloudposse/reference-architectures/issues/new"
+				exit 1
+			fi
         fi
     done
+}
+
+trap ctrl_c INT
+
+function ctrl_c() {
+	echo "* Okay, aborting..."
+	exit 1
 }

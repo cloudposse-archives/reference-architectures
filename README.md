@@ -7,7 +7,7 @@ This is still under active development and subject to change.
 ## Table of Contents
 
 - [reference-architectures](#reference-architectures)
-- [Table of Contents](#table-of-contents)
+  - [Table of Contents](#table-of-contents)
   - [Known Limitations](#known-limitations)
   - [High Level Overview](#high-level-overview)
   - [Architecture](#architecture)
@@ -75,6 +75,7 @@ Before we get started, make sure you have the following
 - [ ] Create a *temporary* pair of [Access Keys](https://console.aws.amazon.com/iam/home#/security_credential). These should be deleted afterwards.
 - [ ] Export your AWS "root" account credentials as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` (this is *temporary* for bootstrapping)
 - [ ] An available domain we can use for DNS-base service discovery (E.g. `ourcompany.co`). This domain must not be in use else where.
+- [ ] Ensure that any users who will be added during this bootstrap process have setup their [keybase](http://keybase.io) profile. You'll need this if setting them up in the `users` section of the [`config/root.tfvars`](https://github.com/cloudposse/reference-architectures/blob/master/configs/root.tfvars). For example you should be able to [verify their public key](https://keybase.io/osterman/key.asc) on `keybase.io` by running `curl https://keybase.io/$username/key.asc`.
 
 ### 1. Provision Root Account
 

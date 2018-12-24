@@ -64,5 +64,5 @@ module "docker_build" {
   image_name      = "${local.image_name}"
   image_tag       = "${var.image_tag}"
   docker_registry = "${var.docker_registry}"
-  depends_on      = ["${module.render.completed}"]
+  depends_on      = ["${module.render.completed}", "${module.init_dirs.completed}"]
 }
