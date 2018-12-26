@@ -34,11 +34,11 @@ $(1)/shell:
 
 ## Provision resources in the "child" account
 $(1)/provision:
-	$$(DOCKER_RUN) -e SKIP_MODULES="^(cloudtrail)$$$$" $(1) -l -c /scripts/provision-child.sh
+	$$(DOCKER_RUN) -e SKIP_MODULES="^(cloudtrail)$$$$" $(1) -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
 
 ## Finalize all account configuration
 $(1)/finalize:
-	$$(DOCKER_RUN) $(1) -l -c /scripts/provision-child.sh
+	$$(DOCKER_RUN) $(1) -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
 
 ## Initialize all the $(1) AWS subaccounts (depends on init/root)
 $(1): $(1)/init $(1)/provision
