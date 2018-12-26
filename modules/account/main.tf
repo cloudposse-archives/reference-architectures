@@ -8,7 +8,8 @@ data "null_data_source" "terraform_root_modules" {
 }
 
 locals {
-  image_name = "${var.stage}.${var.domain}"
+  domain_name = "${var.stage}.${var.domain}"
+  image_name = "${local.domain_name}"
   repo_dir   = "${var.repos_dir}/${local.image_name}"
 
   context = {
@@ -16,6 +17,7 @@ locals {
     aws_root_account_id          = "${var.aws_root_account_id}"
     aws_region                   = "${var.aws_region}"
     docker_registry              = "${var.docker_registry}"
+    domain_name                  = "${local.domain_name}"
     image_name                   = "${local.image_name}"
     image_tag                    = "${var.image_tag}"
     motd_url                     = "${var.motd_url}"

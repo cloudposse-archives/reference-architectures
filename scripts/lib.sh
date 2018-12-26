@@ -2,12 +2,6 @@
 
 export CONF="${CONF:-/conf}"
 
-# Don't use a role to simplify provisioning
-export TF_VAR_aws_assume_role_arn=""
-
-# We're not using AWS config profiles at this point
-unset AWS_DEFAULT_PROFILE
-
 # Export our environment to TF_VARs
 eval $(tfenv sh -c "export -p")
 
@@ -28,6 +22,21 @@ function assume_role() {
 
     # Obtain an assume-role session
     eval $(/usr/bin/assume-role $AWS_DEFAULT_PROFILE)
+	if [ $? -ne 0 ]; then
+		echo "Failed to assume role of ${AWS_DEFAULT_PROFILE}"
+		exit 1
+	fi
+}
+
+function abort() {
+	echo -e "\n\n"
+	echo "==============================================================================================="
+	echo "$1"
+	echo
+	echo "* Please report this error here:"
+	echo "          https://github.com/cloudposse/reference-architectures/issues/new"
+	echo -e "\n\n"
+	exit 1
 }
 
 function apply_modules() {
@@ -39,16 +48,13 @@ function apply_modules() {
             echo "Processing $module..."
             make -C "/conf/${module}" init plan 
 			if [ $? -ne 0 ]; then
-				echo "==============================================================================================="
-				echo "The ${module} module errored. Aborting."
-				echo "* Please report this error here:"
-				echo "          https://github.com/cloudposse/reference-architectures/issues/new"
-				exit 1
+				abort "The ${module} module errored. Aborting."
 			fi
         fi
     done
 }
 
+# Capture ^C and exit immediately
 trap ctrl_c INT
 
 function ctrl_c() {

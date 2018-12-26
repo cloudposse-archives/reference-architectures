@@ -3,7 +3,14 @@
 stage = "staging"
 
 # List of templates to install
-templates = ["Dockerfile.child", ".gitignore", ".dockerignore", "Makefile", "conf/Makefile"]
+templates = [
+  "Dockerfile.child", 
+  ".gitignore", 
+  ".dockerignore", 
+  "Makefile", 
+  "conf/Makefile",
+  "conf/account-dns/terraform.tfvars"
+]
 
 # List of terraform root modules to enable
 terraform_root_modules = [

@@ -1,8 +1,8 @@
 # reference-architectures
 
-Get up and running quickly with one of our reference architectures using our cold start process.
+Get up and running quickly with one of our reference architectures using our fully automated cold-start process.
 
-This is still under active development and subject to change.
+__NOTE:__ This project is under active development and subject to change. Please [file issues](https://github.com/cloudposse/reference-architectures/issues/new) for all bugs encountered.
 
 ## Table of Contents
 
@@ -138,7 +138,7 @@ Now that each subaccount has been provisioned, we can delegate each DNS zone to 
 To finish up, run:
 
 ```bash
-make root/finalize
+make finalize
 ```
 
 <details>

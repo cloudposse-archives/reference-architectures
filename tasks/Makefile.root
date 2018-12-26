@@ -1,17 +1,26 @@
+## Clean up terraform state and modules for root account
+root/clean:
+	rm -rf root.tfstate root.tfstate.backup accounts/root
+
 ## Initialize the "root" AWS account
-root/init:
+root/init: root/clean
 	$(DOCKER_RUN) cloudposse/geodesic:0.46.0 -c /scripts/get-root-account-id.sh
 	terraform init -from-module=modules/root accounts/root
-	terraform apply -var-file=artifacts/aws.tfvars -var-file=$(CONFIGS)/root.tfvars -auto-approve accounts/root
-	terraform output docker_image > artifacts/root-docker-image
+	terraform apply \
+		-var-file=artifacts/aws.tfvars \
+		-var-file=$(CONFIGS)/root.tfvars \
+		-auto-approve \
+		-state=root.tfstate \
+		accounts/root
+	terraform output -state=root.tfstate docker_image > artifacts/root-docker-image
 
 ## Provision resources in the "root" account
 root/provision:
-	$(DOCKER_RUN) root -l -c /scripts/init-root.sh
+	$(DOCKER_RUN) -e SKIP_MODULES="^(root-dns|iam|cloudtrail)$" root -l -c /scripts/provision-root.sh
 
 ## Finalize the configuration of the AWS "root" account (depends on root/init, root/provision, and children)
 root/finalize:
-	$(DOCKER_RUN) root -l -c /scripts/finalize-root.sh
+	$(DOCKER_RUN) root -l -c /scripts/provision-root.sh
 
 ## Start a shell in the "root" container (depends on root/init)
 root/shell:
@@ -20,5 +29,3 @@ root/shell:
 ## Provision "root" account
 root: root/init root/provision
 	@exit 0
-
-
