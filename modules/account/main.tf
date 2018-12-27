@@ -54,11 +54,6 @@ module "render" {
   depends_on    = ["${module.init_dirs.completed}"]
 }
 
-#module "init_git" {
-#  source      = "../../modules/init-git"
-#  working_dir = "${local.repo_dir}"
-#}
-
 module "docker_build" {
   source          = "../../modules/docker-build"
   working_dir     = "${local.repo_dir}"

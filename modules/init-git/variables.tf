@@ -1,1 +1,0 @@
-variable "working_dir" {}

@@ -47,7 +47,7 @@ $(1): $(1)/init $(1)/provision
 endef
 
 ifneq ($(ACCOUNTS_ENABLED),)
-# Render the macro for each account
+# Render the macro for each child account
 $(foreach account, $(ACCOUNTS_ENABLED), $(eval $(call child,$(account))))
 endif
 
@@ -59,6 +59,6 @@ children: children/validate $(ACCOUNTS_ENABLED)
 children/validate: $(addsuffix /validate,$(ACCOUNTS_ENABLED))
 	@exit 0
 
-## Validate configurations exist for all child accounts
+## Finalize provisioning of all child accounts
 children/finalize: $(addsuffix /finalize,$(ACCOUNTS_ENABLED))
 	@exit 0
