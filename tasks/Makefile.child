@@ -30,15 +30,15 @@ $(1)/init: $(1)/validate $(1)/clean
 
 ## Start a shell in the "$(1)" container (depends on $(1)/init)
 $(1)/shell:
-	$$(DOCKER_RUN) -v $(HOME):/localhost $(1) -l
+	$$(DOCKER_RUN) --name=$(1) -v $(HOME):/localhost $(1) -l
 
 ## Provision resources in the "child" account
 $(1)/provision:
-	$$(DOCKER_RUN) -e SKIP_MODULES="^(cloudtrail)$$$$" $(1) -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
+	$$(DOCKER_RUN) --name=$(1) -e SKIP_MODULES="^(cloudtrail)$$$$" $(1) -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
 
 ## Finalize all account configuration
 $(1)/finalize:
-	$$(DOCKER_RUN) $(1) -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
+	$$(DOCKER_RUN) --name=$(1) $(1) -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
 
 ## Initialize all the $(1) AWS subaccounts (depends on init/root)
 $(1): $(1)/init $(1)/provision

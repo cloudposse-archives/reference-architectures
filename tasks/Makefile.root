@@ -16,15 +16,15 @@ root/init: root/clean
 
 ## Provision resources in the "root" account
 root/provision:
-	$(DOCKER_RUN) -e SKIP_MODULES="^(root-dns|iam|cloudtrail)$$" root -l -c "/scripts/provision.sh --import-env --disable-profile --apply-modules --export-accounts"
+	$(DOCKER_RUN) --name=root -e SKIP_MODULES="^(root-dns|cloudtrail)$$" root -l -c "/scripts/provision.sh --import-env --disable-profile --apply-modules --export-accounts"
 
 ## Finalize the configuration of the AWS "root" account (depends on root/init, root/provision, and children)
 root/finalize:
-	$(DOCKER_RUN) root -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
+	$(DOCKER_RUN) --name=root root -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
 
 ## Start a shell in the "root" container (depends on root/init)
 root/shell:
-	$(DOCKER_RUN) -v $(HOME):/localhost root -l
+	$(DOCKER_RUN) --name=root -v $(HOME):/localhost root -l
 
 ## Provision "root" account
 root: root/init root/provision

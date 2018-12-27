@@ -15,6 +15,6 @@ variable "strip" {
 }
 
 variable "depends_on" {
-  type   = "list"
+  type    = "list"
   default = []
 }

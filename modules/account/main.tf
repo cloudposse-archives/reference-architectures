@@ -3,14 +3,14 @@ data "null_data_source" "terraform_root_modules" {
 
   inputs = {
     module_name = "${basename(element(var.terraform_root_modules, count.index))}"
-    copy_from = "COPY --from=terraform-root-modules /${element(var.terraform_root_modules, count.index)}/ /conf/${basename(element(var.terraform_root_modules, count.index))}/"
+    copy_from   = "COPY --from=terraform-root-modules /${element(var.terraform_root_modules, count.index)}/ /conf/${basename(element(var.terraform_root_modules, count.index))}/"
   }
 }
 
 locals {
   domain_name = "${var.stage}.${var.domain}"
-  image_name = "${local.domain_name}"
-  repo_dir   = "${var.repos_dir}/${local.image_name}"
+  image_name  = "${local.domain_name}"
+  repo_dir    = "${var.repos_dir}/${local.image_name}"
 
   context = {
     aws_account_id               = "${var.aws_account_id}"

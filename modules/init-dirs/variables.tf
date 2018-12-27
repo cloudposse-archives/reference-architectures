@@ -6,6 +6,6 @@ variable "dirs" {
 }
 
 variable "depends_on" {
-  type   = "list"
+  type    = "list"
   default = []
 }

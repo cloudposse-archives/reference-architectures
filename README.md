@@ -83,6 +83,8 @@ The "root" account is the top-most AWS account from which all other AWS accounts
 
 __WARNING:__ Terraform cannot remove an AWS account from an organization. Terraform will not close the account. The member account must be prepared to be a standalone account beforehand. See the [AWS Organizations documentation](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html) for more information.
 
+__WARNING:__ Do not chain the `make` targets together (e.g. `make root children finalize` as it is not currently supported)
+
 This account is provisioned slightly different from the other subaccounts.
 
 Update the configuration for this account by editing the `configs/root.tfvar` file.
@@ -94,6 +96,7 @@ make root
 ```
 
 __NOTE:__ We need to know each account's `AWS_ACCOUNT_ID` for Step 2.
+__NOTE:__ Sometimes provisioning of the `account` module fails due to rate limiting by AWS on creating subaccounts. If this happens, just run `make root/provision` to retry. If that works, just continue on to step 2, once it completes.
 
 <details>
   <summary>Here's what that roughly looks like (but entirely automated). </summary>
@@ -102,7 +105,8 @@ __NOTE:__ We need to know each account's `AWS_ACCOUNT_ID` for Step 2.
 2. Render templates into the repo (including `Dockerfile`)
 3. Build a docker image
 4. Run the docker image and start provisioning resources including the Terraform state backend and child accounts
-5. Write a list of child account IDs so we can use them in the next phase
+5. Create the IAM groups to permit access to child accounts
+6. Write a list of child account IDs so we can use them in the next phase
 
 </details>
 
@@ -127,7 +131,7 @@ For each child account:
 1. Create a new account git repo
 2. Render the templates for a `child` account into the repo directory (include `Dockerfile`). Obtain the account ID from the previous phase.
 3. Build a docker image
-4. Run the docker image and start provisioning the child account's Terraform state bucket, DNS zone, cloudtrail logs,
+4. Run the docker image and start provisioning the child account's Terraform state bucket, DNS zone, cloudtrail logs, etc.
 
 </details>
 
@@ -144,9 +148,9 @@ make finalize
 <details>
 <summary>Here's what that roughly looks like (but entirely automated).</summary>
 
-1. Rerun the docker image from phase (1)
-2. Update DNS so that it delegates DNS zones to the child accounts
-3. Create the IAM groups to permit access to child accounts
+1. Re-use the docker image from phase (1) and phase (2)
+2. Update DNS so that root account delegates DNS zones to the child accounts
+3. Enable cloudtrail log forwarding to audit account
 
 </details>
 
