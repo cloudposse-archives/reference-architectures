@@ -36,7 +36,7 @@ accounts_enabled = [
   "testing",
   "data",
   "corp",
-  "audit",
+  "audit"
 ]
 
 # Administrator IAM usernames mapped to their keybase usernames for password encryption
