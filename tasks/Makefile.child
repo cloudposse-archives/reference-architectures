@@ -1,0 +1,64 @@
+ACCOUNTS_ENABLED ?= 
+
+-include artifacts/Makefile.env
+
+# Define a macro to call terraform with appropriate state folder
+terraform = TF_STATE_DIR=.terraform/$(1) terraform
+
+# Define a macro (`child`) for a child init & provisioner
+define child =
+
+## Validate the child configuration exists
+$(1)/validate:
+	@[ -f "$$(CONFIGS)/$(1).tfvars" ] || (echo "$$(CONFIGS)/$(1).tfvars does not exist"; exit 1)
+
+## Clean up terraform state and modules for $(1) account
+$(1)/clean:
+	rm -rf $(1).tfstate $(1).tfstate.backup accounts/$(1)
+
+## Initialize the "$(1)" AWS account
+$(1)/init: $(1)/validate $(1)/clean
+	$(call terraform,$(1)) init -from-module=modules/child accounts/$(1)
+	$(call terraform,$(1)) apply \
+	  -var-file=artifacts/aws.tfvars \
+	  -var-file=artifacts/accounts.tfvars \
+	  -var-file=$$(CONFIGS)/root.tfvars \
+	  -var-file=$$(CONFIGS)/$(1).tfvars \
+	  -state=$(1).tfstate \
+	  -auto-approve \
+	  accounts/$(1)
+
+## Start a shell in the "$(1)" container (depends on $(1)/init)
+$(1)/shell:
+	$$(DOCKER_RUN) --name=$(1) -v $(HOME):/localhost $(1) -l
+
+## Provision resources in the "child" account
+$(1)/provision:
+	$$(DOCKER_RUN) --name=$(1) -e SKIP_MODULES="^(cloudtrail)$$$$" $(1) -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
+
+## Finalize all account configuration
+$(1)/finalize:
+	$$(DOCKER_RUN) --name=$(1) $(1) -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
+
+## Initialize all the $(1) AWS subaccounts (depends on init/root)
+$(1): $(1)/init $(1)/provision
+	@exit 0
+
+endef
+
+ifneq ($(ACCOUNTS_ENABLED),)
+# Render the macro for each child account
+$(foreach account, $(ACCOUNTS_ENABLED), $(eval $(call child,$(account))))
+endif
+
+## Provision all child accounts
+children: children/validate $(ACCOUNTS_ENABLED)
+	@exit 0
+
+## Validate configurations exist for all child accounts
+children/validate: $(addsuffix /validate,$(ACCOUNTS_ENABLED))
+	@exit 0
+
+## Finalize provisioning of all child accounts
+children/finalize: $(addsuffix /finalize,$(ACCOUNTS_ENABLED))
+	@exit 0

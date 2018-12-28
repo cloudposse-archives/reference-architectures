@@ -1,0 +1,51 @@
+#
+# Dockerfile generated from https://github.com/cloudposse/reference-architectures
+#
+
+FROM ${terraform_root_modules_image} as terraform-root-modules
+
+FROM ${geodesic_base_image}
+
+ENV DOCKER_IMAGE="${docker_registry}/${image_name}"
+ENV DOCKER_TAG="${image_tag}"
+
+# General
+ENV NAMESPACE="${namespace}"
+ENV STAGE="${stage}"
+
+# Geodesic banner
+ENV BANNER="${image_name}"
+
+# Message of the Day
+ENV MOTD_URL="${motd_url}"
+
+# AWS Region
+ENV AWS_REGION="${aws_region}"
+ENV AWS_DEFAULT_REGION="$${AWS_REGION}"
+ENV AWS_ACCOUNT_ID="${aws_account_id}"
+ENV AWS_ROOT_ACCOUNT_ID="${aws_root_account_id}"
+
+# Terraform state bucket and DynamoDB table for state locking
+ENV TF_BUCKET_REGION="$${AWS_REGION}"
+ENV TF_BUCKET="$${NAMESPACE}-$${STAGE}-terraform-state"
+ENV TF_DYNAMODB_TABLE="$${NAMESPACE}-$${STAGE}-terraform-state-lock"
+
+# Default AWS Profile name
+ENV AWS_DEFAULT_PROFILE="$${NAMESPACE}-$${STAGE}-admin"
+
+# chamber KMS config
+ENV CHAMBER_KMS_KEY_ALIAS="alias/$${NAMESPACE}-$${STAGE}-chamber"
+
+# Copy root modules
+${terraform_root_modules}
+
+# Place configuration in 'conf/' directory
+COPY conf/ /conf/
+
+# Install configuration dependencies
+RUN make -C /conf install
+
+# Filesystem entry for tfstate
+RUN s3 fstab '$${TF_BUCKET}' '/' '/secrets/tf'
+
+WORKDIR /conf/

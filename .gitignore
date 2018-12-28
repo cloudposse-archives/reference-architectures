@@ -1,0 +1,10 @@
+.envrc
+.build-harness
+build-harness
+repos/
+accounts/
+.terraform
+*.tfstate
+*.tfstate.backup
+.idea
+*.iml
