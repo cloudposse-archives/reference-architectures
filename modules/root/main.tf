@@ -11,6 +11,24 @@ locals {
   vars = "${merge(var.vars, local.context)}"
 }
 
+
+locals {
+  all_accounts = "${concat(list("root"), var.accounts_enabled)}"
+}
+
+data "null_data_source" "networks" {
+  count = "${length(local.all_accounts)}"
+
+  inputs = {
+    cidr = "${cidrsubnet(var.org_network_cidr, 8, count.index)}"
+  }
+}
+
+locals {
+  networks = "${zipmap(local.all_accounts, data.null_data_source.networks.*.outputs.cidr)}"
+}
+
+
 module "account" {
   source = "../../modules/account/"
 
@@ -37,6 +55,8 @@ module "account" {
   geodesic_base_image          = "${var.geodesic_base_image}"
   terraform_root_modules_image = "${var.terraform_root_modules_image}"
   terraform_root_modules       = "${var.terraform_root_modules}"
+  org_network_cidr             = "${var.org_network_cidr}"
+  account_network_cidr         = "${length(var.account_network_cidr) > 0 ? var.account_network_cidr : local.networks[var.stage]}"
 }
 
 module "add_users" {
@@ -46,8 +66,27 @@ module "add_users" {
   output_dir    = "${module.account.repo_dir}/conf/users"
 }
 
-# Write an env file that we can use from other Makefiles
-resource "local_file" "makefile_env" {
-  content  = "ACCOUNTS_ENABLED = ${join(" ", var.accounts_enabled)}\n"
-  filename = "${var.artifacts_dir}/Makefile.env"
+locals {
+  makefile_env = {
+    ACCOUNTS_ENABLED = "${join(" ", var.accounts_enabled)}"
+  }
 }
+
+# Write an env file that we can use from other Makefiles
+module "export_makefile_env" {
+  source      = "../../modules/export-env"
+  env         = "${local.makefile_env}"
+  output_file = "${var.artifacts_dir}/Makefile.env"
+  format      = "%s = %s"
+  type        = "raw"
+}
+
+
+# Write an tfvar file for this stage that we can use from terraform modules
+#module "export_tfvars" {
+#  source      = "../../modules/export-env"
+#  env         = "${local.networks}"
+#  output_file = "${var.artifacts_dir}/networks.tfvars"
+#  template    = "networks = {\n%s\n}\n"
+#  format      = "  %s = %s"
+#}

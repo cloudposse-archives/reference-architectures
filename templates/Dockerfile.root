@@ -25,6 +25,10 @@ ENV AWS_DEFAULT_REGION="$${AWS_REGION}"
 ENV AWS_ACCOUNT_ID="${aws_account_id}"
 ENV AWS_ROOT_ACCOUNT_ID="${aws_root_account_id}"
 
+# Network CIDR Ranges
+ENV ORG_NETWORK_CIDR="${org_network_cidr}"
+ENV ACCOUNT_NETWORK_CIDR="${account_network_cidr}"
+
 # Terraform state bucket and DynamoDB table for state locking
 ENV TF_BUCKET_REGION="$${AWS_REGION}"
 ENV TF_BUCKET="$${NAMESPACE}-$${STAGE}-terraform-state"

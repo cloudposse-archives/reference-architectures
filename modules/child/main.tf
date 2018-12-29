@@ -20,4 +20,6 @@ module "account" {
   geodesic_base_image          = "${var.geodesic_base_image}"
   terraform_root_modules_image = "${var.terraform_root_modules_image}"
   terraform_root_modules       = "${var.terraform_root_modules}"
+  org_network_cidr             = "${var.org_network_cidr}"
+  account_network_cidr         = "${length(var.account_network_cidr) > 0 ? var.account_network_cidr : var.networks[var.stage]}"
 }

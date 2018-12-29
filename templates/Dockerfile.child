@@ -24,6 +24,10 @@ ENV AWS_REGION="${aws_region}"
 ENV AWS_ACCOUNT_ID="${aws_account_id}"
 ENV AWS_ROOT_ACCOUNT_ID="${aws_root_account_id}"
 
+# Network CIDR Ranges
+ENV ORG_NETWORK_CIDR="${org_network_cidr}"
+ENV ACCOUNT_NETWORK_CIDR="${account_network_cidr}"
+
 # chamber KMS config
 ENV CHAMBER_KMS_KEY_ALIAS="alias/$${NAMESPACE}-$${STAGE}-chamber"
 

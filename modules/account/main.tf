@@ -27,15 +27,36 @@ locals {
     geodesic_base_image          = "${var.geodesic_base_image}"
     terraform_root_modules_image = "${var.terraform_root_modules_image}"
     terraform_root_modules       = "${join("\n", data.null_data_source.terraform_root_modules.*.outputs.copy_from)}"
+    org_network_cidr             = "${var.org_network_cidr}"
+    account_network_cidr         = "${var.account_network_cidr}"
   }
 
   vars = "${merge(var.vars, local.context)}"
+
+  env = {
+    TERRAFORM_ROOT_MODULES = "${join(" ", data.null_data_source.terraform_root_modules.*.outputs.module_name)}"
+  }
+
+  tfvars = {
+    org_network_cidr = "${var.org_network_cidr}"
+    account_network_cidr = "${var.account_network_cidr}"
+  }
 }
 
 # Write an env file for this stage that we can use from shell scripts
-resource "local_file" "artifacts" {
-  content  = "export TERRAFORM_ROOT_MODULES=\"${join(" ", data.null_data_source.terraform_root_modules.*.outputs.module_name)}\"\n"
-  filename = "${var.artifacts_dir}/${var.stage}.env"
+module "export_env" {
+  source      = "../../modules/export-env"
+  env         = "${local.env}"
+  output_file = "${var.artifacts_dir}/${var.stage}.env"
+  format      = "export %s=%s"
+}
+
+# Write an tfvar file for this stage that we can use from terraform modules
+module "export_tfvars" {
+  source      = "../../modules/export-env"
+  env         = "${local.tfvars}"
+  output_file = "${var.artifacts_dir}/${var.stage}.tfvars"
+  format      = "%s = %s"
 }
 
 module "init_dirs" {
