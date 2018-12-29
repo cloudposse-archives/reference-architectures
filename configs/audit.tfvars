@@ -4,6 +4,7 @@ stage = "audit"
 
 # List of templates to install
 templates = [
+  "README.md",
   "Dockerfile.child", 
   ".gitignore", 
   ".dockerignore", 
