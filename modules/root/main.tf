@@ -81,12 +81,11 @@ module "export_makefile_env" {
   type        = "raw"
 }
 
-
 # Write an tfvar file for this stage that we can use from terraform modules
-#module "export_tfvars" {
-#  source      = "../../modules/export-env"
-#  env         = "${local.networks}"
-#  output_file = "${var.artifacts_dir}/networks.tfvars"
-#  template    = "networks = {\n%s\n}\n"
-#  format      = "  %s = %s"
-#}
+module "export_tfvars" {
+  source      = "../../modules/export-env"
+  env         = "${local.networks}"
+  output_file = "${var.artifacts_dir}/networks.tfvars"
+  template    = "networks = {\n%s\n}\n"
+  format      = "  %s = %s"
+}

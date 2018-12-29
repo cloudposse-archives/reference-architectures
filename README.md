@@ -120,7 +120,7 @@ make root
 
 Subaccounts are created by the root account, but are ultimately provisioned using the subaccount containers.
 
-Update the configuration for all the child accounts by editing the `configs/root.tfvar` file.
+Update the configuration for all the child accounts by editing the `configs/$stage.tfvar` file (replace `$stage` with the name of the account).
 
 To get started, run:
 

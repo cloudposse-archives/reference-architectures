@@ -36,11 +36,6 @@ locals {
   env = {
     TERRAFORM_ROOT_MODULES = "${join(" ", data.null_data_source.terraform_root_modules.*.outputs.module_name)}"
   }
-
-  tfvars = {
-    org_network_cidr = "${var.org_network_cidr}"
-    account_network_cidr = "${var.account_network_cidr}"
-  }
 }
 
 # Write an env file for this stage that we can use from shell scripts
@@ -49,14 +44,6 @@ module "export_env" {
   env         = "${local.env}"
   output_file = "${var.artifacts_dir}/${var.stage}.env"
   format      = "export %s=%s"
-}
-
-# Write an tfvar file for this stage that we can use from terraform modules
-module "export_tfvars" {
-  source      = "../../modules/export-env"
-  env         = "${local.tfvars}"
-  output_file = "${var.artifacts_dir}/${var.stage}.tfvars"
-  format      = "%s = %s"
 }
 
 module "init_dirs" {
