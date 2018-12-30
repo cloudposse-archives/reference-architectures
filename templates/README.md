@@ -88,7 +88,7 @@ Most configuration settings are defined as environment variables. These can be s
 - [Docker](https://docs.docker.com/install/) is required to build & run all containers
 - Standard development tools (e.g. `xcode-select --install` on OSX): `git`, `make`
 
-**NOTE:**: It should work out-of-the-box with Mac OSX, Linux, and Windows 10 (using WSL).
+**NOTE:** It should work out-of-the-box with Mac OSX, Linux, and Windows 10 (using WSL).
 
 ## Quick Start
 
