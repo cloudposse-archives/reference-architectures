@@ -1,4 +1,4 @@
-# ${image_name}
+# \${image_name}
 
 This repository provides all the tooling to manage the `${stage}` account infrastructure on AWS. It distributes a single docker container which bundles the entire tool-chain and infrastructure as code necessary to administer the account.
 
@@ -32,7 +32,6 @@ Here is the list of some of the tools we use to provision `${image_name}` infras
 - [helm](https://helm.sh/)
 - [helmfile](https://github.com/roboll/helmfile)
 
-
 ## Layout
 
 This repo is organized in the following way.
@@ -60,26 +59,27 @@ Most configuration settings are defined as environment variables. These can be s
 <details>
 <summary>List of Environment Variables</summary>
 
+| Environment Variable  | Description of the setting                                                    |
+| --------------------- | ----------------------------------------------------------------------------- |
+| DOCKER_IMAGE          | _This_ docker image name (and repository). This is for the bootstrap script.  |
+| DOCKER_TAG            | The default image tag to use by the bootstrap script.                         |
+| NAMESPACE             | Resource namespace used as a prefix for all AWS resources.                    |
+| STAGE                 | Operating stage of this account (e.g. prod, corp, audit, root).               |
+| BANNER                | Banner text to display when launching an interactive shell.                   |
+| MOTD_URL              | URL to a "Message of the Day" to display when launching an interactive shell. |
+| AWS_REGION            | Current operating region for this account.                                    |
+| AWS_DEFAULT_REGION    | Default operating region for thid account.                                    |
+| AWS_ACCOUNT_ID        | AWS Account ID (used by `aws-config-setup`).                                  |
+| AWS_ROOT_ACCOUNT_ID   | AWS "Root" (parent) Account ID (used by `aws-config-setup`).                  |
+| ORG_NETWORK_CIDR      | Organizations Network CIDR .                                                  |
+| ACCOUNT_NETWORK_CIDR  | _This_ account's network CIDR.                                                |
+| TF_BUCKET             | Terraform state bucket.                                                       |
+| TF_BUCKET_REGION      | Region where the Terraform state bucket was created.                          |
+| TF_DYNAMODB_TABLE     | DynamoDB table that will be used by Terraform for state locking.              |
+| AWS_DEFAULT_PROFILE   | AWS Profile that will be used by `aws-vault` to assume roles.                 |
+| CHAMBER_KMS_KEY_ALIAS | Default KMS key that will be used to encrypt secrets for chamber.             |
 
-| Environment Variable   | Description of the setting                                                   |
-| ---------------------- | ---------------------------------------------------------------------------- |
-| DOCKER_IMAGE           | _This_ docker image name. This is for the bootstrap script.                  |
-| DOCKER_TAG             | The default image tag to use by the bootstrap script.                        |
-| NAMESPACE              | Resource namespace used as a prefix for all AWS resources                    |
-| STAGE                  | Operating stage of this account (e.g. prod, corp, audit, root)               |
-| BANNER                 | Banner text to display when launching an interactive shell                   |
-| ENV MOTD_URL           | URL to a "Message of the Day" to display when launching an interactive shell |
-| ENV AWS_REGION         | Current operating region for this account                                    |
-| ENV AWS_DEFAULT_REGION | Default operating region for thid account                                    |
-| ENV AWS_ACCOUNT_ID     | AWS Account ID (used by `aws-config-setup`)                                  |
-| AWS_ROOT_ACCOUNT_ID    | AWS "Root" (parent) Account ID (used by `aws-config-setup`)                  |
-| TF_BUCKET_REGION       | Terraform state bucket                                                       |
-| TF_BUCKET              | Region where the Terraform state bucket was created                          |
-| TF_DYNAMODB_TABLE      | DynamoDB table that will be used by Terraform for state locking              |
-| AWS_DEFAULT_PROFILE    | AWS Profile that will be used by `aws-vault` to assume roles                 |
-| CHAMBER_KMS_KEY_ALIAS  | Default KMS key that will be used to encrypt secrets for chamber             |
-
-__NOTE:__ You can use [`tfenv`](https://github.com/cloudposse/tfenv) to easily pass environment variables to terraform.
+**NOTE:** You can use [`tfenv`](https://github.com/cloudposse/tfenv) to easily pass environment variables to terraform.
 
 </details>
 
@@ -88,7 +88,7 @@ __NOTE:__ You can use [`tfenv`](https://github.com/cloudposse/tfenv) to easily p
 - [Docker](https://docs.docker.com/install/) is required to build & run all containers
 - Standard development tools (e.g. `xcode-select --install` on OSX): `git`, `make`
 
-__NOTE:__: It should work out-of-the-box with Mac OSX, Linux, and Windows 10 (using WSL). 
+**NOTE:**: It should work out-of-the-box with Mac OSX, Linux, and Windows 10 (using WSL).
 
 ## Quick Start
 
@@ -99,7 +99,7 @@ Here's how to get started with this repository.
 
 ### Initialize the Project
 
-First, let's initialize the build-harness. You only need to do this once per checkout.
+First, let's initialize the build-harness. You only need to do this once per `git clone` of this repository.
 
 ```bash
 # Initialize the project's build-harness
@@ -149,7 +149,7 @@ aws-config-setup
 
 _([inside the shell](#run-the-shell))_
 
-Run this command anytime you start a new shell and need to operate on AWS,
+Run this command anytime you start a new shell and need to operate on AWS:
 
 ```bash
 assume-role
