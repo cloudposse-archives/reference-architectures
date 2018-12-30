@@ -110,7 +110,7 @@ make init
 
 Build the docker image we'll use for local development, to provision infrastructure or to administer AWS.
 
-```
+```bash
 make docker/build
 ```
 
