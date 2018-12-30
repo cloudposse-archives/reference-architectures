@@ -37,7 +37,7 @@ variable "strip" {
 }
 
 variable "networks" {
-  type = "map"
+  type    = "map"
   default = {}
 }
 

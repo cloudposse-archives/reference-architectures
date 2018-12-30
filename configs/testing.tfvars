@@ -5,7 +5,12 @@ stage = "testing"
 # List of templates to install
 templates = [
   "README.md",
-  "Dockerfile.child", 
+  "Dockerfile.child",
+  ".github/CODEOWNERS",
+  ".github/ISSUE_TEMPLATE/feature-request.md",
+  ".github/ISSUE_TEMPLATE/bug.md",
+  ".github/PULL_REQUEST.md",
+  ".editorconfig", 
   ".gitignore", 
   ".dockerignore", 
   "Makefile", 

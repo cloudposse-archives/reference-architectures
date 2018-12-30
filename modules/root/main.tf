@@ -11,7 +11,6 @@ locals {
   vars = "${merge(var.vars, local.context)}"
 }
 
-
 locals {
   all_accounts = "${concat(list("root"), var.accounts_enabled)}"
 }
@@ -27,7 +26,6 @@ data "null_data_source" "networks" {
 locals {
   networks = "${zipmap(local.all_accounts, data.null_data_source.networks.*.outputs.cidr)}"
 }
-
 
 module "account" {
   source = "../../modules/account/"
