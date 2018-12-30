@@ -14,6 +14,7 @@ docker_registry = "cloudposse"
 
 # The templates to use for this account
 templates = [
+  "README.md",
   "Dockerfile.root",
   ".gitignore",
   ".dockerignore",
