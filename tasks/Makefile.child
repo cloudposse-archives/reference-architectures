@@ -22,6 +22,7 @@ $(1)/init: $(1)/validate $(1)/clean
 	$(call terraform,$(1)) apply \
 	  -var-file=artifacts/aws.tfvars \
 	  -var-file=artifacts/accounts.tfvars \
+	  -var-file=artifacts/networks.tfvars \
 	  -var-file=$$(CONFIGS)/root.tfvars \
 	  -var-file=$$(CONFIGS)/$(1).tfvars \
 	  -state=$(1).tfstate \

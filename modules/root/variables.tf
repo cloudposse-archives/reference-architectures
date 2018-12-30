@@ -45,6 +45,12 @@ variable "strip" {
   default = "/\\.(root)$/"
 }
 
+variable "org_network_cidr" {}
+
+variable "account_network_cidr" {
+  default = ""
+}
+
 variable "artifacts_dir" {}
 
 variable "repos_dir" {}
