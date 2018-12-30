@@ -68,7 +68,7 @@ Most configuration settings are defined as environment variables. These can be s
 | BANNER                | Banner text to display when launching an interactive shell.                   |
 | MOTD_URL              | URL to a "Message of the Day" to display when launching an interactive shell. |
 | AWS_REGION            | Current operating region for this account.                                    |
-| AWS_DEFAULT_REGION    | Default operating region for thid account.                                    |
+| AWS_DEFAULT_REGION    | Default operating region for this account.                                    |
 | AWS_ACCOUNT_ID        | AWS Account ID (used by `aws-config-setup`).                                  |
 | AWS_ROOT_ACCOUNT_ID   | AWS "Root" (parent) Account ID (used by `aws-config-setup`).                  |
 | ORG_NETWORK_CIDR      | Organizations Network CIDR .                                                  |
@@ -99,7 +99,7 @@ Here's how to get started with this repository.
 
 ### Initialize the Project
 
-First, let's initialize the build-harness. You only need to do this once per `git clone` of this repository.
+First, let's initialize the [`build-harness`](https://github.com/cloudposse/build-harness). You only need to do this once per `git clone` of this repository.
 
 ```bash
 # Initialize the project's build-harness
