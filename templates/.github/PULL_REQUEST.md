@@ -1,5 +1,5 @@
 ## what
-* Describe high-level what changed as a result of these commits (e.g. in plan-english, what do these changes mean.)
+* Describe high-level what changed as a result of these commits (i.e. in plain-english, what do these changes mean?)
 * Use bullet points to be concise and to the point.
 
 ## why
