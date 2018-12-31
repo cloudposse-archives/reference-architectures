@@ -42,7 +42,7 @@ accounts_enabled = [
   "testing",
   "data",
   "corp",
-  "audit"
+  "audit",
 ]
 
 # Administrator IAM usernames mapped to their keybase usernames for password encryption
@@ -68,7 +68,7 @@ terraform_root_modules = [
   "aws/root-iam",
   "aws/iam",
   "aws/users",
-  "aws/cloudtrail"
+  "aws/cloudtrail",
 ]
 
 # Message of the Day

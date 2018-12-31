@@ -10,9 +10,10 @@ Get up and running quickly with one of our reference architectures using our ful
   - [Table of Contents](#table-of-contents)
   - [Known Limitations](#known-limitations)
   - [High Level Overview](#high-level-overview)
-  - [Architecture](#architecture)
+    - [Architecture](#architecture)
     - [Assumptions](#assumptions)
     - [Checklist](#checklist)
+  - [Get Started](#get-started)
     - [1. Provision Root Account](#1-provision-root-account)
     - [2. Provision Subaccounts](#2-provision-subaccounts)
     - [3. Delegate DNS](#3-delegate-dns)
@@ -39,7 +40,7 @@ When you're done, in the `repos/` directory you'll have one Git repo for each AW
 
 See the [Next Steps](#next-steps) section for where to go after this process completes.
 
-## Architecture
+### Architecture
 
 Our "reference architecture" is an opinionated approach to architecting accounts for AWS.
 
@@ -82,6 +83,8 @@ Before we get started, make sure you have the following
 - [ ] Export your AWS "root" account credentials as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` (this is _temporary_ for bootstrapping).
 - [ ] An available domain we can use for DNS-base service discovery (E.g. `ourcompany.co`). This domain must not be in use elsewhere as the root account will need to be the authoritative name server (`SOA`).
 - [ ] Ensure that any users who will be added during this bootstrap process have setup their [keybase](http://keybase.io) profile. You'll need this if setting them up in the `users` section of the [`config/root.tfvars`](https://github.com/cloudposse/reference-architectures/blob/master/configs/root.tfvars). For example you should be able to [verify their public key](https://keybase.io/osterman/key.asc) on `keybase.io` by running `curl https://keybase.io/$username/key.asc`.
+
+## Get Started
 
 ### 1. Provision Root Account
 

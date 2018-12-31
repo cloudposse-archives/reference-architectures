@@ -32,6 +32,8 @@ Here is the list of some of the tools we use to provision `${image_name}` infras
 - [helm](https://helm.sh/)
 - [helmfile](https://github.com/roboll/helmfile)
 
+**NOTE:** Additional documentation can be found in the [`docs/`](docs/) directory.
+
 ## Layout
 
 This repo is organized in the following way.
@@ -47,6 +49,7 @@ ${image_name}/
 │   └── module3/                   # Another terraform "root" module
 │       ├── file1.tf               # Overlay additional files
 │       └── file2.tf               #
+├── docs/                          # Additional documentation
 ├── Dockerfile                     # Dockerfile that describes how to build this image
 ├── Makefile                       # Makefile that uses the `build-harness` to facilitate building the image
 └── rootfs/                        # "Root" (`/`) filesystem which is overlayed inside of the docker image
@@ -57,7 +60,7 @@ ${image_name}/
 Most configuration settings are defined as environment variables. These can be set using the `ENV` declaration in the [`Dockerfile`](Dockerfile). These have been set to _sane defaults_ and shouldn't need to be touched. All these settings are required.
 
 <details>
-<summary>List of Environment Variables</summary>
+<summary>List of Supported Environment Variables</summary>
 
 | Environment Variable  | Description of the setting                                                    |
 | --------------------- | ----------------------------------------------------------------------------- |
