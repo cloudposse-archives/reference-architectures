@@ -1,8 +1,9 @@
 locals {
   context = {
     # Used by `accounts`
-    accounts_enabled = "${jsonencode(var.accounts_enabled)}"
-    account_email    = "${var.account_email}"
+    accounts_enabled      = "${jsonencode(var.accounts_enabled)}"
+    account_email         = "${var.account_email}"
+    account_email_address = "${format(var.account_email, var.stage)}"
 
     # Used by `root-dns`
     root_domain_name = "${var.stage}.${var.domain}"

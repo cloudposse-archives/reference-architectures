@@ -1,4 +1,4 @@
-# \${image_name}
+# ${image_name}
 
 This repository provides all the tooling to manage the `${stage}` account infrastructure on AWS. It distributes a single docker container which bundles the entire tool-chain and infrastructure as code necessary to administer the account.
 
