@@ -84,15 +84,13 @@ Run Terraform to provision the `kops` backend (S3 bucket, DNS zone, and SSH keyp
 make -C /conf/kops init apply
 ```
 
-From the Terraform outputs, copy the `zone_name` and `bucket_name` into the ENV vars `KOPS_CLUSTER_NAME` and `KOPS_STATE_STORE` in the [`Dockerfile`](Dockerfile).
-
-The `Dockerfile` `kops` config should look like this:
+The `.envrc` for the `kops` config should look like this:
 
 ```docker
 # kops config
 ENV KOPS_CLUSTER_NAME="${aws_region}.${image_name}"
-ENV KOPS_DNS_ZONE=${KOPS_CLUSTER_NAME}
-ENV KOPS_STATE_STORE="s3://${namepsace}-${stage}-kops-state"
+ENV KOPS_DNS_ZONE=$${KOPS_CLUSTER_NAME}
+ENV KOPS_STATE_STORE="s3://${namespace}-${stage}-kops-state"
 ENV KOPS_STATE_STORE_REGION="${aws_region}"
 ENV KOPS_AVAILABILITY_ZONES="${aws_region}a,${aws_region}d,${aws_region}c"
 ENV KOPS_BASTION_PUBLIC_NAME="bastion"
@@ -137,7 +135,7 @@ kops create -f manifest.yaml
 Run the following command to add the SSH public key to the cluster:
 
 ```bash
-kops create secret sshpublickey admin -i /secrets/tf/ssh/${namepsace}-${stage}-kops-${aws_region}.pub --name $KOPS_CLUSTER_NAME
+kops create secret sshpublickey admin -i /secrets/tf/ssh/${namespace}-${stage}-kops-${aws_region}.pub --name $KOPS_CLUSTER_NAME
 ```
 
 Run the following command to provision the AWS resources for the cluster:
@@ -172,7 +170,7 @@ kops validate cluster
 Below is an example of what it should _roughly_ look like (IPs and Availability Zones may differ).
 
 ```
-✓   (${namepsace}-${stage}-admin) kops ⨠  kops validate cluster
+✓   (${namespace}-${stage}-admin) kops ⨠  kops validate cluster
 Validating cluster ${aws_region}.${image_name}
 
 INSTANCE GROUPS
@@ -208,7 +206,7 @@ kubectl get nodes
 Below is an example of what it should _roughly_ look like (IPs and Availability Zones may differ).
 
 ```
-✓   (${namepsace}-${stage}-admin) kops ⨠  kubectl get nodes
+✓   (${namespace}-${stage}-admin) kops ⨠  kubectl get nodes
 NAME                                                STATUS   ROLES    AGE   VERSION
 ip-172-20-108-58.${aws_region}.compute.internal    Ready    node     15m   v1.10.8
 ip-172-20-125-166.${aws_region}.compute.internal   Ready    master   17m   v1.10.8
@@ -231,7 +229,7 @@ kubectl get pods --all-namespaces
 Below is an example of what it should _roughly_ look like (IPs and Availability Zones may differ).
 
 ```
-✓   (${namepsace}-${stage}-admin) backing-services ⨠  kubectl get pods --all-namespaces
+✓   (${namespace}-${stage}-admin) backing-services ⨠  kubectl get pods --all-namespaces
 NAMESPACE     NAME                                                                        READY   STATUS    RESTARTS   AGE
 kube-system   calico-kube-controllers-69c6bdf999-7sfdg                                    1/1     Running   0          1h
 kube-system   calico-node-4qlj2                                                           2/2     Running   0          1h
@@ -301,8 +299,8 @@ chamber write kops <key2> <value2>
 Populate `chamber` secrets for `backing-services` project (make sure to change the values to reflect your environment; add new secrets as needed)
 
 ```bash
-chamber write backing-services TF_VAR_POSTGRES_DB_NAME ${namepsace}_${stage}
-chamber write backing-services TF_VAR_POSTGRES_ADMIN_NAME ${namepsace}_admin
+chamber write backing-services TF_VAR_POSTGRES_DB_NAME ${namespace}_${stage}
+chamber write backing-services TF_VAR_POSTGRES_ADMIN_NAME ${namespace}_admin
 chamber write backing-services TF_VAR_POSTGRES_ADMIN_PASSWORD XXXXXXXXXXXX
 ```
 
@@ -372,11 +370,11 @@ Releasing state lock. This may take a few moments...
 
 Outputs:
 
-kops_external_dns_policy_arn = arn:aws:iam::xxxxxxxx:policy/${namepsace}-${stage}-external-dns
-kops_external_dns_policy_id = arn:aws:iam::xxxxxxxx:policy/${namepsace}-${stage}-external-dns
-kops_external_dns_policy_name = ${namepsace}-${stage}-external-dns
-kops_external_dns_role_arn = arn:aws:iam::xxxxxxxx:role/${namepsace}-${stage}-external-dns
-kops_external_dns_role_name = ${namepsace}-${stage}-external-dns
+kops_external_dns_policy_arn = arn:aws:iam::xxxxxxxx:policy/${namespace}-${stage}-external-dns
+kops_external_dns_policy_id = arn:aws:iam::xxxxxxxx:policy/${namespace}-${stage}-external-dns
+kops_external_dns_policy_name = ${namespace}-${stage}-external-dns
+kops_external_dns_role_arn = arn:aws:iam::xxxxxxxx:role/${namespace}-${stage}-external-dns
+kops_external_dns_role_name = ${namespace}-${stage}-external-dns
 kops_external_dns_role_unique_id = XXXXXXXXXXXXXXXX
 ```
 
@@ -388,8 +386,8 @@ kops_external_dns_role_unique_id = XXXXXXXXXXXXXXXX
 **NOTE:** Make sure you have populated the `chamber` secrets for `backing-services` (see Populate `chamber` secrets above) :
 
 ```bash
-chamber write backing-services TF_VAR_POSTGRES_DB_NAME ${namepsace}_${stage}
-chamber write backing-services TF_VAR_POSTGRES_ADMIN_NAME ${namepsace}_admin
+chamber write backing-services TF_VAR_POSTGRES_DB_NAME ${namespace}_${stage}
+chamber write backing-services TF_VAR_POSTGRES_ADMIN_NAME ${namespace}_admin
 chamber write backing-services TF_VAR_POSTGRES_ADMIN_PASSWORD XXXXXXXXXXXXXXXX
 ```
 
@@ -406,16 +404,16 @@ You should see the following output:
 <details><summary>Show Output</summary>
 
 ```
-aurora_postgres_cluster_name = ${namepsace}-${stage}-postgres
-aurora_postgres_database_name = ${namepsace}_${stage}
+aurora_postgres_cluster_name = ${namespace}-${stage}-postgres
+aurora_postgres_database_name = ${namespace}_${stage}
 aurora_postgres_master_hostname = master.postgres.${image_name}
-aurora_postgres_master_username = ${namepsace}_admin
+aurora_postgres_master_username = ${namespace}_admin
 aurora_postgres_replicas_hostname = replicas.postgres.${image_name}
-elasticsearch_domain_arn = arn:aws:es:${aws_region}:091456519406:domain/${namepsace}-${stage}-elasticsearch
-elasticsearch_domain_endpoint = vpc-${namepsace}-${stage}-elasticsearch-35lgg7m52qybtqf3cftblowblm.${aws_region}.es.amazonaws.com
+elasticsearch_domain_arn = arn:aws:es:${aws_region}:091456519406:domain/${namespace}-${stage}-elasticsearch
+elasticsearch_domain_endpoint = vpc-${namespace}-${stage}-elasticsearch-35lgg7m52qybtqf3cftblowblm.${aws_region}.es.amazonaws.com
 elasticsearch_domain_hostname = elasticsearch.${image_name}
-elasticsearch_domain_id = 091456519406/${namepsace}-${stage}-elasticsearch
-elasticsearch_kibana_endpoint = vpc-${namepsace}-${stage}-elasticsearch-35lgg7m52qybtqf3cftblowblm.${aws_region}.es.amazonaws.com/_plugin/kibana/
+elasticsearch_domain_id = 091456519406/${namespace}-${stage}-elasticsearch
+elasticsearch_kibana_endpoint = vpc-${namespace}-${stage}-elasticsearch-35lgg7m52qybtqf3cftblowblm.${aws_region}.es.amazonaws.com/_plugin/kibana/
 elasticsearch_kibana_hostname = kibana-elasticsearch.${image_name}
 elasticsearch_security_group_id = sg-0cc1155c8bd45a6c2
 ```
@@ -435,7 +433,7 @@ Run `helm init` to initialize `helm` and `tiller`:
 <details><summary>Show Output</summary>
 
 ```
-✓   (${namepsace}-${stage}-admin) ⨠  helm init
+✓   (${namespace}-${stage}-admin) ⨠  helm init
 $HELM_HOME has been configured at /var/lib/helm.
 
 Tiller (the Helm server-side component) has been installed into your Kubernetes Cluster.
@@ -459,7 +457,7 @@ chamber exec kops -- helmfile --selector namespace=kube-system,chart=heapster sy
 <details><summary>Show Output</summary>
 
 ```
-✓   (${namepsace}-${stage}-admin) ⨠  chamber exec kops -- helmfile --selector namespace=kube-system,chart=heapster sync
+✓   (${namespace}-${stage}-admin) ⨠  chamber exec kops -- helmfile --selector namespace=kube-system,chart=heapster sync
 Adding repo stable https://kubernetes-charts.storage.googleapis.com
 "stable" has been added to your repositories
 
@@ -519,7 +517,7 @@ chamber exec kops -- helmfile --selector namespace=kube-system,chart=kiam sync
 ```bash
 chamber write kops EXTERNAL_DNS_TXT_OWNER_ID ${aws_region}.${image_name}
 chamber write kops EXTERNAL_DNS_TXT_PREFIX 27ba410b-1809-491b-bc06-8f2b7f703209-
-chamber write kops EXTERNAL_DNS_IAM_ROLE ${namepsace}-${stage}-external-dns
+chamber write kops EXTERNAL_DNS_IAM_ROLE ${namespace}-${stage}-external-dns
 chamber exec kops -- helmfile --selector namespace=kube-system,chart=external-dns sync
 ```
 
@@ -564,7 +562,7 @@ chamber exec kops -- helmfile --selector namespace=kube-system,chart=nginx-ingre
 ### Deploy fluentd-elasticsearch-logs
 
 ```bash
-chamber write kops ELASTICSEARCH_HOST vpc-${namepsace}-${stage}-elasticsearch-45lgg4m52qybkqz3cftbxowbxm.${aws_region}.es.amazonaws.com
+chamber write kops ELASTICSEARCH_HOST vpc-${namespace}-${stage}-elasticsearch-45lgg4m52qybkqz3cftbxowbxm.${aws_region}.es.amazonaws.com
 chamber write kops ELASTICSEARCH_PORT 443
 chamber write kops ELASTICSEARCH_SCHEME "https"
 chamber exec kops -- helmfile --selector namespace=kube-system,name=fluentd-elasticsearch-logs sync
@@ -589,7 +587,7 @@ chamber write kops PORTAL_OAUTH2_PROXY_GITHUB_TEAM li
 chamber write kops PORTAL_OAUTH2_PROXY_CLIENT_ID xxxxxxxxxxxxxxxxxx
 chamber write kops PORTAL_OAUTH2_PROXY_CLIENT_SECRET xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 chamber write kops PORTAL_OAUTH2_PROXY_REDIRECT_URL https://portal.${aws_region}.${image_name}/oauth2/callback
-chamber write kops PORTAL_BACKEND_KIBANA_EXTERNAL_NAME vpc-${namepsace}-${stage}-elasticsearch-35lgg7m52qybtqf3cftblowblm.${aws_region}.es.amazonaws.com
+chamber write kops PORTAL_BACKEND_KIBANA_EXTERNAL_NAME vpc-${namespace}-${stage}-elasticsearch-35lgg7m52qybtqf3cftblowblm.${aws_region}.es.amazonaws.com
 chamber write kops PORTAL_BACKEND_KIBANA_ENABLED true
 chamber exec kops -- helmfile --selector namespace=monitoring,chart=portal sync
 ```
@@ -607,7 +605,7 @@ helm list -a
 Below is an example of what it should _roughly_ look like (IPs and Availability Zones may differ).
 
 ```
-✓   (${namepsace}-${stage}-admin) ⨠  helm list -a
+✓   (${namespace}-${stage}-admin) ⨠  helm list -a
 NAME                      	REVISION	UPDATED                 	STATUS  	CHART                      	APP VERSION	NAMESPACE
 dns                       	1       	Fri Nov 30 19:15:23 2018	DEPLOYED	external-dns-0.5.4         	0.4.8      	kube-system
 fluentd-elasticsearch-logs	1       	Mon Dec  3 19:37:57 2018	DEPLOYED	fluentd-kubernetes-0.3.0   	0.12       	kube-system
@@ -638,7 +636,7 @@ kubectl get pods --all-namespaces
 Below is an example of what it should _roughly_ look like (IPs and Availability Zones may differ).
 
 ```
-✓   (${namepsace}-${stage}-admin) ⨠  kubectl get pods --all-namespaces
+✓   (${namespace}-${stage}-admin) ⨠  kubectl get pods --all-namespaces
 NAMESPACE     NAME                                                                        READY   STATUS    RESTARTS   AGE
 kube-system   calico-kube-controllers-69c6bdf999-7sfdg                                    1/1     Running   0          3d
 kube-system   calico-node-4qlj2                                                           2/2     Running   0          3d

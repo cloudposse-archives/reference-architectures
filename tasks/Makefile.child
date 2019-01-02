@@ -60,6 +60,10 @@ children: children/validate $(ACCOUNTS_ENABLED)
 children/validate: $(addsuffix /validate,$(ACCOUNTS_ENABLED))
 	@exit 0
 
+## Initialize all child account configuration
+children/init: $(addsuffix /init,$(ACCOUNTS_ENABLED))
+	@exit 0
+
 ## Finalize provisioning of all child accounts
 children/finalize: $(addsuffix /finalize,$(ACCOUNTS_ENABLED))
 	@exit 0

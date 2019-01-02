@@ -18,6 +18,8 @@ variable "image_tag" {
   default = "latest"
 }
 
+variable "account_email" {}
+
 variable "templates" {
   type = "list"
 }
