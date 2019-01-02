@@ -5,7 +5,7 @@ assignees:
 ---
 
 ## what
-* Describe *what* changes you would like made to this project. 
+* Describe *what* changes you would like to be made to this project.
 * Use bullet points to be concise and to the point.
 
 ## why
