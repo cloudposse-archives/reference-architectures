@@ -29,6 +29,7 @@ templates = [
   "conf/bootstrap/terraform.tfvars",
   "conf/iam/terraform.tfvars",
   "conf/root-dns/terraform.tfvars",
+  "conf/users/terraform.tfvars"
 ]
 
 # Account email address format (e.g. `ops+%s@example.co`). This is not easily changed later.

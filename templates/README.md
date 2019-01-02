@@ -2,6 +2,17 @@
 
 This repository provides all the tooling to manage the `${stage}` account infrastructure on AWS. It distributes a single docker container which bundles the entire tool-chain and infrastructure as code necessary to administer the account.
 
+## Acount Details
+
+| Property       | Value                                                                                                                         |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| AWS Account ID | ${aws_account_id}                                                                                                             |
+| Account Email  | ${account_email_address}                                                                                                      |
+| Login URL      | <https://signin.aws.amazon.com/switchrole?account=${aws_account_id}&roleName=role_name&displayName=${namespace}-${stage}-admin> |
+| Namespace      | ${namespace}                                                                                                                  |
+| Stage          | ${stage}                                                                                                                      |
+| Default Region | ${aws_region}                                                                                                                 |
+
 ## Goals & Principles
 
 This project aims to be lightweight. It follows these principles:
@@ -182,3 +193,7 @@ For more info, see [Using Geodesic with Terraform](https://docs.cloudposse.com/g
 - https://github.com/cloudposse/geodesic
 - https://github.com/cloudposse/packages
 - https://github.com/cloudposse/build-harness
+
+## Getting Help
+
+Did you get stuck? Find us on [slack](https://slack.cloudposse.com) in the `#geodesic` channel.

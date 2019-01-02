@@ -1,23 +1,29 @@
-- [Configuration Settings](#configuration-settings)
-- [Provision a Kops Cluster](#provision-a-kops-cluster)
-- [Populate `chamber` Secrets](#populate-chamber-secrets)
-- [Provision `vpc` from `backing-services` with Terraform](#provision-vpc-from-backing-services-with-terraform)
-- [Provision `vpc-peering` from `kops-aws-platform` with Terraform](#provision-vpc-peering-from-kops-aws-platform-with-terraform)
-- [Provision the rest of `kops-aws-platform` with Terraform](#provision-the-rest-of-kops-aws-platform-with-terraform)
-- [Provision the rest of `backing-services` with Terraform](#provision-the-rest-of-backing-services-with-terraform)
-- [Provision Kubernetes Resources](#provision-kubernetes-resources)
-  - [Deploy heapster](#deploy-heapster)
-  - [Deploy kubernetes-dashboard](#deploy-kubernetes-dashboard)
-  - [Deploy kiam](#deploy-kiam)
-  - [Deploy external-dns](#deploy-external-dns)
-  - [Deploy kube-lego](#deploy-kube-lego)
-  - [Deploy prometheus-operator](#deploy-prometheus-operator)
-  - [Deploy kube-prometheus](#deploy-kube-prometheus)
-  - [Deploy nginx-ingress](#deploy-nginx-ingress)
-  - [Deploy fluentd-elasticsearch-logs](#deploy-fluentd-elasticsearch-logs)
-  - [Deploy portal](#deploy-portal)
-- [Check Cluster Health](#check-cluster-health)
-- [References](#references)
+# Kops (Kubernetes Operations)
+
+## Table of Contents
+- [Kops (Kubernetes Operations)](#kops-kubernetes-operations)
+  - [Table of Contents](#table-of-contents)
+  - [Configuration Settings](#configuration-settings)
+  - [Provision a Kops Cluster](#provision-a-kops-cluster)
+  - [Populate `chamber` Secrets](#populate-chamber-secrets)
+  - [Provision `vpc` from `backing-services` with Terraform](#provision-vpc-from-backing-services-with-terraform)
+  - [Provision `vpc-peering` from `kops-aws-platform` with Terraform](#provision-vpc-peering-from-kops-aws-platform-with-terraform)
+  - [Provision the rest of `kops-aws-platform` with Terraform](#provision-the-rest-of-kops-aws-platform-with-terraform)
+  - [Provision the rest of `backing-services` with Terraform](#provision-the-rest-of-backing-services-with-terraform)
+  - [Provision Kubernetes Resources](#provision-kubernetes-resources)
+    - [Deploy heapster](#deploy-heapster)
+    - [Deploy kubernetes-dashboard](#deploy-kubernetes-dashboard)
+    - [Deploy kiam](#deploy-kiam)
+    - [Deploy external-dns](#deploy-external-dns)
+    - [Deploy kube-lego](#deploy-kube-lego)
+    - [Deploy prometheus-operator](#deploy-prometheus-operator)
+    - [Deploy kube-prometheus](#deploy-kube-prometheus)
+    - [Deploy nginx-ingress](#deploy-nginx-ingress)
+    - [Deploy fluentd-elasticsearch-logs](#deploy-fluentd-elasticsearch-logs)
+    - [Deploy portal](#deploy-portal)
+  - [Check Cluster Health](#check-cluster-health)
+  - [References](#references)
+  - [Getting Help](#getting-help)
 
 ## Configuration Settings
 
@@ -706,7 +712,6 @@ monitoring    prometheus-kube-prometheus-2                                      
 ```
 
 </details>
-<br>
 
 ## References
 
@@ -715,3 +720,7 @@ monitoring    prometheus-kube-prometheus-2                                      
 - https://github.com/kubernetes/kops
 - https://github.com/kubernetes-incubator/external-dns/blob/master/docs/faq.md
 - https://github.com/gravitational/workshop/blob/master/k8sprod.md
+
+## Getting Help
+
+Did you get stuck? Find us on [slack](https://slack.cloudposse.com) in the `#geodesic` channel.
