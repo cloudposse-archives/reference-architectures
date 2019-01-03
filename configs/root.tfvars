@@ -9,6 +9,11 @@ namespace = "test"
 # The default region for this account
 aws_region = "us-west-2"
 
+# Network CIDR of Organization
+org_network_cidr    = "10.0.0.0/8"
+org_network_offset  = 100
+org_network_newbits = 8    # = /16
+
 # The docker registry that will be used for the images built (nothing will get pushed)
 docker_registry = "cloudposse"
 
@@ -48,7 +53,7 @@ accounts_enabled = [
 
 # Administrator IAM usernames mapped to their keybase usernames for password encryption
 users = {
-  "erik@cloudposse.com" = "osterman"
+#  "erik@cloudposse.com" = "osterman"
 }
 
 # Terraform Root Modules Image (don't change this unless you know what you're doing)

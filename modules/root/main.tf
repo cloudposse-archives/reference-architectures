@@ -20,7 +20,7 @@ data "null_data_source" "networks" {
   count = "${length(local.all_accounts)}"
 
   inputs = {
-    cidr = "${cidrsubnet(var.org_network_cidr, 8, count.index)}"
+    cidr = "${cidrsubnet(var.org_network_cidr, var.org_network_newbits, var.org_network_offset + count.index)}"
   }
 }
 
