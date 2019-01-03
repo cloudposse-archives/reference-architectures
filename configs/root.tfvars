@@ -57,7 +57,7 @@ terraform_root_modules_image = "cloudposse/terraform-root-modules:0.18.1"
 
 # Geodesic Base Image (don't change this unless you know what you're doing)
 # Project: https://github.com/cloudposse/geodesic
-geodesic_base_image = "cloudposse/geodesic:0.55.1"
+geodesic_base_image = "cloudposse/geodesic:0.56.0"
 
 # List of terraform root modules to enable
 terraform_root_modules = [
