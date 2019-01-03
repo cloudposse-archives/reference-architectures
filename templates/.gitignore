@@ -2,7 +2,6 @@
 **/.terraform/*
 *.tfstate
 *.tfstate.*
-*.tfvars
 
 # Module directory
 .terraform

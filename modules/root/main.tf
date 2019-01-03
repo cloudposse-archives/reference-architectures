@@ -1,8 +1,9 @@
 locals {
   context = {
     # Used by `accounts`
-    accounts_enabled = "${jsonencode(var.accounts_enabled)}"
-    account_email    = "${var.account_email}"
+    accounts_enabled      = "${jsonencode(var.accounts_enabled)}"
+    account_email         = "${var.account_email}"
+    account_email_address = "${format(var.account_email, var.stage)}"
 
     # Used by `root-dns`
     root_domain_name = "${var.stage}.${var.domain}"
@@ -10,7 +11,6 @@ locals {
 
   vars = "${merge(var.vars, local.context)}"
 }
-
 
 locals {
   all_accounts = "${concat(list("root"), var.accounts_enabled)}"
@@ -20,14 +20,13 @@ data "null_data_source" "networks" {
   count = "${length(local.all_accounts)}"
 
   inputs = {
-    cidr = "${cidrsubnet(var.org_network_cidr, 8, count.index)}"
+    cidr = "${cidrsubnet(var.org_network_cidr, var.org_network_newbits, var.org_network_offset + count.index)}"
   }
 }
 
 locals {
   networks = "${zipmap(local.all_accounts, data.null_data_source.networks.*.outputs.cidr)}"
 }
-
 
 module "account" {
   source = "../../modules/account/"

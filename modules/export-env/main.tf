@@ -1,6 +1,5 @@
-
 locals {
-  keys = "${keys(var.env)}"
+  keys   = "${keys(var.env)}"
   values = "${values(var.env)}"
 }
 
@@ -16,7 +15,7 @@ data "null_data_source" "envs" {
 locals {
   export = {
     encoded = "${format(var.template, join("\n", data.null_data_source.envs.*.outputs.encoded))}"
-    raw = "${format(var.template, join("\n", data.null_data_source.envs.*.outputs.raw))}"
+    raw     = "${format(var.template, join("\n", data.null_data_source.envs.*.outputs.raw))}"
   }
 }
 

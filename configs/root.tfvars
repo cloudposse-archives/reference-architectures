@@ -9,6 +9,11 @@ namespace = "test"
 # The default region for this account
 aws_region = "us-west-2"
 
+# Network CIDR of Organization
+org_network_cidr    = "10.0.0.0/8"
+org_network_offset  = 100
+org_network_newbits = 8    # = /16
+
 # The docker registry that will be used for the images built (nothing will get pushed)
 docker_registry = "cloudposse"
 
@@ -16,6 +21,11 @@ docker_registry = "cloudposse"
 templates = [
   "README.md",
   "Dockerfile.root",
+  ".github/CODEOWNERS",
+  ".github/ISSUE_TEMPLATE/feature-request.md",
+  ".github/ISSUE_TEMPLATE/bug.md",
+  ".github/PULL_REQUEST.md",
+  ".editorconfig",
   ".gitignore",
   ".dockerignore",
   "Makefile",
@@ -24,6 +34,7 @@ templates = [
   "conf/bootstrap/terraform.tfvars",
   "conf/iam/terraform.tfvars",
   "conf/root-dns/terraform.tfvars",
+  "conf/users/terraform.tfvars"
 ]
 
 # Account email address format (e.g. `ops+%s@example.co`). This is not easily changed later.
@@ -37,21 +48,21 @@ accounts_enabled = [
   "testing",
   "data",
   "corp",
-  "audit"
+  "audit",
 ]
 
 # Administrator IAM usernames mapped to their keybase usernames for password encryption
 users = {
-  "erik@cloudposse.com" = "osterman"
+#  "erik@cloudposse.com" = "osterman"
 }
 
 # Terraform Root Modules Image (don't change this unless you know what you're doing)
 # Project: https://github.com/cloudposse/terraform-root-modules
-terraform_root_modules_image = "cloudposse/terraform-root-modules:0.14.3"
+terraform_root_modules_image = "cloudposse/terraform-root-modules:0.18.1"
 
 # Geodesic Base Image (don't change this unless you know what you're doing)
 # Project: https://github.com/cloudposse/geodesic
-geodesic_base_image = "cloudposse/geodesic:0.49.0"
+geodesic_base_image = "cloudposse/geodesic:0.56.0"
 
 # List of terraform root modules to enable
 terraform_root_modules = [
@@ -63,7 +74,7 @@ terraform_root_modules = [
   "aws/root-iam",
   "aws/iam",
   "aws/users",
-  "aws/cloudtrail"
+  "aws/cloudtrail",
 ]
 
 # Message of the Day

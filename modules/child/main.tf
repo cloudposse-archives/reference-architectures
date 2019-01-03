@@ -1,3 +1,12 @@
+locals {
+  context = {
+    # Used by `README.md`
+    account_email_address = "${format(var.account_email, var.stage)}"
+  }
+
+  vars = "${merge(var.vars, local.context)}"
+}
+
 module "account" {
   source                       = "../../modules/account"
   dirs                         = "${var.dirs}"
@@ -11,7 +20,7 @@ module "account" {
   image_tag                    = "${var.image_tag}"
   templates                    = "${var.templates}"
   dirs                         = "${var.dirs}"
-  vars                         = "${var.vars}"
+  vars                         = "${local.vars}"
   strip                        = "${var.strip}"
   artifacts_dir                = "${var.artifacts_dir}"
   repos_dir                    = "${var.repos_dir}"

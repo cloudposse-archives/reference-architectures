@@ -46,6 +46,8 @@ variable "strip" {
 }
 
 variable "org_network_cidr" {}
+variable "org_network_offset" {}
+variable "org_network_newbits" {}
 
 variable "account_network_cidr" {
   default = ""
