@@ -52,7 +52,7 @@ variable "account_network_cidr" {
 # Read more: <https://kubernetes.io/docs/tasks/administer-cluster/ip-masq-agent/#key-terms>
 variable "kops_non_masquerade_cidr" {
   description = "The CIDR range for Pod IPs."
-  default  "100.64.0.0/10"
+  default     = "100.64.0.0/10"
 }
 
 variable "artifacts_dir" {}
