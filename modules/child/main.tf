@@ -1,7 +1,15 @@
 locals {
+  account_network_cidr = "${length(var.account_network_cidr) > 0 ? var.account_network_cidr : var.networks[var.stage]}"
+
   context = {
     # Used by `README.md`
     account_email_address = "${format(var.account_email, var.stage)}"
+
+    # Divide the account network CIDR in half (first half for kops, second half for backing_services) 
+    kops_cidr                = "${cidrsubnet(local.account_network_cidr, 1, 0)}"
+    kops_non_masquerade_cidr = "${var.kops_non_masquerade_cidr}"
+    backing_services_cidr    = "${cidrsubnet(local.account_network_cidr, 1, 1)}"
+    helmfiles_image          = "${var.helmfiles_image}"
   }
 
   vars = "${merge(var.vars, local.context)}"
@@ -30,5 +38,5 @@ module "account" {
   terraform_root_modules_image = "${var.terraform_root_modules_image}"
   terraform_root_modules       = "${var.terraform_root_modules}"
   org_network_cidr             = "${var.org_network_cidr}"
-  account_network_cidr         = "${length(var.account_network_cidr) > 0 ? var.account_network_cidr : var.networks[var.stage]}"
+  account_network_cidr         = "${local.account_network_cidr}"
 }

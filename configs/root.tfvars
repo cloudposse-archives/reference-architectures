@@ -12,7 +12,11 @@ aws_region = "us-west-2"
 # Network CIDR of Organization
 org_network_cidr    = "10.0.0.0/8"
 org_network_offset  = 100
-org_network_newbits = 8    # = /16
+org_network_newbits = 8    # /8 + /8 = /16
+
+# Pod IP address space (must not overlap with org_network_cidr)
+kops_non_masquerade_cidr = "172.16.0.0/12"
+
 
 # The docker registry that will be used for the images built (nothing will get pushed)
 docker_registry = "cloudposse"
@@ -58,11 +62,11 @@ users = {
 
 # Terraform Root Modules Image (don't change this unless you know what you're doing)
 # Project: https://github.com/cloudposse/terraform-root-modules
-terraform_root_modules_image = "cloudposse/terraform-root-modules:0.18.1"
+terraform_root_modules_image = "cloudposse/terraform-root-modules:0.23.0"
 
 # Geodesic Base Image (don't change this unless you know what you're doing)
 # Project: https://github.com/cloudposse/geodesic
-geodesic_base_image = "cloudposse/geodesic:0.56.0"
+geodesic_base_image = "cloudposse/geodesic:0.57.0"
 
 # List of terraform root modules to enable
 terraform_root_modules = [
