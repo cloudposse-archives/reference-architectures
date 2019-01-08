@@ -4,6 +4,8 @@
 
 FROM ${terraform_root_modules_image} as terraform-root-modules
 
+FROM ${helmfiles_image} as helmfiles
+
 FROM ${geodesic_base_image}
 
 ENV DOCKER_IMAGE="${docker_registry}/${image_name}"
@@ -42,6 +44,10 @@ ENV AWS_MFA_PROFILE="$${NAMESPACE}-root-admin"
 
 # Copy root modules
 ${terraform_root_modules}
+
+# Copy helmfiles
+COPY --from=helmfiles /helmfile.d/ /conf/helmfile.d/
+COPY --from=helmfiles /scripts/ /conf/scripts/
 
 # Place configuration in 'conf/' directory
 COPY conf/ /conf/

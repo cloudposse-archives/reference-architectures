@@ -62,7 +62,7 @@ users = {
 
 # Terraform Root Modules Image (don't change this unless you know what you're doing)
 # Project: https://github.com/cloudposse/terraform-root-modules
-terraform_root_modules_image = "cloudposse/terraform-root-modules:0.18.1"
+terraform_root_modules_image = "cloudposse/terraform-root-modules:0.23.0"
 
 # Geodesic Base Image (don't change this unless you know what you're doing)
 # Project: https://github.com/cloudposse/geodesic

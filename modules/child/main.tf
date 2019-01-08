@@ -9,6 +9,7 @@ locals {
     kops_cidr                = "${cidrsubnet(local.account_network_cidr, 1, 0)}"
     kops_non_masquerade_cidr = "${var.kops_non_masquerade_cidr}"
     backing_services_cidr    = "${cidrsubnet(local.account_network_cidr, 1, 1)}"
+    helmfiles_image          = "${var.helmfiles_image}"
   }
 
   vars = "${merge(var.vars, local.context)}"
