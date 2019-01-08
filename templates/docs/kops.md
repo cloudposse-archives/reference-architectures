@@ -62,7 +62,7 @@ There are (3) was to set environment variables.
 We create a [`kops`](https://github.com/kubernetes/kops) cluster from a manifest.
 
 The manifest template is located in [`/templates/kops/default.yaml`](https://github.com/cloudposse/geodesic/blob/master/rootfs/templates/kops/default.yaml)
-and is compiled by running `build-kops-manifest` in the [`Dockerfile`](Dockerfile).
+and is compiled by running `build-kops-manifest` either in the [`Dockerfile`](Dockerfile) or at runtime by calling `make kops/build-manifest`.
 
 Provisioning a `kops` cluster takes three steps:
 
@@ -70,9 +70,11 @@ Provisioning a `kops` cluster takes three steps:
 2. Provision the `kops` backend (config S3 bucket, cluster DNS zone, and SSH keypair to access the k8s masters and nodes) in Terraform.
 3. Build the cluster from the manifest file using the `kops` command.
 
+Let's get started...
+
 ### Step 1 - Configuration
 
-Tune the cluster settings by adding them to the `.envrc`. Make sure you commit this file. 
+Tune the cluster settings by adding them to the `conf/kops/.envrc` file. Make sure you commit this file. 
 
 Here's an example of what that might look like:
 
@@ -85,14 +87,16 @@ ENV NODE_MAX_SIZE="2"
 ENV NODE_MIN_SIZE="2"
 ```
 
-
-### Step 2 - Provision AWS Dependencies
-
-Rebuild the Docker image:
+After saving those changes, rebuild the Docker image:
 
 ```bash
 make docker/build
 ```
+
+### Step 2 - Provision AWS Dependencies
+
+Kops depends on a number of AWS resources that cannot be provisioned by `kops` itself. For this reason, we use `terraform` to provision those resources.
+
 
 Run the `geodesic` shell again and assume role to login to AWS:
 
@@ -113,18 +117,24 @@ Run Terraform to provision the `kops` backend (S3 bucket, DNS zone, and SSH keyp
 make apply
 ```
 
-### Step 3 - Provision the Cluster
-
 At this point, `terraform` has written all the essential settings to the `kops` service namespace in SSM parameter store. This way they can be consumed by `chamber`.
 
+### Step 3 - Provision the Cluster
+
+Now we will deploy the actual cluster. This assumes you're still in the shell and have run `assume-role`.
+
 ```bash
+# Change directory to the kops project folder
+cd /conf/kops
+# Start a shell with all the envs exported from chamber
 make kops/shell
+# Build the kops manifest file
 make kops/build-manifest
 ```
 
-You will see the `kops` manifest file `manifest.yaml` generated. Inspect the manifest to ensure everything looks good.
+You will see the `kops` manifest file `manifest.yaml` has been generated. Inspect the manifest to ensure everything looks good.
 
-Then run this command to submit the state. This won't actually bring up the cluster. 
+Then run this command to write the state to the S3 state storage bucket. This won't actually bring up the cluster. 
 
 ```bash
 make kops/create
@@ -135,6 +145,8 @@ Run the following command to provision the AWS resources for the cluster:
 ```bash
 kops update cluster --yes
 ```
+
+**NOTE** You can omit the `--yes` argument to get a plan of the changes that will be made.
 
 All done. The `kops` cluster is now up and running.
 
