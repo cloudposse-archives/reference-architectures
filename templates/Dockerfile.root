@@ -34,6 +34,9 @@ ENV TF_BUCKET_REGION="$${AWS_REGION}"
 ENV TF_BUCKET="$${NAMESPACE}-$${STAGE}-terraform-state"
 ENV TF_DYNAMODB_TABLE="$${NAMESPACE}-$${STAGE}-terraform-state-lock"
 
+# AWS S3 Bucket
+ENV TF_VAR_region="$${AWS_REGION}"
+
 # Default AWS Profile name
 ENV AWS_DEFAULT_PROFILE="$${NAMESPACE}-$${STAGE}-admin"
 
