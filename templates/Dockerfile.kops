@@ -46,8 +46,7 @@ ENV AWS_MFA_PROFILE="$${NAMESPACE}-root-admin"
 ${terraform_root_modules}
 
 # Copy helmfiles
-COPY --from=helmfiles /helmfile.d/ /conf/helmfile.d/
-COPY --from=helmfiles /scripts/ /conf/scripts/
+COPY --from=helmfiles /helmfiles/ /conf/helmfiles/
 
 # Place configuration in 'conf/' directory
 COPY conf/ /conf/
