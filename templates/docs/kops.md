@@ -140,7 +140,13 @@ Then run this command to write the state to the S3 state storage bucket. This wo
 make kops/create
 ```
 
-Run the following command to provision the AWS resources for the cluster:
+Next, provision the SSH Public Key Secret:
+
+```bash
+make kops/create-secret-sshpublickey`
+```
+
+Finally, run the following command to provision the AWS resources for the cluster:
 
 ```bash
 kops update cluster --yes
