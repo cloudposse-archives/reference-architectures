@@ -32,10 +32,11 @@ function assume_role() {
 	# This is because the [`assume-role`](https://github.com/remind101/assume-role) cli does not respect the SDK environment variables.
 	export HOME="/artifacts"
 	export AWS_CONFIG_FILE="${HOME}/.aws/config"
+	export AWS_SHARED_CREDENTIALS_FILE="${HOME}/.aws/credentials"
 
 	# Unset AWS credential environment variables so they don't interfere with `assume-role`
 	unset AWS_ACCESS_KEY_ID
-	unset AWS_SECRET_ACCES_KEY
+	unset AWS_SECRET_ACCESS_KEY
 
 	# Fetch the Role ARN from the configuration
 	export TF_VAR_aws_assume_role_arn=$(crudini --get ${AWS_CONFIG_FILE} "profile ${AWS_DEFAULT_PROFILE}" role_arn)
