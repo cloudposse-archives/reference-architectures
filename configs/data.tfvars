@@ -16,6 +16,7 @@ templates = [
   "Makefile",
   "conf/Makefile",
   "conf/account-dns/terraform.tfvars",
+  "conf/tfstate-backend/terraform.tfvars",
   "docs/kops.md",
 ]
 
