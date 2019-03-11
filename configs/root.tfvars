@@ -38,6 +38,7 @@ templates = [
   "conf/bootstrap/terraform.tfvars",
   "conf/iam/terraform.tfvars",
   "conf/root-dns/terraform.tfvars",
+  "conf/tfstate-backend/terraform.tfvars",
   "conf/users/terraform.tfvars"
 ]
 
