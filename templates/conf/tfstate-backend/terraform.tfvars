@@ -1,1 +1,1 @@
-aws_region = "${aws_region}"
+region = "${aws_region}"
