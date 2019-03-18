@@ -82,7 +82,7 @@ Before we get started, make sure you have the following
 - [ ] Create a _temporary_ pair of [Access Keys](https://console.aws.amazon.com/iam/home#/security_credential). These should be deleted afterwards.
 - [ ] Export your AWS "root" account credentials as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` (this is _temporary_ for bootstrapping).
 - [ ] An available domain we can use for DNS-base service discovery (E.g. `ourcompany.co`). This domain must not be in use elsewhere as the root account will need to be the authoritative name server (`SOA`).
-- [ ] Ensure that any users who will be added during this bootstrap process have setup their [keybase](http://keybase.io) profile. You'll need this if setting them up in the `users` section of the [`config/root.tfvars`](https://github.com/cloudposse/reference-architectures/blob/master/configs/root.tfvars). For example you should be able to [verify their public key](https://keybase.io/osterman/key.asc) on `keybase.io` by running `curl https://keybase.io/$username/key.asc`.
+- [ ] Ensure that any users who will be added during this bootstrap process have created their [keybase](http://keybase.io) profile, and have an associated GPG key. You'll need this if setting them up in the `users` section of the [`config/root.tfvars`](https://github.com/cloudposse/reference-architectures/blob/master/configs/root.tfvars). For example you should be able to [verify each user's public key](https://keybase.io/osterman/key.asc) on `keybase.io` by running `curl https://keybase.io/$username/key.asc`.
 
 ## Get Started
 
