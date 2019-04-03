@@ -2,8 +2,6 @@
 # Dockerfile generated from https://github.com/cloudposse/reference-architectures
 #
 
-FROM ${terraform_root_modules_image} as terraform-root-modules
-
 FROM ${geodesic_base_image}
 
 ENV DOCKER_IMAGE="${docker_registry}/${image_name}"
@@ -32,6 +30,7 @@ ENV ACCOUNT_NETWORK_CIDR="${account_network_cidr}"
 ENV CHAMBER_KMS_KEY_ALIAS="alias/$${NAMESPACE}-$${STAGE}-chamber"
 
 # Terraform State Bucket
+ENV TF_BUCKET_PREFIX_FORMAT="basename-pwd"
 ENV TF_BUCKET_REGION="$${AWS_REGION}"
 ENV TF_BUCKET="$${NAMESPACE}-$${STAGE}-terraform-state"
 ENV TF_DYNAMODB_TABLE="$${NAMESPACE}-$${STAGE}-terraform-state-lock"
@@ -40,14 +39,8 @@ ENV TF_DYNAMODB_TABLE="$${NAMESPACE}-$${STAGE}-terraform-state-lock"
 ENV AWS_DEFAULT_PROFILE="$${NAMESPACE}-$${STAGE}-admin"
 ENV AWS_MFA_PROFILE="$${NAMESPACE}-root-admin"
 
-# Copy root modules
-${terraform_root_modules}
-
 # Place configuration in 'conf/' directory
 COPY conf/ /conf/
-
-# Install configuration dependencies
-RUN make -C /conf install
 
 # Filesystem entry for tfstate
 RUN s3 fstab '$${TF_BUCKET}' '/' '/secrets/tf'
