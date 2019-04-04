@@ -4,11 +4,11 @@ deps:
 
 diff:
 	chamber exec kops -- kops export kubecfg
-	chamber exec kops  -- helmfile diff --args="--allow-unreleased --context 5 --no-color --suppress-secrets"
+	chamber exec kops -- helmfile diff --args="--allow-unreleased --context 5 --no-color --suppress-secrets"
 
 apply:
 	chamber exec kops -- kops export kubecfg
-	chamber exec kops  -- helmfile apply
+	chamber exec kops -- helmfile apply
 
 ## Reset this project
 reset:

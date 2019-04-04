@@ -1,4 +1,4 @@
-#.envrc
+/.envrc
 .build-harness
 build-harness
 /repos/
