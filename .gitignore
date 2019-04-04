@@ -1,8 +1,8 @@
-.envrc
+/.envrc
 .build-harness
 build-harness
-repos/
-accounts/
+/repos/
+/accounts/
 .terraform
 *.tfstate
 *.tfstate.backup
