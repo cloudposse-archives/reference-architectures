@@ -31,6 +31,7 @@ ENV CHAMBER_KMS_KEY_ALIAS="alias/$${NAMESPACE}-$${STAGE}-chamber"
 
 # Terraform State Bucket
 ENV TF_BUCKET_PREFIX_FORMAT="basename-pwd"
+ENV TF_BUCKET_ENCRYPT="true"
 ENV TF_BUCKET_REGION="$${AWS_REGION}"
 ENV TF_BUCKET="$${NAMESPACE}-$${STAGE}-terraform-state"
 ENV TF_DYNAMODB_TABLE="$${NAMESPACE}-$${STAGE}-terraform-state-lock"

@@ -33,12 +33,39 @@ templates = [
   ".gitignore",
   ".dockerignore",
   "Makefile",
-  "conf/Makefile",
+  "conf/accounts/.envrc",
+  "conf/accounts/Makefile.tasks",
+  "conf/accounts/terraform.envrc",
   "conf/accounts/terraform.tfvars",
+  "conf/account-settings/.envrc",
+  "conf/account-settings/Makefile.tasks",
+  "conf/account-settings/terraform.envrc",
+  "conf/account-settings/terraform.tfvars",
+  "conf/bootstrap/.envrc",
+  "conf/bootstrap/Makefile.tasks",
+  "conf/bootstrap/terraform.envrc",
   "conf/bootstrap/terraform.tfvars",
+  "conf/cloudtrail/.envrc",
+  "conf/cloudtrail/Makefile.tasks",
+  "conf/cloudtrail/terraform.envrc",
+  "conf/iam/.envrc",
+  "conf/iam/Makefile.tasks",
+  "conf/iam/terraform.envrc",
   "conf/iam/terraform.tfvars",
+  "conf/root-dns/.envrc",
+  "conf/root-dns/Makefile.tasks",
+  "conf/root-dns/terraform.envrc",
   "conf/root-dns/terraform.tfvars",
+  "conf/root-iam/.envrc",
+  "conf/root-iam/Makefile.tasks",
+  "conf/root-iam/terraform.envrc",
+  "conf/tfstate-backend/.envrc",
+  "conf/tfstate-backend/Makefile.tasks",
+  "conf/tfstate-backend/terraform.envrc",
   "conf/tfstate-backend/terraform.tfvars",
+  "conf/users/.envrc",
+  "conf/users/Makefile.tasks",
+  "conf/users/terraform.envrc",
   "conf/users/terraform.tfvars"
 ]
 
@@ -61,13 +88,9 @@ users = {
 #  "erik@cloudposse.com" = "osterman"
 }
 
-# Terraform Root Modules Image (don't change this unless you know what you're doing)
-# Project: https://github.com/cloudposse/terraform-root-modules
-terraform_root_modules_image = "cloudposse/terraform-root-modules:0.23.0"
-
 # Geodesic Base Image (don't change this unless you know what you're doing)
 # Project: https://github.com/cloudposse/geodesic
-geodesic_base_image = "cloudposse/geodesic:0.57.0"
+geodesic_base_image = "cloudposse/geodesic:0.87.0"
 
 # List of terraform root modules to enable
 terraform_root_modules = [

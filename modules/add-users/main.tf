@@ -18,7 +18,7 @@ data "template_file" "data" {
 resource "local_file" "data" {
   count    = "${length(keys(var.users))}"
   content  = "${element(data.template_file.data.*.rendered, count.index)}"
-  filename = "${var.output_dir}/${replace(element(keys(var.users), count.index), local.unsafe_characters, "_")}.tf"
+  filename = "${var.output_dir}/overrides/${replace(element(keys(var.users), count.index), local.unsafe_characters, "_")}.tf"
 }
 
 # https://github.com/terraform-providers/terraform-provider-local/issues/19

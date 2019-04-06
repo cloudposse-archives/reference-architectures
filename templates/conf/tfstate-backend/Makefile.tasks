@@ -1,6 +1,11 @@
 ## Fetch the remote terraform module
 deps:
-	terraform init
+	@if (aws s3 ls s3://$${TF_BUCKET}/tfstate-backend/terraform.tfstate > /dev/null 2>&1); then \
+			terraform init ; \
+		else \
+			terraform init -backend=false && \
+			scripts/init.sh ; \
+	fi
 
 ## Reset this project
 reset:

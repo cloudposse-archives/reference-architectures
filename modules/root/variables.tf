@@ -66,5 +66,3 @@ variable "geodesic_base_image" {}
 variable "terraform_root_modules" {
   type = "list"
 }
-
-variable "terraform_root_modules_image" {}

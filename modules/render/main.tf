@@ -22,3 +22,9 @@ resource "null_resource" "chmod" {
     command = "chmod 644 ${null_resource.chmod.triggers.files}"
   }
 }
+
+resource "null_resource" "completed" {
+  triggers {
+    depends_on = "${null_resource.chmod.id == "" ? "false" : "true"}"
+  }
+}

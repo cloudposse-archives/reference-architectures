@@ -20,3 +20,11 @@ resource "null_resource" "touch" {
 
   depends_on = ["null_resource.mkdir"]
 }
+
+resource "null_resource" "completed" {
+  triggers {
+    # We do not care about the values, and in fact we do not want "depends_on" to change,
+    # but we do want and need to wait for the values to be availble.
+    depends_on = "${coalesce(null_resource.mkdir.id,null_resource.touch.id) == "" ? "false" : "true"}"
+  }
+}

@@ -68,9 +68,3 @@ variable "geodesic_base_image" {}
 variable "terraform_root_modules" {
   type = "list"
 }
-
-variable "helmfiles_image" {
-  default = "cloudposse/helmfiles:latest"
-}
-
-variable "terraform_root_modules_image" {}

@@ -14,7 +14,21 @@ templates = [
   ".gitignore",
   ".dockerignore",
   "Makefile",
-  "conf/Makefile",
+  "conf/tfstate-backend/.envrc",
+  "conf/tfstate-backend/Makefile.tasks",
+  "conf/tfstate-backend/terraform.envrc",
+  "conf/tfstate-backend/terraform.tfvars",
+  "conf/account-dns/.envrc",
+  "conf/account-dns/Makefile.tasks",
+  "conf/account-dns/terraform.envrc",
+  "conf/account-dns/terraform.tfvars",
+  "conf/chamber/.envrc",
+  "conf/chamber/Makefile.tasks",
+  "conf/chamber/terraform.envrc",
+  "conf/chamber/terraform.tfvars",
+  "conf/audit-cloudtrail/.envrc",
+  "conf/audit-cloudtrail/Makefile.tasks",
+  "conf/audit-cloudtrail/terraform.envrc",
 ]
 
 # List of terraform root modules to enable

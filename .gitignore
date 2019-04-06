@@ -3,6 +3,7 @@
 build-harness
 /repos/
 /accounts/
+/artifacts/
 .terraform
 *.tfstate
 *.tfstate.backup

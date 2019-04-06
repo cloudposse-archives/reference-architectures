@@ -1,3 +1,3 @@
 output "completed" {
-  value = "true"
+  value = "${null_resource.completed.id == "" ? "false" : "true"}"
 }
