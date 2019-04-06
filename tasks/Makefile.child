@@ -6,7 +6,7 @@ ACCOUNTS_ENABLED ?=
 terraform = TF_STATE_DIR=.terraform/$(1) terraform
 
 # Define a macro (`child`) for a child init & provisioner
-define child =
+define child
 
 ## Validate the child configuration exists
 $(1)/validate:
