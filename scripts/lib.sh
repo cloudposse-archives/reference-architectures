@@ -39,10 +39,10 @@ function assume_role() {
 	unset AWS_SECRET_ACCESS_KEY
 
 	# Fetch the Role ARN from the configuration
-	export TF_VAR_aws_assume_role_arn=$(crudini --get ${AWS_CONFIG_FILE} "profile ${AWS_DEFAULT_PROFILE}" role_arn)
+	export AWS_ASSUME_ROLE_ARN=$(crudini --get ${AWS_CONFIG_FILE} "profile ${AWS_DEFAULT_PROFILE}" role_arn)
 
-	if [ -z "${TF_VAR_aws_assume_role_arn}" ]; then
-		abort "TF_VAR_aws_assume_role_arn must be set"
+	if [ -z "${AWS_ASSUME_ROLE_ARN}" ]; then
+		abort "ARN for ${AWS_DEFAULT_PROFILE} not found in ${AWS_CONFIG_FILE}"
 	fi
 
 	# Obtain an assume-role session
@@ -57,7 +57,7 @@ function assume_role() {
 function export_accounts() {
 	# Export account ids (for use with provisioning children)
 	cd /conf/accounts
-	make init 
+	direnv exec . make deps
 	(
 		echo "aws_account_ids = {"
 		terraform output -json | jq -r 'to_entries | .[] | .key + " = \"" + .value.value + "\""' | grep account_id | sed 's/_account_id//'
@@ -84,7 +84,8 @@ function apply_modules() {
 			echo "Skipping ${module}..."
 		else
 			echo "Processing $module..."
-			make -C "/conf/${module}" init plan apply
+			direnv exec "/conf/${module}" make -C "/conf/${module}" deps
+			direnv exec "/conf/${module}" make -C "/conf/${module}" apply
 			if [ $? -ne 0 ]; then
 				abort "The ${module} module errored. Aborting."
 			fi

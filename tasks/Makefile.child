@@ -6,7 +6,7 @@ ACCOUNTS_ENABLED ?=
 terraform = TF_STATE_DIR=.terraform/$(1) terraform
 
 # Define a macro (`child`) for a child init & provisioner
-define child =
+define child
 
 ## Validate the child configuration exists
 $(1)/validate:
@@ -35,11 +35,11 @@ $(1)/shell:
 
 ## Provision resources in the "child" account
 $(1)/provision:
-	$$(DOCKER_RUN) --name=$(1) -e SKIP_MODULES="^(cloudtrail|backing-services)$$$$" $(1) -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
+	$$(DOCKER_RUN) --name=$(1) -e SKIP_MODULES="^(cloudtrail|backing-services|kops-aws-platform)$$$$" $(1) -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
 
 ## Finalize all account configuration
 $(1)/finalize:
-	$$(DOCKER_RUN) --name=$(1) -e SKIP_MODULES="^(backing-services)$$$$" $(1) -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
+	$$(DOCKER_RUN) --name=$(1) -e SKIP_MODULES="^(backing-services|kops-aws-platform)$$$$" $(1) -l -c "/scripts/provision.sh --import-env --assume-role --apply-modules"
 
 ## Kill the container
 $(1)/kill:
