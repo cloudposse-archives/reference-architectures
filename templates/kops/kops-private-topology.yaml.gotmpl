@@ -55,14 +55,12 @@ spec:
   {{- if bool (getenv "KOPS_AUTHORIZATION_RBAC_ENABLED" "false") }}
     anonymousAuth: false
     authorizationMode: {{ getenv "KOPS_KUBE_API_SERVER_AUTHORIZATION_MODE" "RBAC" }}
-    authorizationRbacSuperUser: {{ getenv "KOPS_KUBE_API_SERVER_AUTHORIZATION_RBAC_SUPER_USER" "admin" }}
   {{- end }}
   {{- if bool (getenv "KOPS_ADMISSION_CONTROL_ENABLED" "true") }}
     admissionControl:
     - NamespaceLifecycle
     - LimitRanger
     - ServiceAccount
-    - PersistentVolumeLabel
     - DefaultStorageClass
     - DefaultTolerationSeconds
     - MutatingAdmissionWebhook
@@ -201,6 +199,9 @@ spec:
   kubernetesVersion: {{ getenv "KUBERNETES_VERSION" }}
   masterPublicName: api.{{ getenv "KOPS_CLUSTER_NAME" }}
   networkCIDR: {{ getenv "KOPS_NETWORK_CIDR" "172.20.0.0/16" }}
+  {{- if getenv "KOPS_CONFIGURED_VPC_ID" }}
+  networkID: {{ getenv "KOPS_CONFIGURED_VPC_ID" }}
+  {{- end }}
   networking:
     calico: {}
   nonMasqueradeCIDR: {{ getenv "KOPS_NON_MASQUERADE_CIDR" "100.64.0.0/10" }}
@@ -208,17 +209,32 @@ spec:
   - 0.0.0.0/0
   subnets:
   {{- range $index, $value := (getenv "KOPS_AVAILABILITY_ZONES" | strings.Split ",") }}
-  {{- $privateSubnets := getenv "KOPS_PRIVATE_SUBNETS" }}
+  {{- $privateSubnets := getenv "KOPS_PRIVATE_SUBNETS" | required "KOPS_PRIVATE_SUBNETS must be defined" }}
+  {{- $privateSubnetIDs := getenv "KOPS_CONFIGURED_PRIVATE_SUBNET_IDS" }}
+  {{- $natGateways := getenv "KOPS_CONFIGURED_NAT_GATEWAYS" }}
   {{- $subnet := strings.Split "," $privateSubnets }}
+  {{- $subnetID := strings.Split "," $privateSubnetIDs }}
+  {{- $nat := strings.Split "," $natGateways }}
   - cidr: {{ index $subnet $index }}
+    {{- if $privateSubnetIDs }}
+    id: {{ index $subnetID $index }}
+    {{- end }}
     name: {{ $value }}
+    {{- if $natGateways }}
+    egress: {{ index $nat $index }}
+    {{- end }}
     type: Private
     zone: {{ $value }}
   {{- end }}
   {{- range $index, $value := (getenv "KOPS_AVAILABILITY_ZONES" | strings.Split ",") }}
   {{- $utilitySubnets := getenv "KOPS_UTILITY_SUBNETS" }}
+  {{- $utilitySubnetIDs := getenv "KOPS_CONFIGURED_UTILITY_SUBNET_IDS" }}
   {{- $subnet := strings.Split "," $utilitySubnets }}
+  {{- $subnetID := strings.Split "," $utilitySubnetIDs }}
   - cidr: {{ index $subnet $index }}
+    {{- if $utilitySubnetIDs }}
+    id: {{ index $subnetID $index }}
+    {{- end }}
     name: utility-{{ $value }}
     type: Utility
     zone: {{ $value }}
