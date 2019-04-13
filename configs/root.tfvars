@@ -15,7 +15,9 @@ org_network_offset  = 100
 org_network_newbits = 8    # /8 + /8 = /16
 
 # Pod IP address space (must not overlap with org_network_cidr)
-kops_non_masquerade_cidr = "172.16.0.0/12"
+# 100.64.0.0/10 is the default used by kops, even though it is technically reserved for carrier-grade NAT
+# See https://github.com/cloudposse/docs/issues/455
+kops_non_masquerade_cidr = "100.64.0.0/10"
 
 
 # The docker registry that will be used for the images built (nothing will get pushed)

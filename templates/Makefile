@@ -2,7 +2,9 @@ export DOCKER_ORG ?= ${docker_registry}
 export DOCKER_IMAGE ?= $(DOCKER_ORG)/${image_name}
 export DOCKER_TAG ?= latest
 export DOCKER_IMAGE_NAME ?= $(DOCKER_IMAGE):$(DOCKER_TAG)
-export DOCKER_BUILD_FLAGS = --pull
+# If you do not want to use locally built Geodesic images ever, then you can uncomment the line below
+# DOCKER_BUILD_FLAGS = --pull ensures that local images will never be used for your build
+# export DOCKER_BUILD_FLAGS = --pull
 export README_DEPS ?= docs/targets.md docs/terraform.md
 export INSTALL_PATH ?= /usr/local/bin
 export SCRIPT ?= $(notdir $(DOCKER_IMAGE))
