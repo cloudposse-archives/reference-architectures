@@ -1,5 +1,5 @@
 # Ordered list of releases. 
-releases:
+helmfiles:
   - "releases/prometheus-operator.yaml"
   - "releases/cluster-autoscaler.yaml"
   - "releases/kiam.yaml"
@@ -10,4 +10,3 @@ releases:
   - "releases/grafana.yaml"
   - "releases/heapster.yaml"
   - "releases/dashboard.yaml"
-  - "releases/portal.yaml"
