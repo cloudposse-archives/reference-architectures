@@ -72,6 +72,13 @@ spec:
     - Initializers
     - DenyEscalatingExec
   {{- end }}
+  {{- if getenv "KOPS_OIDC_ISSUER_URL" }}
+    oidcClientID: {{ getenv "KOPS_OIDC_CLIENT_ID" "kubernetes"}}
+    oidcGroupsClaim: groups
+    oidcGroupsPrefix: "oidc:"
+    oidcIssuerURL: {{ getenv "KOPS_OIDC_ISSUER_URL" }}
+    oidcUsernameClaim: email
+  {{- end }}
   {{- if bool (getenv "KOPS_AWS_IAM_AUTHENTICATOR_ENABLED" "false") }}
   authentication:
     aws: {}
