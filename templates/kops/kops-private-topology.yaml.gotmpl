@@ -203,7 +203,9 @@ spec:
     anonymousAuth: false
 {{- end }}
   kubernetesApiAccess:
-  - 0.0.0.0/0
+  {{- range (getenv "KOPS_KUBERNETES_API_ACCESS" | default "0.0.0.0/0" | strings.Split ",") }}
+  - {{ . }}
+  {{- end }}
   kubernetesVersion: {{ getenv "KUBERNETES_VERSION" }}
   masterPublicName: api.{{ getenv "KOPS_CLUSTER_NAME" }}
   networkCIDR: {{ getenv "KOPS_NETWORK_CIDR" "172.20.0.0/16" }}
