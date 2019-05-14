@@ -126,6 +126,16 @@ spec:
       Type=oneshot
       ExecStart=/usr/bin/chattr +i /usr/bin/docker-runc
     name: cve-2019-5736.service
+  # Mitigate https://github.com/kubernetes/kops/issues/5405
+  - requires: [network.target]
+    after: [network.target]
+    manifest: |
+      Type=oneshot
+      ExecStart=/bin/sh -c 'test -b /dev/nvme0n1p1 && \
+                growpart-workaround /dev/nvme0n1 1 && \
+                resize2fs /dev/nvme0n1p1 || true'
+    name: use-all-available-root-volume.service
+    roles: [Node, Master, Bastion]
 {{- if bool (getenv "KIAM_INSTALLED" "true") }}
   # Install iptable entry for kiam which, when kiam is not present, will prevent any access to EC2 metadata
   # NOTE: the interface name (after -i) must be the same as the interface name passed to kiam
