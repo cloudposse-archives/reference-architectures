@@ -1,7 +1,6 @@
 # Ordered list of releases. 
 helmfiles:
   - "releases/prometheus-operator.yaml"
-  - "releases/cluster-autoscaler.yaml"
   - "releases/kiam.yaml"
   - "releases/external-dns.yaml"
   - "releases/kube-lego.yaml"
