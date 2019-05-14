@@ -155,7 +155,7 @@ spec:
     after: [network.target]
     manifest: |
       Type=simple
-      Restart=on-failure
+      Restart=always
       ExecStart=/bin/bash -c '/usr/local/bin/teleport start --config=/etc/teleport.yaml \
       --pid-file=/var/run/teleport.pid \
       --auth-server="{{- print (getenv "TELEPORT_AUTH_DOMAIN_NAME" | default (print "auth." (getenv "TELEPORT_PROXY_DOMAIN_NAME"))) ":3025" -}}" \
