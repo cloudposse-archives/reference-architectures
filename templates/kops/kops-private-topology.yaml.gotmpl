@@ -131,9 +131,7 @@ spec:
     roles: [Node, Master,]
     manifest: |
       Type=oneshot
-      ExecStart=/bin/sh -c 'test -b /dev/nvme0n1p1 && \
-                            growpart-workaround /dev/nvme0n1 1 && \      
-                            resize2fs /dev/nvme0n1p1 || true'
+      ExecStart=/bin/sh -c 'test -b /dev/nvme0n1p1 && growpart-workaround /dev/nvme0n1 1 && resize2fs /dev/nvme0n1p1 || true'
 {{- if bool (getenv "KIAM_INSTALLED" "true") }}
   # Install iptable entry for kiam which, when kiam is not present, will prevent any access to EC2 metadata
   # NOTE: the interface name (after -i) must be the same as the interface name passed to kiam
