@@ -128,7 +128,7 @@ spec:
     name: cve-2019-5736.service
   # Mitigate https://github.com/kubernetes/kops/issues/5405
   - name: resize-nvme-rootfs
-    roles: [Node, Master, Bastion]
+    roles: [Node]
     manifest: |
       Type=oneshot
       ExecStart=/bin/sh -c 'test -b /dev/nvme0n1p1 && \
