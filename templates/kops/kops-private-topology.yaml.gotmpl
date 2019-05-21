@@ -126,6 +126,12 @@ spec:
       Type=oneshot
       ExecStart=/usr/bin/chattr +i /usr/bin/docker-runc
     name: cve-2019-5736.service
+  # Mitigate https://github.com/kubernetes/kops/issues/5405
+  - name: resize-nvme-rootfs
+    roles: [Node, Master,]
+    manifest: |
+      Type=oneshot
+      ExecStart=/bin/sh -c 'test -b /dev/nvme0n1p1 && growpart-workaround /dev/nvme0n1 1 && resize2fs /dev/nvme0n1p1 || true'
 {{- if bool (getenv "KIAM_INSTALLED" "true") }}
   # Install iptable entry for kiam which, when kiam is not present, will prevent any access to EC2 metadata
   # NOTE: the interface name (after -i) must be the same as the interface name passed to kiam
@@ -147,7 +153,7 @@ spec:
     after: [network.target]
     manifest: |
       Type=simple
-      Restart=on-failure
+      Restart=always
       ExecStart=/bin/bash -c '/usr/local/bin/teleport start --config=/etc/teleport.yaml \
       --pid-file=/var/run/teleport.pid \
       --auth-server="{{- print (getenv "TELEPORT_AUTH_DOMAIN_NAME" | default (print "auth." (getenv "TELEPORT_PROXY_DOMAIN_NAME"))) ":3025" -}}" \
