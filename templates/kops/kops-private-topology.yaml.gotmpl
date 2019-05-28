@@ -283,7 +283,7 @@ spec:
   - utility-{{ . }}
   {{- end }}
 
-{{ range (getenv "KOPS_AVAILABILITY_ZONES" | strings.Split ",") }}
+{{ range (getenv "KOPS_MASTERS_AVAILABILITY_ZONES" ( getenv "KOPS_AVAILABILITY_ZONES" ) | strings.Split ",") }}
 
 ---
 apiVersion: kops/v1alpha2
@@ -320,7 +320,7 @@ spec:
   minSize: {{ getenv "NODE_MIN_SIZE" }}
   role: Node
   subnets:
-  {{- range (getenv "KOPS_AVAILABILITY_ZONES" | strings.Split ",") }}
+  {{- range (getenv "KOPS_NODES_AVAILABILITY_ZONES" ( getenv "KOPS_AVAILABILITY_ZONES" ) | strings.Split ",") }}
   - {{ . }}
   {{- end }}
 
