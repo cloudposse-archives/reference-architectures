@@ -43,10 +43,10 @@ templates = [
 
 # List of terraform root modules to enable
 terraform_root_modules = {
-  "aws/tfstate-backend" => "/conf/tfstate-backend",
-  "aws/account-dns" => "/conf/account-dns",
-  "aws/chamber" => "/conf/chamber",
-  "aws/kops" => "/conf/kops",
-  "aws/kops-aws-platform" => "/conf/kops-aws-platform",
-  "aws/cloudtrail" => "/conf/cloudtrail",
+  "aws/tfstate-backend"   = "/conf/tfstate-backend"
+  "aws/account-dns"       = "/conf/account-dns"
+  "aws/chamber"           = "/conf/chamber"
+  "aws/kops"              = "/conf/kops"
+  "aws/kops-aws-platform" = "/conf/kops-aws-platform"
+  "aws/cloudtrail"        = "/conf/cloudtrail"
 }

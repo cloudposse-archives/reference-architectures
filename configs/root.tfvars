@@ -10,15 +10,16 @@ namespace = "test"
 aws_region = "us-west-2"
 
 # Network CIDR of Organization
-org_network_cidr    = "10.0.0.0/8"
-org_network_offset  = 100
-org_network_newbits = 8    # /8 + /8 = /16
+org_network_cidr = "10.0.0.0/8"
+
+org_network_offset = 100
+
+org_network_newbits = 8 # /8 + /8 = /16
 
 # Pod IP address space (must not overlap with org_network_cidr)
 # 100.64.0.0/10 is the default used by kops, even though it is technically reserved for carrier-grade NAT
 # See https://github.com/cloudposse/docs/issues/455
 kops_non_masquerade_cidr = "100.64.0.0/10"
-
 
 # The docker registry that will be used for the images built (nothing will get pushed)
 docker_registry = "cloudposse"
@@ -68,7 +69,7 @@ templates = [
   "conf/users/.envrc",
   "conf/users/Makefile.tasks",
   "conf/users/terraform.envrc",
-  "conf/users/terraform.tfvars"
+  "conf/users/terraform.tfvars",
 ]
 
 # Account email address format (e.g. `ops+%s@example.co`). This is not easily changed later.
@@ -87,7 +88,7 @@ accounts_enabled = [
 
 # Administrator IAM usernames mapped to their keybase usernames for password encryption
 users = {
-#  "erik@cloudposse.com" = "osterman"
+  #  "erik@cloudposse.com" = "osterman"
 }
 
 # Geodesic Base Image (don't change this unless you know what you're doing)
@@ -96,15 +97,15 @@ geodesic_base_image = "cloudposse/geodesic:0.87.0"
 
 # List of terraform root modules to enable
 terraform_root_modules = {
-  "aws/tfstate-backend" => "/conf/tfstate-backend", 
-  "aws/accounts" => "/conf/accounts",
-  "aws/account-settings" => "/conf/account-settings",
-  "aws/bootstrap" => "/conf/bootstrap",
-  "aws/root-dns" => "/conf/root-dns",
-  "aws/root-iam" => "/conf/root-iam",
-  "aws/iam" => "/conf/iam",
-  "aws/users" => "/conf/users",
-  "aws/cloudtrail" => "/conf/cloudtrail",
+  "aws/tfstate-backend"  = "/conf/tfstate-backend"
+  "aws/accounts"         = "/conf/accounts"
+  "aws/account-settings" = "/conf/account-settings"
+  "aws/bootstrap"        = "/conf/bootstrap"
+  "aws/root-dns"         = "/conf/root-dns"
+  "aws/root-iam"         = "/conf/root-iam"
+  "aws/iam"              = "/conf/iam"
+  "aws/users"            = "/conf/users"
+  "aws/cloudtrail"       = "/conf/cloudtrail"
 }
 
 # Message of the Day
