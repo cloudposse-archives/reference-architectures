@@ -95,17 +95,17 @@ users = {
 geodesic_base_image = "cloudposse/geodesic:0.87.0"
 
 # List of terraform root modules to enable
-terraform_root_modules = [
-  "aws/tfstate-backend",
-  "aws/accounts",
-  "aws/account-settings",
-  "aws/bootstrap",
-  "aws/root-dns",
-  "aws/root-iam",
-  "aws/iam",
-  "aws/users",
-  "aws/cloudtrail",
-]
+terraform_root_modules = {
+  "aws/tfstate-backend" => "/conf/tfstate-backend", 
+  "aws/accounts" => "/conf/accounts",
+  "aws/account-settings" => "/conf/account-settings",
+  "aws/bootstrap" => "/conf/bootstrap",
+  "aws/root-dns" => "/conf/root-dns",
+  "aws/root-iam" => "/conf/root-iam",
+  "aws/iam" => "/conf/iam",
+  "aws/users" => "/conf/users",
+  "aws/cloudtrail" => "/conf/cloudtrail",
+}
 
 # Message of the Day
 motd_url = "https://geodesic.sh/motd"

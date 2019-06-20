@@ -84,8 +84,8 @@ function apply_modules() {
 			echo "Skipping ${module}..."
 		else
 			echo "Processing $module..."
-			direnv exec "/conf/${module}" make -C "/conf/${module}" deps
-			direnv exec "/conf/${module}" make -C "/conf/${module}" apply
+			direnv exec "${module}" make -C "${module}" deps
+			direnv exec "${module}" make -C "${module}" apply
 			if [ $? -ne 0 ]; then
 				abort "The ${module} module errored. Aborting."
 			fi

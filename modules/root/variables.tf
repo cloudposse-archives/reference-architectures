@@ -64,5 +64,5 @@ variable "docker_registry" {}
 variable "geodesic_base_image" {}
 
 variable "terraform_root_modules" {
-  type = "list"
+  type = "map"
 }

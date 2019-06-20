@@ -1,9 +1,9 @@
 data "null_data_source" "terraform_root_modules" {
-  count = "${length(var.terraform_root_modules)}"
+  count = "${length(keys(var.terraform_root_modules))}"
 
   inputs = {
-    module_name = "${basename(element(var.terraform_root_modules, count.index))}"
-    copy_from   = "COPY --from=terraform-root-modules /${element(var.terraform_root_modules, count.index)}/ /conf/${basename(element(var.terraform_root_modules, count.index))}/"
+    module_name = "${element(values(var.terraform_root_modules), count.index)}"
+    copy_from   = "COPY --from=terraform-root-modules /${element(keys(var.terraform_root_modules), count.index)}/ /conf/${basename(element(values(var.terraform_root_modules), count.index))}/"
   }
 }
 
