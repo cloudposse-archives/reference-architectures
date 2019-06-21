@@ -31,7 +31,7 @@ templates = [
   "conf/audit-cloudtrail/terraform.envrc",
 ]
 
-# List of terraform root modules to enable
+# Map of terraform root modules to enable
 terraform_root_modules = {
   "aws/tfstate-backend"  = "/conf/tfstate-backend"
   "aws/account-dns"      = "/conf/account-dns"

@@ -95,7 +95,7 @@ users = {
 # Project: https://github.com/cloudposse/geodesic
 geodesic_base_image = "cloudposse/geodesic:0.87.0"
 
-# List of terraform root modules to enable
+# Map of terraform root modules to enable
 terraform_root_modules = {
   "aws/tfstate-backend"  = "/conf/tfstate-backend"
   "aws/accounts"         = "/conf/accounts"

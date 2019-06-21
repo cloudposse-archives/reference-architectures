@@ -3,7 +3,7 @@ data "null_data_source" "terraform_root_modules" {
 
   inputs = {
     module_name = "${element(values(var.terraform_root_modules), count.index)}"
-    copy_from   = "COPY --from=terraform-root-modules /${element(keys(var.terraform_root_modules), count.index)}/ /conf/${basename(element(values(var.terraform_root_modules), count.index))}/"
+    copy_from   = "COPY --from=terraform-root-modules /${element(keys(var.terraform_root_modules), count.index)}/ ${element(values(var.terraform_root_modules), count.index)}/"
   }
 }
 

@@ -41,7 +41,7 @@ templates = [
   "conf/kops-aws-platform/terraform.tfvars",
 ]
 
-# List of terraform root modules to enable
+# Map of terraform root modules to enable
 terraform_root_modules = [
   "aws/tfstate-backend",
   "aws/account-dns",
