@@ -4,6 +4,17 @@
 
 FROM ${geodesic_base_image}
 
+# Terraform version changes should be carefully managed, but Geodesic updates them frequently,
+# so Terraform version should be pinned here and updated thoughfully.
+# Install terraform 0.11 for backwards compatibility
+RUN apk add terraform_0.11@cloudposse terraform@cloudposse==0.11.14-r0
+
+# helm and helmfile version changes should be carefully managed, but Geodesic updates them frequently,
+# so the versions should be pinned here and updated thoughfully.
+# Pin helm to 2.14.1 and helmfile to 0.73.1 for stability
+RUN apk add helm@cloudposse==2.14.1-r0 helmfile@cloudposse==0.73.1-r0
+
+
 ENV DOCKER_IMAGE="${docker_registry}/${image_name}"
 ENV DOCKER_TAG="${image_tag}"
 

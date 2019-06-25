@@ -4,8 +4,19 @@ root/clean:
 
 ## Initialize the "root" AWS account
 root/init: root/clean
-	$(DOCKER_RUN) cloudposse/geodesic:0.46.0 -c /scripts/get-root-account-id.sh
+	$(DOCKER_RUN) cloudposse/geodesic:0.96.0 -c /scripts/get-root-account-id.sh
 	terraform init -from-module=modules/root accounts/root
+	terraform apply \
+		-var-file=artifacts/aws.tfvars \
+		-var-file=$(CONFIGS)/root.tfvars \
+		-auto-approve \
+		-state=root.tfstate \
+		accounts/root
+	terraform output -state=root.tfstate docker_image > artifacts/root-docker-image
+
+# The init recipe can sometimes fail due to a race condition, in which case init-resume will
+# try to pick up where it left of. This is for manual use only.
+root/init-resume:
 	terraform apply \
 		-var-file=artifacts/aws.tfvars \
 		-var-file=$(CONFIGS)/root.tfvars \

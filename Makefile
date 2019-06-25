@@ -12,7 +12,8 @@ export DEFAULT_HELP_TARGET = help/short
 
 # The command we'll use to start the container 
 export DOCKER_RUN = docker run --rm --privileged -it -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e SSH_KEY=false \
-						-v $(CURDIR)/artifacts:/artifacts -v $(CURDIR)/scripts:/scripts
+						-v $(CURDIR)/artifacts:/artifacts -v $(CURDIR)/scripts:/scripts \
+						-v $(HOME):/localhost -e LOCAL_HOME=$(HOME)
 
 # The directory containing configs
 export CONFIGS ?= configs
