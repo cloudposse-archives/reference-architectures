@@ -1,11 +1,12 @@
 # Ordered list of releases. 
 helmfiles:
+  - "releases/reloader.yaml"
+  - "releases/cert-manager.yaml"
   - "releases/prometheus-operator.yaml"
   - "releases/kiam.yaml"
   - "releases/external-dns.yaml"
+  - "releases/aws-alb-ingress-controller.yaml"
   - "releases/kube-lego.yaml"
   - "releases/nginx-ingress.yaml"
-  - "releases/kube-prometheus.yaml"
-  - "releases/grafana.yaml"
   - "releases/heapster.yaml"
   - "releases/dashboard.yaml"

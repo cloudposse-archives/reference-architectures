@@ -8,7 +8,7 @@ This repository provides all the tooling to manage the `${stage}` account infras
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | AWS Account ID | ${aws_account_id}                                                                                                             |
 | Account Email  | ${account_email_address}                                                                                                      |
-| Login URL      | <https://signin.aws.amazon.com/switchrole?account=${aws_account_id}&roleName=role_name&displayName=${namespace}-${stage}-admin> |
+| Login URL      | <https://signin.aws.amazon.com/switchrole?account=${aws_account_id}&roleName=OrganizationAccountAccessRole&displayName=${namespace}-${stage}-admin> |
 | Namespace      | ${namespace}                                                                                                                  |
 | Stage          | ${stage}                                                                                                                      |
 | Default Region | ${aws_region}                                                                                                                 |

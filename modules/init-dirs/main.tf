@@ -23,8 +23,9 @@ resource "null_resource" "touch" {
 
 resource "null_resource" "completed" {
   triggers {
-    # We do not care about the values, and in fact we do not want "depends_on" to change,
-    # but we do want and need to wait for the values to be availble.
-    depends_on = "${coalesce(null_resource.mkdir.id,null_resource.touch.id) == "" ? "false" : "true"}"
+    # We do not care about the values, this is just to force Terraform to wait for the values to be generate
+    id = "${null_resource.mkdir.id},${null_resource.touch.id}"
   }
+
+  depends_on = ["null_resource.touch"]
 }

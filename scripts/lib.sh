@@ -27,7 +27,7 @@ function assume_role() {
 	source /artifacts/.envrc
 
 	# Install the helper cli for assuming roles as part of the bootstrapping process
-	[ -x /usr/bin/assume-role ] || apk add assume-role@cloudposse
+	[ -x /usr/bin/assume-role ] || apk add --update assume-role@cloudposse
 
 	# This is because the [`assume-role`](https://github.com/remind101/assume-role) cli does not respect the SDK environment variables.
 	export HOME="/artifacts"
@@ -57,7 +57,7 @@ function assume_role() {
 function export_accounts() {
 	# Export account ids (for use with provisioning children)
 	cd /conf/accounts
-	direnv exec . make deps
+	direnv exec . make reset deps
 	(
 		echo "aws_account_ids = {"
 		terraform output -json | jq -r 'to_entries | .[] | .key + " = \"" + .value.value + "\""' | grep account_id | sed 's/_account_id//'

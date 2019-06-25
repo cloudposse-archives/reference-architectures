@@ -6,10 +6,17 @@ data "template_file" "data" {
   vars     = "${var.vars}"
 }
 
+resource "null_resource" "init_dirs" {
+  triggers {
+    deps = "${join(",",var.depends_on)}"
+  }
+}
+
 resource "local_file" "data" {
-  count    = "${length(var.templates)}"
-  content  = "${element(data.template_file.data.*.rendered, count.index)}"
-  filename = "${var.output_dir}/${replace(element(var.templates, count.index), var.strip, "")}"
+  count      = "${length(var.templates)}"
+  content    = "${element(data.template_file.data.*.rendered, count.index)}"
+  filename   = "${var.output_dir}/${replace(element(var.templates, count.index), var.strip, "")}"
+  depends_on = ["null_resource.init_dirs"]
 }
 
 # https://github.com/terraform-providers/terraform-provider-local/issues/19
@@ -24,7 +31,9 @@ resource "null_resource" "chmod" {
 }
 
 resource "null_resource" "completed" {
+  depends_on = ["null_resource.chmod"]
+
   triggers {
-    depends_on = "${null_resource.chmod.id == "" ? "false" : "true"}"
+    chmod = "${null_resource.chmod.id}"
   }
 }

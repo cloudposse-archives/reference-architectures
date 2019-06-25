@@ -92,7 +92,7 @@ users = {
 
 # Geodesic Base Image (don't change this unless you know what you're doing)
 # Project: https://github.com/cloudposse/geodesic
-geodesic_base_image = "cloudposse/geodesic:0.87.0"
+geodesic_base_image = "cloudposse/geodesic:0.115.0"
 
 # List of terraform root modules to enable
 terraform_root_modules = [
