@@ -7,21 +7,6 @@ stages:
   - Push
 
 steps:
-  validate:
-    title: "Validate"
-    description: "Ensure build parameters are present"
-    stage: Prepare
-    image: codefresh/cli:latest
-    commands:
-      - echo DOCKER_REGISTRY must be set to the name of the Codefresh Docker Registry integration to push the image to
-      - echo Required parameter missing. See above. 1>&2
-      - codefresh terminate ${{CF_BUILD_ID}}
-    when:
-      condition:
-        any:
-          # If a variable is not defined, then ${{variable}} is not substituted and the literal string is used
-          # So if the variable substitution includes the variable name, we conclude that it was not set.
-          docker_registry_missing: 'includes("${{DOCKER_REGISTRY}}", "DOCKER_REGISTRY") == true'
 
   main_clone:
     title: "Clone repository"
