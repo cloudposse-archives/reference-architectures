@@ -1,0 +1,82 @@
+# Build a Geodesic image customized for an AWS environment
+version: '1.0'
+
+stages:
+  - Prepare
+  - Build
+  - Push
+
+steps:
+
+  main_clone:
+    title: "Clone repository"
+    type: git-clone
+    stage: Prepare
+    description: "Initialize"
+    repo: ${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}
+    git: CF-default
+    revision: ${{CF_REVISION}}
+
+  build_image:
+    title: Build image
+    type: build
+    stage: Build
+    description: Build geodesic
+    image_name: ${{CF_REPO_NAME}}
+    dockerfile: Dockerfile
+
+  push_image_commit:
+    title: Push image with commit sha tag
+    type: push
+    stage: Push
+    candidate: ${{build_image}}
+    image_name: ${{CF_REPO_NAME}}
+    registry: ${{DOCKER_REGISTRY}}
+    tags:
+      - "${{CF_REVISION}}"
+      - "${{CF_SHORT_REVISION}}"
+
+  push_image_branch:
+    title: Push image with branch tag
+    type: push
+    stage: Push
+    candidate: ${{build_image}}
+    image_name: ${{CF_REPO_NAME}}
+    registry: ${{DOCKER_REGISTRY}}
+    tags:
+      - "${{CF_BRANCH_TAG_NORMALIZED}}"
+    when:
+      condition:
+        all:
+          execute_for_branch: "'${{CF_BRANCH}}' != ''"
+          branch_not_missing: 'includes("${{CF_BRANCH}}", "CF_BRANCH") == false'
+
+  push_image_pull_request:
+    title: Push image with pull request tag
+    type: push
+    stage: Push
+    candidate: ${{build_image}}
+    image_name: ${{CF_REPO_NAME}}
+    registry: ${{DOCKER_REGISTRY}}
+    tags:
+      - "pr-${{CF_PULL_REQUEST_NUMBER}}"
+    when:
+      condition:
+        all:
+          pr_num_not_missing: 'includes("${{CF_PULL_REQUEST_NUMBER}}", "CF_PULL_REQUEST_NUMBER") == false'
+
+  push_image_release:
+    title: Push image with release tag
+    type: push
+    stage: Push
+    candidate: ${{build_image}}
+    image_name: ${{CF_REPO_NAME}}
+    registry: ${{DOCKER_REGISTRY}}
+    tags:
+      - "${{CF_RELEASE_TAG}}"
+      - latest
+    when:
+      condition:
+        all:
+          release_tag_present: 'includes("${{CF_RELEASE_TAG}}", "CF_RELEASE_TAG") == false'
+
