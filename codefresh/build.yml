@@ -74,9 +74,22 @@ steps:
     registry: ${{DOCKER_REGISTRY}}
     tags:
       - "${{CF_RELEASE_TAG}}"
-      - latest
     when:
       condition:
         all:
           release_tag_present: 'includes("${{CF_RELEASE_TAG}}", "CF_RELEASE_TAG") == false'
 
+  push_image_latest:
+    title: Push image with latest tag
+    type: push
+    stage: Push
+    candidate: ${{build_image}}
+    image_name: ${{CF_REPO_NAME}}
+    registry: ${{DOCKER_REGISTRY}}
+    tags:
+      - latest
+    when:
+      condition:
+        all:
+          release_tag_present: 'includes("${{CF_RELEASE_TAG}}", "CF_RELEASE_TAG") == false'
+          prerelease_false: '"${{CF_PRERELEASE_FLAG}}" == "false"'
