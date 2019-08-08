@@ -224,7 +224,9 @@ spec:
     calico: {}
   nonMasqueradeCIDR: {{ getenv "KOPS_NON_MASQUERADE_CIDR" "100.64.0.0/10" }}
   sshAccess:
-  - 0.0.0.0/0
+{{- if bool (getenv "KOPS_SSH_ACCESS_ENABLED" "true") }}
+  - {{ getenv "KOPS_SSH_ACCESS_CIDR" "0.0.0.0/0" }}
+{{- end }}
   subnets:
   {{- range $index, $value := (getenv "KOPS_AVAILABILITY_ZONES" | strings.Split ",") }}
   {{- $privateSubnets := getenv "KOPS_PRIVATE_SUBNETS" | required "KOPS_PRIVATE_SUBNETS must be defined" }}
