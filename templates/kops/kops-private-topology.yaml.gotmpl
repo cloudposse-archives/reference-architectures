@@ -210,6 +210,8 @@ spec:
   kubelet:
     anonymousAuth: false
 {{- end }}
+  kubeProxy:
+    metricsBindAddress: 0.0.0.0
   kubernetesApiAccess:
   {{- range (getenv "KOPS_KUBERNETES_API_ACCESS" | default "0.0.0.0/0" | strings.Split ",") }}
   - {{ . }}
