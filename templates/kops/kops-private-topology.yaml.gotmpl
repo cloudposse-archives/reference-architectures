@@ -206,10 +206,30 @@ spec:
 {{- end }}
   kubeDNS:
     provider: CoreDNS
-{{- if bool (getenv "KOPS_AUTHORIZATION_RBAC_ENABLED" "false") }}
   kubelet:
+    {{- if bool (getenv "KOPS_AUTHORIZATION_RBAC_ENABLED" "false") }}
     anonymousAuth: false
-{{- end }}
+    {{- end }}
+    {{- if getenv "KOPS_CPU_CFS_QUOTA_PERIOD" }}
+    # cpuCFSQuotaPeriod sets CPU CFS quota period value.
+    # Defaults to Linux kernel default, which is 100ms.
+    # Default is recommended for kernel with correctly functioning CFS scheduler,
+    # but as of 2019-08-15 there were still known bugs waiting to be patched.
+    # Recommended value until Linux Kernel is patched: 5ms - 20ms.
+    # Format is golang Duration, e.g. "10ms".
+    # See https://github.com/kubernetes/kubernetes/pull/63437 for discussion
+    # of cpuCFSQuotaPeriod and cpuCFSQuota and references to more information.
+    # See https://github.com/kubernetes/kubernetes/issues/67577#issuecomment-519527965
+    # to begin your search for current kernel patch status.
+    cpuCFSQuotaPeriod: {{ getenv "KOPS_CPU_CFS_QUOTA_PERIOD" }}
+    {{- end }}
+    {{- if eq (getenv "KOPS_CPU_CFS_QUOTA_ENABLED" | default "true") "false" }}
+    # cpuCFSQuota enables CPU CFS quota enforcement for containers that specify CPU limits.
+    # It is not recommended to set this to false. Bugs in CFS scheduling are better
+    # mitigated by setting cpuCFSQuotaPeriod to something in the range of 5ms to 20ms.
+    # Workloads that do not want CPU throttling can opt out by not specifying CPU limits.
+    cpuCFSQuota: false
+    {{- end }}
   kubeProxy:
     metricsBindAddress: 0.0.0.0
   kubernetesApiAccess:
