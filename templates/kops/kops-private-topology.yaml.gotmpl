@@ -328,6 +328,8 @@ spec:
     k8s.io/cluster-autoscaler/enabled: "true"
     k8s.io/cluster-autoscaler/{{ getenv "KOPS_CLUSTER_NAME" }}: "owned"
   {{- end }}
+  nodeLabels:
+    instanceGroup: nodes-{{ . }}
   image: {{ getenv "KOPS_BASE_IMAGE" }}
   machineType: {{ getenv "NODE_MACHINE_TYPE" }}
   maxSize: {{ getenv "NODE_MAX_SIZE_PER_AZ" }}
@@ -353,6 +355,8 @@ spec:
     k8s.io/cluster-autoscaler/enabled: "true"
     k8s.io/cluster-autoscaler/{{ getenv "KOPS_CLUSTER_NAME" }}: "owned"
   {{- end }}
+  nodeLabels:
+    instanceGroup: nodes
   image: {{ getenv "KOPS_BASE_IMAGE" }}
   machineType: {{ getenv "NODE_MACHINE_TYPE" }}
   maxSize: {{ getenv "NODE_MAX_SIZE" }}
