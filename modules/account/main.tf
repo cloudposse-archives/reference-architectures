@@ -39,20 +39,20 @@ locals {
 
 # Write an env file for this stage that we can use from shell scripts
 module "export_env" {
-  source      = "../../modules/export-env"
+  source      = "git::https://github.com/RyanJarv/reference-architectures.git//modules/export-env?ref=master"
   env         = "${local.env}"
   output_file = "${var.artifacts_dir}/${var.stage}.env"
   format      = "export %s=%s"
 }
 
 module "init_dirs" {
-  source      = "../../modules/init-dirs"
+  source        = "git::https://github.com/RyanJarv/reference-architectures.git//modules/init-dirs?ref=master"
   working_dir = "${local.repo_dir}"
   dirs        = "${var.dirs}"
 }
 
 module "render" {
-  source        = "../../modules/render"
+  source        = "git::https://github.com/RyanJarv/reference-architectures.git//modules/render?ref=master"
   output_dir    = "${local.repo_dir}"
   templates_dir = "${var.templates_dir}"
   templates     = "${var.templates}"
@@ -62,7 +62,7 @@ module "render" {
 }
 
 module "docker_build" {
-  source          = "../../modules/docker-build"
+  source          = "git::https://github.com/RyanJarv/reference-architectures.git//modules/docker-build?ref=master"
   working_dir     = "${local.repo_dir}"
   short_name      = "${var.stage}"
   image_name      = "${local.image_name}"

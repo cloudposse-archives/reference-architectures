@@ -29,7 +29,7 @@ locals {
 }
 
 module "account" {
-  source = "../../modules/account/"
+  source = "git::https://github.com/RyanJarv/reference-architectures.git//modules/account?ref=master"
 
   dirs = "${var.dirs}"
 
@@ -58,7 +58,7 @@ module "account" {
 }
 
 module "add_users" {
-  source        = "../../modules/add-users/"
+  source        = "git::https://github.com/RyanJarv/reference-architectures.git//modules/add-users?ref=master"
   users         = "${var.users}"
   templates_dir = "${var.templates_dir}"
   output_dir    = "${module.account.repo_dir}/conf/users"
@@ -72,7 +72,7 @@ locals {
 
 # Write an env file that we can use from other Makefiles
 module "export_makefile_env" {
-  source      = "../../modules/export-env"
+  source      = "git::https://github.com/RyanJarv/reference-architectures.git//modules/export-env?ref=master"
   env         = "${local.makefile_env}"
   output_file = "${var.artifacts_dir}/Makefile.env"
   format      = "%s = %s"
@@ -81,7 +81,7 @@ module "export_makefile_env" {
 
 # Write an tfvar file for this stage that we can use from terraform modules
 module "export_tfvars" {
-  source      = "../../modules/export-env"
+  source      = "git::https://github.com/RyanJarv/reference-architectures.git//modules/export-env?ref=master"
   env         = "${local.networks}"
   output_file = "${var.artifacts_dir}/networks.tfvars"
   template    = "networks = {\n%s\n}\n"

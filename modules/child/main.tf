@@ -15,7 +15,7 @@ locals {
 }
 
 module "account" {
-  source                 = "../../modules/account"
+  source                 = "git::https://github.com/RyanJarv/reference-architectures.git//modules/account?ref=master"
   dirs                   = "${var.dirs}"
   aws_account_id         = "${var.aws_account_ids[var.stage]}"
   aws_root_account_id    = "${var.aws_root_account_id}"
