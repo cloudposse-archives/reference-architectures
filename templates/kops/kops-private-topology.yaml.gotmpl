@@ -46,6 +46,7 @@ spec:
   {{- end }}
   {{- if bool (getenv "KOPS_ADMISSION_CONTROL_ENABLED" "true") }}
     admissionControl:
+    # Below are the officially recommended admission controllers for k8s 1.10-1.12
     - NamespaceLifecycle
     - LimitRanger
     - ServiceAccount
@@ -54,10 +55,27 @@ spec:
     - MutatingAdmissionWebhook
     - ValidatingAdmissionWebhook
     - ResourceQuota
-    - NodeRestriction
+    # Starting with k8s 1.13, Priority is also recommended
     - Priority
-    - Initializers
+    # Starting wtih 1.14, these additional controllers are recommended
+    - TaintNodesByCondition
+    - PersistentVolumeClaimResize
+
+    # These controllers are optional security enhancements
+    # NodeRestriction works with Node and RBAC authorizers to limit what kubelet can modify
+    # See https://kubernetes.io/docs/tasks/administer-cluster/securing-a-cluster/#api-authorization
+    - NodeRestriction
+      # DenyEscalatingExec: deny exec and attach commands to pods that run with escalated privileges that allow host access.
     - DenyEscalatingExec
+
+    # These are just optional
+    # DefaultTolerationSeconds sets the default forgiveness toleration for pods to tolerate
+    # the taints notready:NoExecute and unreachable:NoExecute to 5 minutes
+    - DefaultTolerationSeconds
+    
+    # The Initializers controller was an alpha feature of k8s 1.12 and 1.13 that did not pan out.
+    # Removed in Kubernetes 1.14 https://github.com/kubernetes/kubernetes/pull/72972
+    # - Initializers
   {{- end }}
   {{- if getenv "KOPS_OIDC_ISSUER_URL" }}
     oidcClientID: "{{ getenv "KOPS_OIDC_CLIENT_ID" "kubernetes"}}"
