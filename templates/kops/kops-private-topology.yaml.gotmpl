@@ -44,6 +44,12 @@ spec:
     anonymousAuth: false
     authorizationMode: {{ getenv "KOPS_KUBE_API_SERVER_AUTHORIZATION_MODE" "RBAC" }}
   {{- end }}
+  {{- if bool (getenv "KOPS_KUBE_API_SERVER_FEATURE_GATES_ENABLED" "false") }}
+    featureGates:
+      {{- range $feature := strings.Split " " (getenv "KOPS_KUBE_API_SERVER_ENABLED_FEATURES" "") }}
+      {{ $feature }}: true
+      {{- end }}
+  {{- end }}
   {{- if bool (getenv "KOPS_ADMISSION_CONTROL_ENABLED" "true") }}
     admissionControl:
     - NamespaceLifecycle
