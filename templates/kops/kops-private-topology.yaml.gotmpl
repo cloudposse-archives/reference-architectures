@@ -219,8 +219,20 @@ spec:
     # Workloads that do not want CPU throttling can opt out by not specifying CPU limits.
     cpuCFSQuota: false
     {{- end }}
+    {{- if gt (len (getenv "KOPS_KUBE_KUBELET_FEATURE_GATES" "")) 0 }}
+    featureGates:
+    {{- range $feature := strings.Split "," (getenv "KOPS_KUBE_KUBELET_FEATURE_GATES" "") }}
+      {{ $feature | strings.ReplaceAll "=" ": " }}
+    {{- end }}
+    {{- end }}
   kubeProxy:
     metricsBindAddress: 0.0.0.0
+    {{- if gt (len (getenv "KOPS_KUBE_PROXY_FEATURE_GATES" "")) 0 }}
+    featureGates:
+    {{- range $feature := strings.Split "," (getenv "KOPS_KUBE_PROXY_FEATURE_GATES" "") }}
+      {{ $feature | strings.ReplaceAll "=" ": " }}
+    {{- end }}
+    {{- end }}
   kubernetesApiAccess:
   {{- range (getenv "KOPS_KUBERNETES_API_ACCESS" | default "0.0.0.0/0" | strings.Split ",") }}
   - {{ . }}
