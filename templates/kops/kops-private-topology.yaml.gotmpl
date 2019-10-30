@@ -44,14 +44,11 @@ spec:
     anonymousAuth: false
     authorizationMode: {{ getenv "KOPS_KUBE_API_SERVER_AUTHORIZATION_MODE" "RBAC" }}
   {{- end }}
-  {{- if or (gt (len (getenv "KOPS_KUBE_API_SERVER_ENABLED_FEATURES" "")) 0) (gt (len (getenv "KOPS_KUBE_API_SERVER_DISABLED_FEATURES" "")) 0) }}
+  {{- if gt (len (getenv "KOPS_KUBE_API_SERVER_FEATURE_GATES" "")) 0 }}
     featureGates:
-      {{- range $feature := strings.Split "," (getenv "KOPS_KUBE_API_SERVER_ENABLED_FEATURES" "") }}
-      {{ if gt (len $feature) 0 }}{{ $feature }}: true{{ end }}
-      {{- end }}
-      {{- range $feature := strings.Split "," (getenv "KOPS_KUBE_API_SERVER_DISABLED_FEATURES" "") }}
-      {{ if gt (len $feature) 0 }}{{ $feature }}: false{{ end }}
-      {{- end }}
+    {{- range $feature := strings.Split "," (getenv "KOPS_KUBE_API_SERVER_FEATURE_GATES" "") }}
+      {{ $feature | strings.ReplaceAll "=" ": " }}
+    {{- end }}
   {{- end }}
   {{- if bool (getenv "KOPS_ADMISSION_CONTROL_ENABLED" "true") }}
     admissionControl:
