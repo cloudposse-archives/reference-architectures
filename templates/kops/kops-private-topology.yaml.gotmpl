@@ -218,6 +218,7 @@ spec:
   kubelet:
     {{- if bool (getenv "KOPS_AUTHORIZATION_RBAC_ENABLED" "false") }}
     anonymousAuth: false
+    authenticationTokenWebhook: true
     {{- end }}
     {{- if getenv "KOPS_CPU_CFS_QUOTA_PERIOD" }}
     # cpuCFSQuotaPeriod sets CPU CFS quota period value.
