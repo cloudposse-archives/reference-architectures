@@ -219,6 +219,9 @@ spec:
     {{- if bool (getenv "KOPS_AUTHORIZATION_RBAC_ENABLED" "false") }}
     anonymousAuth: false
     {{- end }}
+    {{- if bool (getenv "KOPS_KUBELET_AUTHENTICATION_TOKEN_WEBHOOK_ENABLED" "false") }}    
+    authenticationTokenWebhook: true
+    {{- end }}
     {{- if getenv "KOPS_CPU_CFS_QUOTA_PERIOD" }}
     # cpuCFSQuotaPeriod sets CPU CFS quota period value.
     # Defaults to Linux kernel default, which is 100ms.
