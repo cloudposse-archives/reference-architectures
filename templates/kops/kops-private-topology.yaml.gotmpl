@@ -375,6 +375,14 @@ kind: InstanceGroup
 metadata:
   labels:
     kops.k8s.io/cluster: {{ getenv "KOPS_CLUSTER_NAME" }}
+  {{- if bool (getenv "KOPS_SPOTINST_NODES_ENABLED" "false") }}
+    spotinst.io/spot-percentage: {{ getenv "KOPS_SPOTINST_NODES_SPOT_PERCENTAGE" "100" | quote }}
+    spotinst.io/utilize-reserved-instances: {{ getenv "KOPS_SPOTINST_NODES_UTILIZE_RESERVED_INSTANCES" "true" | quote }}
+    spotinst.io/fallback-to-ondemand: {{ getenv "KOPS_SPOTINST_NODES_FALLBACK_TO_ONDEMAND" "true" | quote }}
+    spotinst.io/autoscaler-disabled: {{ getenv "KOPS_SPOTINST_NODES_AUTOSCALER_DISABLED" "false" | quote }}
+    spotinst.io/autoscaler-default-node-labels: {{ getenv "KOPS_SPOTINST_NODES_AUTOSCALER_DEFAULT_NODE_LABELS" "false" | quote }}
+    spotinst.io/ocean-default-launchspec: {{ getenv "KOPS_SPOTINST_NODES_OCEAN_DEFAULT_LAUNCHSPEC" "false" | quote }}
+  {{- end }}
   name: nodes
 spec:
   detailedInstanceMonitoring: {{ getenv "KOPS_CLOUDWATCH_DETAILED_MONITORING" "false" }}
