@@ -354,7 +354,7 @@ metadata:
     spotinst.io/fallback-to-ondemand: {{ getenv "KOPS_SPOTINST_NODES_FALLBACK_TO_ONDEMAND" "true" | quote }}
     spotinst.io/autoscaler-disabled: {{ getenv "KOPS_SPOTINST_NODES_AUTOSCALER_DISABLED" "false" | quote }}
     spotinst.io/autoscaler-default-node-labels: {{ getenv "KOPS_SPOTINST_NODES_AUTOSCALER_DEFAULT_NODE_LABELS" "false" | quote }}
-    spotinst.io/ocean-default-launchspec: "{{ eq (getenv "KOPS_NODES_AVAILABILITY_ZONES" ( getenv "KOPS_AVAILABILITY_ZONES" ) | strings.Split ",")[0] . }}"
+    spotinst.io/ocean-default-launchspec: "{{ eq (getenv "KOPS_NODES_AVAILABILITY_ZONES" ( getenv "KOPS_AVAILABILITY_ZONES" ) | strings.Split "," | index 0 ) . }}"
   {{- end }}
   name: nodes-{{ . }}
 spec:
