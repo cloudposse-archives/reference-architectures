@@ -22,10 +22,11 @@ Get up and running quickly with one of our reference architectures using our ful
 
 ## Known Limitations
 
-- **AWS does not support programmatic deletion of accounts.** This means that if you use this project to create the account structure, but terraform is not able to completely tear it down.
-- **AWS by default only permits one subaccount.** This limit can be easily increased for your organization but can take up to several days.
+- **AWS does not support programmatic deletion of accounts.** This means that if you use this project to create the account structure, but terraform is not able to completely tear it down. Deleting AWS accounts is a long, painful process, because AWS does not want to be on the hook for deleting stuff that it cannot get back. 
+- **AWS by default only permits one sub-account.** This limit can be easily increased for your organization but can take up to several days.
 - **AWS will rate limit account creation.** This might mean you'll need to restart the provisioning.
 - **AWS only supports creating member accounts from the master account.** This means you cannot create accounts from within child/member accounts. 
+- **AWS does not permit email addresses to be reused across accounts.** One key thing is that the email address associated with the account will be forever associated with that account. You will not be able to create a new account with that email address and you will not be able to change the email address later. So before you delete an account, change the email address to something you can consider a throwaway. Gmail and some other providers allow you to use plus-addressing (e.g. `aws+anything@ourcompany.com`)" to your username to create a unique email that still routes to you, so we suggest you use plus addressing for your accounts.
 
 ## High-Level Overview
 
