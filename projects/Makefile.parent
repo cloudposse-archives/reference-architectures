@@ -1,0 +1,70 @@
+init: .terraform/terraform.tfstate
+
+workspace/% %.workspace: conf/%.tfvars .terraform/terraform.tfstate
+	@terraform workspace select $* || terraform workspace new $*
+
+plan:
+	@if [[ -n $${WORKSPACE:=$$(cat .terraform/environment 2>/dev/null)} ]]; then  \
+	  echo terraform plan -var-file conf/$${WORKSPACE}.tfvars -out $${WORKSPACE}.planfile; \
+	       terraform plan -var-file conf/$${WORKSPACE}.tfvars -out $${WORKSPACE}.planfile; \
+	else \
+	  echo You must first select a workspace with "'make workspace/...'" >&2; exit 4; \
+	fi
+
+apply:
+	@if [[ -n $${WORKSPACE:=$$(cat .terraform/environment 2>/dev/null)} ]]; then  \
+	  if [[ -s $${WORKSPACE}.planfile ]]; then \
+	    echo terraform apply $${WORKSPACE}.planfile; \
+	         terraform apply $${WORKSPACE}.planfile && rm $${WORKSPACE}.planfile; \
+	  else \
+	    echo "You must first 'make plan'" >&2; exit 3; \
+	  fi; \
+	else \
+	  echo You must first select a workspace with "'make workspace/...'" >&2; exit 4; \
+	fi
+
+clean:
+	rm -rf .terraform *.planfile
+
+# refresh the terraform state & outputs
+refresh:
+	@if [[ -n $${WORKSPACE:=$$(cat .terraform/environment 2>/dev/null)} ]]; then  \
+	  echo terraform refresh -var-file conf/$${WORKSPACE}.tfvars; \
+	       terraform refresh -var-file conf/$${WORKSPACE}.tfvars; \
+	else \
+	  echo You must first select a workspace with "'make workspace/...'" >&2; exit 4; \
+	fi
+
+.terraform/terraform.tfstate:
+	terraform init
+
+## make <wsp>.plan will always run "terraform plan" to create a planfile for workspace "<wsp>"
+## make <wsp>.planfile will run "terraform plan" to create a planfile for workspace "<wsp>" if it is
+##   out of date with respect to source files
+%.plan %.planfile: conf/%.tfvars *.tf workspace/%
+	terraform plan -var-file conf/$*.tfvars -out $*.planfile
+
+## make <wsp>.apply will run "terraform apply" using an existing "<wsp>.planfile" file for workspace "<wsp>"
+%.apply: workspace/%
+	@if [[ -s $*.planfile ]]; then \
+	  echo terraform apply $*.planfile; \
+	       terraform apply $*.planfile && rm $*.planfile; \
+	else \
+	  echo "You must first 'make $*.planfile'" >&2; exit 3; \
+	fi; \
+
+## make <wsp>.sync will run "terraform plan" then "terraform apply" for workspace "<wsp>"
+%.sync: conf/%.tfvars workspace/% %.planfile
+	terraform apply $*.planfile && rm $*.planfile
+
+# refresh the terraform state & outputs
+%.refresh: workspace/%
+	terraform refresh -var-file conf/$*.tfvars
+
+# output the terraform state outputs
+%.output: workspace/%
+	@ terraform output
+
+.PHONY: init plan apply clean sync refresh output
+
+.SECONDARY:
