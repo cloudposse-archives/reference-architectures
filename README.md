@@ -92,6 +92,12 @@ It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 
 
 
+## Screenshots
+
+
+![demo](docs/screenshot.png)
+*Example of using the `geodesic` shell as a build a docker image built from the `cloudposse/reference-architectures`*
+
 
 ## Introduction
 
