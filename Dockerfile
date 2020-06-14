@@ -9,12 +9,12 @@ ENV AWS_VAULT_ENABLED=false
 ENV GEODESIC_TERRAFORM_WORKSPACE_PROMPT_ENABLED=true
 ENV DIRENV_ENABLED=false
 
-ENV DOCKER_IMAGE="cloudposse/infrastructure"
+ENV DOCKER_IMAGE="cloudposse/reference-architectures"
 ENV DOCKER_TAG="latest"
 ENV NAMESPACE="eg"
 
 # Geodesic banner message
-ENV BANNER="infrastructure"
+ENV BANNER="Reference Architecture"
 
 # Pin kubectl to version 1.15
 RUN apk add kubectl-1.15@cloudposse
