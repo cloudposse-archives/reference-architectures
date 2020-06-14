@@ -92,6 +92,12 @@ introduction: |-
 
   The master account owns the top-level DNS zone and then delegates NS authority to each member account.
 
+# Screenshots
+screenshots:
+  - name: "demo"
+    description: "Example of using the `geodesic` shell as a build a docker image built from the `cloudposse/reference-architectures`"
+    url: "docs/screenshot.png"
+
 quickstart: |-
 
   ### Assumptions
