@@ -14,7 +14,7 @@ ENV DOCKER_TAG="latest"
 ENV NAMESPACE="eg"
 
 # Geodesic banner message
-ENV BANNER="Reference Architecture"
+ENV BANNER="sweet ops"
 
 # Pin kubectl to version 1.15
 RUN apk add kubectl-1.15@cloudposse

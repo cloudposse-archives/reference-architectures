@@ -1,5 +1,5 @@
 export DOCKER_ORG ?= cloudposse
-export DOCKER_IMAGE ?= $(DOCKER_ORG)/infrastructure
+export DOCKER_IMAGE ?= $(DOCKER_ORG)/reference-architectures
 export DOCKER_TAG ?= latest
 export DOCKER_IMAGE_NAME ?= $(DOCKER_IMAGE):$(DOCKER_TAG)
 export APP_NAME ?= geodesic.sh
