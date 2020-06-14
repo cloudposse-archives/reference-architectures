@@ -1,7 +1,0 @@
-## Fetch the remote terraform module
-deps:
-	terraform init
-
-## Reset this project
-reset:
-	rm -rf Makefile *.tf .terraform
