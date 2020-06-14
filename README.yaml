@@ -1,11 +1,11 @@
 ---
-# 
+#
 # This is the canonical configuration for the `README.md`
 # Run `make readme` to rebuild the `README.md`
 #
 
 # Name of this project
-name: Cloud Posse Reference Architectures 
+name: Cloud Posse Reference Architectures
 
 # Logo for this project
 #logo: docs/logo.png
@@ -19,7 +19,7 @@ copyrights:
     url: "https://cloudposse.com"
     year: "2016"
 
-# Canonical GitHub repo 
+# Canonical GitHub repo
 github_repo: cloudposse/reference-architectures
 
 # Badges to display
@@ -35,8 +35,6 @@ badges:
     url: "https://ask.sweetops.com/"
 
 description: |-
-  # Reference Architectures
-
   Get up and running quickly with one of our reference architectures using our fully automated cold-start process.
 
   **NOTE:** This project is under active development and subject to change. Please [file issues](https://github.com/cloudposse/reference-architectures/issues/new) for all bugs encountered.
@@ -51,18 +49,10 @@ description: |-
       - [Checklist](#checklist)
     - [Get Started](#get-started)
       - [1. Provision Master Account](#1-provision-master-account)
-      - [2. Provision Subaccounts](#2-provision-subaccounts)
+      - [2. Provision Member Accounts](#2-provision-member-accounts)
       - [3. Delegate DNS](#3-delegate-dns)
     - [Next Steps](#next-steps)
     - [Getting Help](#getting-help)
-
-  ## Known Limitations
-
-  - **AWS does not support programmatic deletion of accounts.** This means that if you use this project to create the account structure, but terraform is not able to completely tear it down. Deleting AWS accounts is a long, painful process, because AWS does not want to be on the hook for deleting stuff that it cannot get back. 
-  - **AWS by default only permits one sub-account.** This limit can be easily increased for your organization but can take up to several days.
-  - **AWS will rate limit account creation.** This might mean you'll need to restart the provisioning.
-  - **AWS only supports creating member accounts from the master account.** This means you cannot create accounts from within child/member accounts. 
-  - **AWS does not permit email addresses to be reused across accounts.** One key thing is that the email address associated with the account will be forever associated with that account. You will not be able to create a new account with that email address and you will not be able to change the email address later. So before you delete an account, change the email address to something you can consider a throwaway. Gmail and some other providers allow you to use plus-addressing (e.g. `aws+anything@ourcompany.com`)" to your username to create a unique email that still routes to you, so we suggest you use plus addressing for your accounts.
 
 introduction: |-
   ## High-Level Overview
@@ -85,22 +75,22 @@ introduction: |-
 
   Here is what it includes. Enable the accounts you want.
 
-  | Account  | Description                                                                                 |
-  | -------- | ------------------------------------------------------------------------------------------- |
-  | master   | The "master" (parent, billing) account creates all child accounts and is where users login. |
-  | prod     | The "production" is account where you run your most mission critical applications           |
-  | staging  | The "staging" account is where you run all of your QA/UAT/Testing                           |
-  | dev      | The "dev" sandbox account is where you let your developers have fun and break things        |
-  | audit    | The "audit" account is where all logs end up                                                |
-  | corp     | The "corp" account is where you run the shared platform services for the company            |
-  | data     | The "data" account is where the quants live =)                                              |
-  | testing  | The "testing" account is where to run automated tests of unblessed infrastructure code      |
-  | security | The "security" account is where to run automated security scanning software                 |
-  | identity | The "identity" account is where to add users and delegate access to the other accounts      |
+  | Account  | Description                                                                                  |
+  |----------|----------------------------------------------------------------------------------------------|
+  | master   | The "master" (parent, billing) account creates all member accounts and is where users login. |
+  | prod     | The "production" is account where you run your most mission critical applications            |
+  | staging  | The "staging" account is where you run all of your QA/UAT/Testing                            |
+  | dev      | The "dev" sandbox account is where you let your developers have fun and break things         |
+  | audit    | The "audit" account is where all logs end up                                                 |
+  | corp     | The "corp" account is where you run the shared platform services for the company             |
+  | data     | The "data" account is where the quants live =)                                               |
+  | testing  | The "testing" account is where to run automated tests of unblessed infrastructure code       |
+  | security | The "security" account is where to run automated security scanning software                  |
+  | identity | The "identity" account is where to add users and delegate access to the other accounts       |
 
   Each account has its own [terraform state backend](https://github.com/cloudposse/terraform-aws-tfstate-backend), along with a [dedicated DNS zone](https://www.terraform.io/docs/providers/aws/r/route53_zone.html) for service discovery.
 
-  The master account owns the top-level DNS zone and then delegates NS authority to each child account.
+  The master account owns the top-level DNS zone and then delegates NS authority to each member account.
 
 quickstart: |-
 
@@ -122,13 +112,13 @@ quickstart: |-
   - [ ] Export your AWS "root" account credentials as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` (this is _temporary_ for bootstrapping).
   - [ ] An available domain we can use for DNS-base service discovery (E.g. `ourcompany.co`). This domain must not be in use elsewhere as the master account will need to be the authoritative name server (`SOA`).
 
-  ## Get Started
+  ## Getting Started
 
   ### 1. Provision Master Account
 
   The "master" account is the top-most AWS account from which all other AWS accounts are programmatically created.
 
-  **WARNING:** Terraform cannot remove an AWS account from an organization. Terraform **cannot** close the account. The child account must be prepared to be a standalone account beforehand. To do this, issue a password reset using the child account's email address. Login and accept the prompts. Then you should be good to go. See the [AWS Organization documentation](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html) for more information.
+  **WARNING:** Terraform cannot remove an AWS account from an organization. Terraform **cannot** close the account. The member account must be prepared to be a standalone account beforehand. To do this, issue a password reset using the member account's email address. Login and accept the prompts. Then you should be good to go. See the [AWS Organization documentation](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html) for more information.
 
   This account is provisioned slightly differently from the other member accounts.
 
@@ -141,7 +131,7 @@ quickstart: |-
   ```
 
   **NOTE:** We need to know each account's `AWS_ACCOUNT_ID` for Step 2.
-  **NOTE:** Sometimes provisioning of the `account` module fails due to rate limiting by AWS on creating sub-accounts. If this happens, just run `make root/provision` to retry. If that works, just continue on with step 2, once it completes.
+  **NOTE:** Sometimes provisioning of the `account` module fails due to rate limiting by AWS on creating member accounts. If this happens, just run `make root/provision` to retry. If that works, just continue on with step 2, once it completes.
 
   <details>
     <summary>Here's what that roughly looks like (but entirely automated). </summary>
@@ -149,17 +139,17 @@ quickstart: |-
   1. Create a new account git repo.
   2. Render templates into the repo (including `Dockerfile`).
   3. Build a docker image.
-  4. Run the docker image and start provisioning resources including the Terraform state backend and child accounts.
-  5. Create the IAM groups to permit access to child accounts.
-  6. Write a list of child account IDs so we can use them in the next phase.
+  4. Run the docker image and start provisioning resources including the Terraform state backend and member accounts.
+  5. Create the IAM groups to permit access to member accounts.
+  6. Write a list of member account IDs so we can use them in the next phase.
 
   </details>
 
-  ### 2. Provision Subaccounts
+  ### 2. Provision Member Accounts
 
-  Subaccounts are created by the master account, but are ultimately provisioned using the subaccount containers.
+  Member accounts are created from the master account.
 
-  Update the configuration for all the child accounts by editing the `configs/$stage.tfvar` file (replace `$stage` with the name of the account).
+  Update the configuration for all the member accounts by editing the `configs/$env.tfvar` file (replace `$env` with the name of the account).
 
   To get started, run:
 
@@ -171,18 +161,18 @@ quickstart: |-
 
   <summary>Here's what that roughly looks like (but entirely automated).</summary>
 
-  For each child account:
+  For each member account:
 
   1. Create a new account git repo.
-  2. Render the templates for a `child` account into the repo directory (include `Dockerfile`). Obtain the account ID from the previous phase.
+  2. Render the templates for a `member` account into the repo directory (include `Dockerfile`). Obtain the account ID from the previous phase.
   3. Build a docker image.
-  4. Run the docker image and start provisioning the child account's Terraform state bucket, DNS zone, cloudtrail logs, etc.
+  4. Run the docker image and start provisioning the member account's Terraform state bucket, DNS zone, cloudtrail logs, etc.
 
   </details>
 
   ### 3. Delegate DNS
 
-  Now that each subaccount has been provisioned, we can delegate each DNS zone to those accounts.
+  Now that each member account has been provisioned, we can delegate each DNS zone to those accounts.
 
   To finish up, run:
 
@@ -194,12 +184,20 @@ quickstart: |-
   <summary>Here's what that roughly looks like (but entirely automated).</summary>
 
   1. Re-use the docker images from phase (1) and phase (2).
-  2. Update DNS so that `master` account delegates DNS zones to the child accounts.
+  2. Update DNS so that `master` account delegates DNS zones to the member accounts.
   3. Enable cloudtrail log forwarding to `audit` account.
 
   </details>
 
   ---
+
+  ## Known Limitations
+
+  - **AWS does not support programmatic deletion of accounts.** This means that if you use this project to create the account structure, but terraform is not able to completely tear it down. Deleting AWS accounts is a long, painful process, because AWS does not want to be on the hook for deleting stuff that it cannot get back. 
+  - **AWS by default only permits one member account.** This limit can be easily increased for your organization by contacting AWS support, but it can take up to several days.
+  - **AWS will rate limit account creation.** This might mean you'll need to restart the provisioning.
+  - **AWS only supports creating member accounts from the master account.** This means you cannot create accounts from within member accounts. 
+  - **AWS does not permit email addresses to be reused across accounts.** One key thing is that the email address associated with the account will be forever associated with that account. You will not be able to create a new account with that email address and you will not be able to change the email address later. So before you delete an account, change the email address to something you can consider a throwaway. Gmail and some other providers allow you to use plus-addressing (e.g. `aws+anything@ourcompany.com`)" to your username to create a unique email that still routes to you, so we suggest you use plus addressing for your accounts.
 
   ## Next Steps
 
@@ -211,7 +209,7 @@ quickstart: |-
   - [ ] Ensure that the name servers for the service discovery domain (e.g. `ourcompany.co`) have been configured with your domain registrar (e.g. GoDaddy).
   - [ ] Delete your master account credentials. They are no longer needed and should not be used. Instead, use the created IAM users.
   - [ ] Request limits for EC2 instances to be raised in each account corresponding to the region you will be operating in.
-  - [ ] Set the child account's credentials. To do this, issue a password reset using the child account's email address. Login and accept the prompts. Setup MFA.
+  - [ ] Set the member account's credentials. To do this, issue a password reset using the member account's email address. Login and accept the prompts. Setup MFA.
   - [ ] Ensure you have MFA setup on your master account.
   - [ ] Consider adding some other capabilities from our service catalog.
   - [ ] Create your own [`terraform-root-modules`](https://github.com/cloudposse/terraform-root-modules) service catalog for your organization.
