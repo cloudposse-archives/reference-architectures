@@ -1,1 +1,0 @@
-region = "${aws_region}"

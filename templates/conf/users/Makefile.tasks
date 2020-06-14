@@ -1,9 +1,0 @@
-## Fetch the remote terraform module
-deps:
-	terraform init
-	cp overrides/*.tf .
-	terraform init -from-module=
-
-## Reset this project
-reset:
-	rm -rf Makefile *.tf .terraform
