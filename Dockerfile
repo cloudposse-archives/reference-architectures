@@ -1,18 +1,13 @@
 ARG CLI_NAME=atmos
 
-ARG VARIANT_VERSION=0.35.0
+FROM cloudposse/geodesic:0.137.0 as cli
 
-FROM golang:alpine3.12 as cli
+RUN apk add -u go variant2@cloudposse
 
-RUN apk add -u make git
-
-# Install variant
-ARG CLI_NAME
-ARG VARIANT_VERSION
-RUN wget https://github.com/mumoshu/variant2/releases/download/v${VARIANT_VERSION}/variant_${VARIANT_VERSION}_linux_amd64.tar.gz && \
- tar -zvxf variant*.tar.gz variant && \
- mv variant /usr/local/bin/variant2 && \
- rm -f variant*.tar.gz
+# Configure Go
+ENV GOROOT /usr/lib/go
+ENV GOPATH /go
+ENV PATH /go/bin:$PATH
 
 # Build a minimal variant binary in order to download all the required libraries and save them in a Docker layer cache
 COPY cli/build-cache /tmp
@@ -23,6 +18,7 @@ RUN variant2 export binary $PWD variant-echo
 WORKDIR /usr/cli
 COPY cli/ .
 ARG CGO_ENABLED=1
+ARG CLI_NAME
 RUN variant2 export binary $PWD $CLI_NAME
 
 # Verify the CLI
@@ -54,7 +50,7 @@ ENV AWS_DEFAULT_REGION=us-east-2
 # Pin kubectl to version 1.17 (must be within 1 minor version of cluster version)
 RUN apk add kubectl-1.17@cloudposse
 
-# Install terraform.
+# Install terraform
 # Install the latest 0.12 and 0.13 versions of terraform
 RUN apk add -u terraform-0.12@cloudposse terraform-0.13@cloudposse~=0.13.3
 # Set Terraform 0.12.x as the default `terraform`. You can still use
@@ -74,8 +70,8 @@ RUN apk add -u docker-cli
 RUN apk add vendir@cloudposse
 
 # Install variant2
+RUN apk add variant2@cloudposse
 RUN update-alternatives --set variant /usr/share/variant/2/bin/variant
-COPY --from=cli /usr/local/bin/variant2 /usr/local/bin/variant2
 
 # Install CLI
 ARG CLI_NAME
