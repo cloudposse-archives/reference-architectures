@@ -1,0 +1,55 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+
+directories:
+  - path: projects
+    contents:
+
+      - path: terraform
+        git:
+          url: https://github.com/cloudposse/terraform-aws-components
+          ref: 0.135.0
+          lfsSkipSmudge: true
+        legalPaths:
+        includePaths:
+          - modules/account-map/**/*
+          - modules/account-settings/**/*
+          - modules/account/**/*
+          - modules/cloudtrail-bucket/**/*
+          - modules/cloudtrail/**/*
+          - modules/datadog-aws-integration/**/*
+          - modules/datadog-monitor/**/*
+          - modules/dns-delegated/**/*
+          - modules/dns-primary/**/*
+          - modules/ecr/**/*
+          - modules/efs/**/*
+          - modules/eks-iam/**/*
+          - modules/eks/**/*
+          - modules/iam-delegated-roles/**/*
+          - modules/iam-primary-roles/**/*
+          - modules/opsgenie/**/*
+          - modules/sso/**/*
+          - modules/tfstate-backend/**/*
+          - modules/transit-gateway/**/*
+          - modules/vpc/**/*
+
+      - path: helmfiles
+        git:
+          url: https://github.com/cloudposse/helmfiles
+          ref: 0.121.0
+          lfsSkipSmudge: true
+        legalPaths:
+        includePaths:
+          - releases/autoscaler/**/*
+          - releases/aws-node-termination-handler/**/*
+          - releases/cert-manager/**/*
+          - releases/cluster-autoscaler/**/*
+          - releases/datadog/**/*
+          - releases/efs-provisioner/**/*
+          - releases/external-dns/**/*
+          - releases/fluentd/**/*
+          - releases/idp-roles/**/*
+          - releases/kubernetes-dashboard/**/*
+          - releases/metrics-server/**/*
+          - releases/nginx-ingress/**/*
+          - releases/reloader/**/*
