@@ -9,3 +9,4 @@ build-harness
 *.tfstate.backup
 .idea
 *.iml
+*.lock.*
