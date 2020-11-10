@@ -32,14 +32,14 @@ option "cluster-name-pattern" {
 }
 
 option "project-dir" {
-  default     = "./projects/terraform/modules"
-  description = "Terraform projects directory"
+  default     = "./components/terraform"
+  description = "Terraform components directory"
   type        = string
 }
 
 option "helmfile-dir" {
-  default     = "./projects/helmfiles/releases"
-  description = "Helmfile projects directory"
+  default     = "./components/helmfiles"
+  description = "Helmfile components directory"
   type        = string
 }
 
