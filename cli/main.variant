@@ -50,7 +50,7 @@ option "config-dir" {
 }
 
 option "vendor-config-path" {
-  default     = "./vendor"
+  default     = "./vendor/vendir.yml"
   description = "Path to the vendor configuration file"
   type        = string
 }

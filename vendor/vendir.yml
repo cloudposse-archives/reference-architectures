@@ -4,7 +4,7 @@ kind: Config
 directories:
 
   # Terraform components
-  - path: ../components/terraform
+  - path: components/terraform
     contents:
 
       - path: account-map
@@ -168,7 +168,7 @@ directories:
           - modules/vpc/**/*
 
   # Helmfile components
-  - path: ../components/helmfiles
+  - path: components/helmfiles
     contents:
 
       - path: autoscaler

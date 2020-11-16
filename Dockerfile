@@ -40,7 +40,7 @@ ENV DOCKER_IMAGE="cloudposse/reference-architectures"
 ENV DOCKER_TAG="latest"
 
 # Geodesic banner message
-ENV BANNER="sweet ops"
+ENV BANNER="SweetOps"
 
 # Enable advanced AWS assume role chaining for tools using AWS SDK
 # https://docs.aws.amazon.com/sdk-for-go/api/aws/session/
