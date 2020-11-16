@@ -31,7 +31,7 @@ option "cluster-name-pattern" {
   type        = string
 }
 
-option "project-dir" {
+option "terraform-dir" {
   default     = "./components/terraform"
   description = "Terraform components directory"
   type        = string
@@ -49,12 +49,19 @@ option "config-dir" {
   type        = string
 }
 
+option "vendor-config-path" {
+  default     = "./vendor"
+  description = "Path to the vendor configuration file"
+  type        = string
+}
+
 imports = [
-  "git::https://git@github.com/cloudposse/atmos@modules/shell?ref=tags/0.2.1",
-  "git::https://git@github.com/cloudposse/atmos@modules/kubeconfig?ref=tags/0.2.1",
-  "git::https://git@github.com/cloudposse/atmos@modules/terraform?ref=tags/0.2.1",
-  "git::https://git@github.com/cloudposse/atmos@modules/helmfile?ref=tags/0.2.1",
-  "git::https://git@github.com/cloudposse/atmos@modules/helm?ref=tags/0.2.1",
-  "git::https://git@github.com/cloudposse/atmos@modules/workflow?ref=tags/0.2.1",
-  "git::https://git@github.com/cloudposse/atmos@modules/istio?ref=tags/0.2.1"
+  "git::https://git@github.com/cloudposse/atmos@modules/shell?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/kubeconfig?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/terraform?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/helmfile?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/helm?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/workflow?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/istio?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/vendor?ref=tags/0.3.0"
 ]

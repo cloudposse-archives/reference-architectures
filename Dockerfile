@@ -78,7 +78,7 @@ ARG CLI_NAME
 COPY --from=cli /usr/cli/$CLI_NAME /usr/local/bin
 
 COPY rootfs/ /
-COPY config/ /config/
-COPY vendir.yml /vendir.yml
+COPY stacks/ /stacks/
+COPY vendor/ /vendor/
 
 WORKDIR /

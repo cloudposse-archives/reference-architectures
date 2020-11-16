@@ -4,13 +4,13 @@ kind: Config
 directories:
 
   # Terraform components
-  - path: components/terraform
+  - path: ../components/terraform
     contents:
 
       - path: account-map
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/account-map
         includePaths:
           - modules/account-map/**/*
@@ -18,7 +18,7 @@ directories:
       - path: account-settings
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/account-settings
         includePaths:
           - modules/account-settings/**/*
@@ -26,7 +26,7 @@ directories:
       - path: account
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/account
         includePaths:
           - modules/account/**/*
@@ -34,7 +34,7 @@ directories:
       - path: cloudtrail-bucket
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/cloudtrail-bucket
         includePaths:
           - modules/cloudtrail-bucket/**/*
@@ -42,7 +42,7 @@ directories:
       - path: cloudtrail
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/cloudtrail
         includePaths:
           - modules/cloudtrail/**/*
@@ -50,7 +50,7 @@ directories:
       - path: datadog-aws-integration
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/datadog-aws-integration
         includePaths:
           - modules/datadog-aws-integration/**/*
@@ -58,7 +58,7 @@ directories:
       - path: datadog-monitor
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/datadog-monitor
         includePaths:
           - modules/datadog-monitor/**/*
@@ -66,7 +66,7 @@ directories:
       - path: dns-delegated
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/dns-delegated
         includePaths:
           - modules/dns-delegated/**/*
@@ -74,7 +74,7 @@ directories:
       - path: dns-primary
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/dns-primary
         includePaths:
           - modules/dns-primary/**/*
@@ -82,7 +82,7 @@ directories:
       - path: ecr
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/ecr
         includePaths:
           - modules/ecr/**/*
@@ -90,7 +90,7 @@ directories:
       - path: efs
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/efs
         includePaths:
           - modules/efs/**/*
@@ -98,7 +98,7 @@ directories:
       - path: eks-iam
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/eks-iam
         includePaths:
           - modules/eks-iam/**/*
@@ -106,7 +106,7 @@ directories:
       - path: eks
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/eks
         includePaths:
           - modules/eks/**/*
@@ -114,7 +114,7 @@ directories:
       - path: iam-delegated-roles
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/iam-delegated-roles
         includePaths:
           - modules/iam-delegated-roles/**/*
@@ -122,7 +122,7 @@ directories:
       - path: iam-primary-roles
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/iam-primary-roles
         includePaths:
           - modules/iam-primary-roles/**/*
@@ -130,7 +130,7 @@ directories:
       - path: opsgenie
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/opsgenie
         includePaths:
           - modules/opsgenie/**/*
@@ -138,7 +138,7 @@ directories:
       - path: sso
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/sso
         includePaths:
           - modules/sso/**/*
@@ -146,7 +146,7 @@ directories:
       - path: tfstate-backend
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/tfstate-backend
         includePaths:
           - modules/tfstate-backend/**/*
@@ -154,7 +154,7 @@ directories:
       - path: transit-gateway
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/transit-gateway
         includePaths:
           - modules/transit-gateway/**/*
@@ -162,13 +162,13 @@ directories:
       - path: vpc
         git:
           url: https://github.com/cloudposse/terraform-aws-components
-          ref: 0.135.0
+          ref: 0.136.0
         newRootPath: modules/vpc
         includePaths:
           - modules/vpc/**/*
 
   # Helmfile components
-  - path: components/helmfiles
+  - path: ../components/helmfiles
     contents:
 
       - path: autoscaler
