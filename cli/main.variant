@@ -7,6 +7,12 @@ option "region" {
   type        = string
 }
 
+option "namespace" {
+  default     = "eg"
+  description = "Namespace"
+  type        = string
+}
+
 option "dry-run" {
   default     = false
   description = "Disable execution of any commands and echo the commands instead"
@@ -44,8 +50,8 @@ option "helmfile-dir" {
 }
 
 option "config-dir" {
-  default     = "./config"
-  description = "Config directory"
+  default     = "./stacks"
+  description = "Stacks config directory"
   type        = string
 }
 
