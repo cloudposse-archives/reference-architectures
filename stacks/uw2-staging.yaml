@@ -1,0 +1,20 @@
+projects:
+  globals:
+    stage: staging
+
+  terraform:
+    vpc:
+      vars:
+        cidr_block: "10.104.0.0/18"
+        # ...
+
+    eks:
+      command: "/usr/bin/terraform-0.13"
+      vars:
+        cluster_kubernetes_version: "1.17"
+        # ...
+
+  helmfile:
+    ingress-nginx:
+      vars:
+        installed: true

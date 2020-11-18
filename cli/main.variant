@@ -1,0 +1,73 @@
+#!/usr/bin/env variant
+# vim: filetype=hcl
+
+option "region" {
+  default     = "us-east-2"
+  description = "AWS region"
+  type        = string
+}
+
+option "namespace" {
+  default     = "eg"
+  description = "Namespace"
+  type        = string
+}
+
+option "dry-run" {
+  default     = false
+  description = "Disable execution of any commands and echo the commands instead"
+  type        = bool
+}
+
+option "kubeconfig-path" {
+  default     = "/dev/shm"
+  description = "folder to save kubeconfig"
+  type        = string
+}
+
+option "kubeconfig-profile-pattern" {
+  default     = "$$namespace-$$environment-$$stage-helm"
+  description = "AWS profile pattern for kubeconfig"
+  type        = string
+}
+
+option "cluster-name-pattern" {
+  default     = "$$namespace-$$environment-$$stage-eks-cluster"
+  description = "Cluster name pattern"
+  type        = string
+}
+
+option "terraform-dir" {
+  default     = "./components/terraform"
+  description = "Terraform components directory"
+  type        = string
+}
+
+option "helmfile-dir" {
+  default     = "./components/helmfiles"
+  description = "Helmfile components directory"
+  type        = string
+}
+
+option "config-dir" {
+  default     = "./stacks"
+  description = "Stacks config directory"
+  type        = string
+}
+
+option "vendor-config-path" {
+  default     = "./vendor/vendir.yml"
+  description = "Path to the vendor configuration file"
+  type        = string
+}
+
+imports = [
+  "git::https://git@github.com/cloudposse/atmos@modules/shell?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/kubeconfig?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/terraform?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/helmfile?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/helm?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/workflow?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/istio?ref=tags/0.3.0",
+  "git::https://git@github.com/cloudposse/atmos@modules/vendor?ref=tags/0.3.0"
+]

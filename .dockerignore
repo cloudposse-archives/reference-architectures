@@ -15,3 +15,5 @@
 
 **/.build-harness
 **/build-harness
+
+*.lock.*
