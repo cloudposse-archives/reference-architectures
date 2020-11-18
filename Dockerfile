@@ -79,6 +79,6 @@ COPY --from=cli /usr/cli/$CLI_NAME /usr/local/bin
 
 COPY rootfs/ /
 COPY stacks/ /stacks/
-COPY vendor/ /vendor/
+COPY vendir.yml /vendir.yml
 
 WORKDIR /
