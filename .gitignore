@@ -10,3 +10,4 @@ build-harness
 .idea
 *.iml
 *.lock.*
+.vendir-tmp
