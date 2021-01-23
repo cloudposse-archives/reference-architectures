@@ -1,0 +1,32 @@
+name: lint
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+
+jobs:
+  lint-readme:
+    name: readme
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cloudposse/build-harness@master
+        with:
+          entrypoint: /usr/bin/make
+          args: readme/lint
+
+  mega-linter:
+    name: mega-linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout Commit"
+        uses: actions/checkout@v2
+      - name: "Lint All files, Including Helmfiles"
+        uses: cloudposse/actions/github/mega-linter@bc2baa2
+        env:
+            GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+            PLUGINS: "https://raw.githubusercontent.com/cloudposse/actions/helmfile-mega-linter/github/mega-linter/mega-linter-plugin-helmfile/helmfile.megalinter-descriptor.yml"
